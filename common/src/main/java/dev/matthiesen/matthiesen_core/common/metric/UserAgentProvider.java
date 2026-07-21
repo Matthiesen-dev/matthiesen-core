@@ -23,7 +23,7 @@ public final class UserAgentProvider {
 
         @Override
         public String getUserAgent(SdkInfo sdkInfo) {
-            return "Matthiesen Core API Metrics " + sdkInfo.getName() + "/" + getVersion() + " https://mods.matthiesen.dev/matthiesen-core/";
+            return "Matthiesen Core Metrics " + sdkInfo.getName() + "/" + getVersion() + " https://mods.matthiesen.dev/matthiesen-core/";
         }
 
         /**

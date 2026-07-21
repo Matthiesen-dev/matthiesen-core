@@ -6,6 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
+import dev.matthiesen.matthiesen_core.common.core.events.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
@@ -56,6 +57,8 @@ public final class MatthiesenCoreCommon {
      */
     public void initialize() {
         if (initialized) return;
+
+        MatthiesenCoreMetrics.initialize();
 
         WEBHOOK_NOTIFIER_SERVICE.initialize();
 
@@ -120,6 +123,7 @@ public final class MatthiesenCoreCommon {
      */
     public void createErrorLog(String message, Throwable throwable) {
         LOGGER.error(message, throwable);
+        getCoreMetrics().trackError(throwable);
     }
 
     /**
@@ -184,5 +188,27 @@ public final class MatthiesenCoreCommon {
      */
     public TextParserRegistryManager getTextParserManager() {
         return TextParserRegistryManager.INSTANCE;
+    }
+
+    /**
+     * Retrieves the core metrics instance. This instance is responsible for collecting and reporting metrics related to
+     * the application's performance,
+     * usage, and other relevant data. It provides methods for tracking errors, logging events, and sending metrics to
+     * external services for analysis and monitoring.
+     * @return The singleton instance of the MatthiesenCoreMetrics, which can be used to collect and report metrics related
+     * to the application's performance, usage, and other relevant data.
+     */
+    public MatthiesenCoreMetrics getCoreMetrics() {
+        return MatthiesenCoreMetrics.INSTANCE;
+    }
+
+    /**
+     * Registers a mod to the metrics system. This method allows mods to be registered with the metrics system, enabling the collection of
+     * usage data and other relevant metrics for the registered mod.
+     * @param modId The unique identifier of the mod to be registered. This should be a string that uniquely identifies the mod within the
+     *              application, and is used to associate collected metrics with the correct mod.
+     */
+    public void registerModToMetrics(String modId) {
+        getCoreMetrics().registerModToMetrics(modId);
     }
 }

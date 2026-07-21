@@ -11,8 +11,6 @@ import net.minecraft.client.Minecraft;
  */
 @SuppressWarnings("UnstableApiUsage")
 public final class UniversalMetricsClient extends AbstractUniversalMetric {
-    private final Minecraft client = Minecraft.getInstance();
-
     /**
      * Constructs a new UniversalMetricsClientImpl instance with the given factory and mod container. This constructor calls the superclass constructor to initialize the common functionality of the metrics implementation, and then allows for any client-specific initialization if needed. The actual submission logic is handled by the superclass, while this subclass focuses on adding client-specific data to the metrics before submission.
      * @param factory the factory used to create this metrics instance. This is passed to the superclass constructor to initialize the context and other necessary components for metrics collection and submission.
@@ -41,7 +39,7 @@ public final class UniversalMetricsClient extends AbstractUniversalMetric {
     private boolean isOnlineMode() {
         if (MatthiesenCoreCommon.INSTANCE.getCommonUtils().isDevelopmentEnvironment())
             return true;
-        return client.getUser().getXuid().isPresent();
+        return Minecraft.getInstance().getUser().getXuid().isPresent();
     }
 
     /**
@@ -49,12 +47,12 @@ public final class UniversalMetricsClient extends AbstractUniversalMetric {
      * @return the player count for the client environment, which can be 0 if the player instance is not initialized, 1 if the client is in singleplayer mode with a player instance, or the online player count from the server connection if the client is connected to a multiplayer server.
      */
     private int getPlayerCount() {
-        final var connection = client.getConnection();
+        final var connection = Minecraft.getInstance().getConnection();
         if (connection != null) return connection.getOnlinePlayers().size();
 
-        final var server = client.getSingleplayerServer();
+        final var server = Minecraft.getInstance().getSingleplayerServer();
         if (server != null) return server.getPlayerCount();
 
-        return client.player == null ? 0 : 1;
+        return Minecraft.getInstance().player == null ? 0 : 1;
     }
 }
