@@ -5,8 +5,8 @@ import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
-import dev.matthiesen.matthiesen_core.neoforge.utility.MatthiesenCoreNeoForgeRegistry;
 import dev.matthiesen.matthiesen_core.neoforge.permissions.NeoForgePermissionValidator;
+import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
@@ -28,57 +28,57 @@ import java.util.function.Supplier;
 public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
     @Override
     public <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(ResourceLocation id, Supplier<BlockEntityType<T>> blockEntityType) {
-        return MatthiesenCoreNeoForgeRegistry.registerBlockEntity(id, blockEntityType);
+        return NeoForgeRegistryHelper.registerBlockEntity(id, blockEntityType);
     }
 
     @Override
     public <T extends Block> Supplier<T> registerBlock(ResourceLocation id, Supplier<T> block) {
-        return MatthiesenCoreNeoForgeRegistry.registerBlock(id, block);
+        return NeoForgeRegistryHelper.registerBlock(id, block);
     }
 
     @Override
     public <T extends Item> Supplier<T> registerItem(ResourceLocation id, Supplier<T> item) {
-        return MatthiesenCoreNeoForgeRegistry.registerItem(id, item);
+        return NeoForgeRegistryHelper.registerItem(id, item);
     }
 
     @Override
     public <T extends SoundEvent> Supplier<T> registerSound(ResourceLocation id, Supplier<T> sound) {
-        return MatthiesenCoreNeoForgeRegistry.registerSound(id, sound);
+        return NeoForgeRegistryHelper.registerSound(id, sound);
     }
 
     @Override
     public <T extends CriterionTrigger<?>> Supplier<T> registerCriteriaTriggers(ResourceLocation id, Supplier<T> criterionTrigger) {
-        return MatthiesenCoreNeoForgeRegistry.registerCriteriaTriggers(id, criterionTrigger);
+        return NeoForgeRegistryHelper.registerCriteriaTriggers(id, criterionTrigger);
     }
 
     @Override
     public <T extends ResourceLocation> Supplier<T> registerStats(ResourceLocation id, Supplier<T> stats) {
-        return MatthiesenCoreNeoForgeRegistry.registerStats(id, stats);
+        return NeoForgeRegistryHelper.registerStats(id, stats);
     }
 
     @Override
     public <T extends MenuType<?>> Supplier<T> registerMenuType(ResourceLocation id, Supplier<T> menuType) {
-        return MatthiesenCoreNeoForgeRegistry.registerMenuType(id, menuType);
+        return NeoForgeRegistryHelper.registerMenuType(id, menuType);
     }
 
     @Override
     public <T extends DataComponentType<?>> Supplier<T> registerDataComponentType(ResourceLocation id, Supplier<T> component) {
-        return MatthiesenCoreNeoForgeRegistry.registerDataComponentType(id, component);
+        return NeoForgeRegistryHelper.registerDataComponentType(id, component);
     }
 
     @Override
     public <T extends MapCodec<? extends EnchantmentEntityEffect>> Supplier<T> registerEntityEffects(ResourceLocation name, Supplier<T> codec) {
-        return MatthiesenCoreNeoForgeRegistry.registerEntityEffects(name, codec);
+        return NeoForgeRegistryHelper.registerEntityEffects(name, codec);
     }
 
     @Override
     public <T extends Feature<?>> Supplier<T> registerFeature(ResourceLocation name, Supplier<T> feature) {
-        return MatthiesenCoreNeoForgeRegistry.registerFeature(name, feature);
+        return NeoForgeRegistryHelper.registerFeature(name, feature);
     }
 
     @Override
     public <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(ResourceLocation id, Supplier<T> tab) {
-        return MatthiesenCoreNeoForgeRegistry.registerCreativeModeTab(id, tab);
+        return NeoForgeRegistryHelper.registerCreativeModeTab(id, tab);
     }
 
     @Override

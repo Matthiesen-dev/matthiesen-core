@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
-import dev.matthiesen.matthiesen_core.neoforge.utility.RunnableReloadListener;
+import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeReloadListener;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -43,7 +43,7 @@ public final class NeoForgeLoaderEventsListeners implements CommonLoaderEventsLi
     @Override
     public void onServerReload(Runnable runnable) {
         NeoForge.EVENT_BUS.addListener((AddReloadListenerEvent event) ->
-                event.addListener(new RunnableReloadListener(runnable)));
+                event.addListener(new NeoForgeReloadListener(runnable)));
     }
 
     @Override

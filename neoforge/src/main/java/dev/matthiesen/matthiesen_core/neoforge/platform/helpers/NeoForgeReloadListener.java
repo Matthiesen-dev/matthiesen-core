@@ -1,14 +1,14 @@
-package dev.matthiesen.matthiesen_core.neoforge.utility;
+package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
 
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.NotNull;
 
-public final class RunnableReloadListener extends SimplePreparableReloadListener<Void> {
+public final class NeoForgeReloadListener extends SimplePreparableReloadListener<Void> {
     private final Runnable runnable;
 
-    public RunnableReloadListener(Runnable runnable) {
+    public NeoForgeReloadListener(Runnable runnable) {
         this.runnable = runnable;
     }
 

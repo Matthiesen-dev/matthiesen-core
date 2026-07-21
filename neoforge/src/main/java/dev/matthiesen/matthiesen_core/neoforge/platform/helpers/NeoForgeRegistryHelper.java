@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.utility;
+package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.advancements.CriterionTrigger;
@@ -21,11 +21,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-public final class MatthiesenCoreNeoForgeRegistry {
+public final class NeoForgeRegistryHelper {
     private static final Map<String, DeferredRegister<?>> DEFERRED_REGISTERS = new ConcurrentHashMap<>();
     private static volatile IEventBus modBus;
 
-    private MatthiesenCoreNeoForgeRegistry() {}
+    private NeoForgeRegistryHelper() {}
 
     public static void init(IEventBus eventBus) {
         modBus = eventBus;
