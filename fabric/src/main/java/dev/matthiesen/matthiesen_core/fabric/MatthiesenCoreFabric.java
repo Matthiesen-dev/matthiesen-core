@@ -14,6 +14,6 @@ public final class MatthiesenCoreFabric implements ModInitializer {
         instance.createInfoLog("Loading for Fabric Mod Loader");
         instance.initialize();
 
-        FabricServerEvents.init(instance);
+        FabricServerEvents.init();
     }
 }

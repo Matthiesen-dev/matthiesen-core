@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
-import dev.matthiesen.matthiesen_core.neoforge.events.RunnableReloadListener;
+import dev.matthiesen.matthiesen_core.neoforge.utility.RunnableReloadListener;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;

@@ -1,8 +1,6 @@
-package dev.matthiesen.matthiesen_core.neoforge;
+package dev.matthiesen.matthiesen_core.neoforge.utility;
 
 import com.mojang.serialization.MapCodec;
-import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
-import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -17,13 +15,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class MatthiesenCoreNeoForgeRegistry {
@@ -118,11 +113,5 @@ public final class MatthiesenCoreNeoForgeRegistry {
             deferredRegister.register(eventBus);
             return deferredRegister;
         });
-    }
-
-    public static void registerCommands(Consumer<CommandRegistry> registrationHandler) {
-        NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) ->
-                registrationHandler.accept((CoreCommand command) -> command.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection()))
-        );
     }
 }

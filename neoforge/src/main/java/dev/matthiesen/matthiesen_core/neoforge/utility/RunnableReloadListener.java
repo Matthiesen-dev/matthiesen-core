@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.events;
+package dev.matthiesen.matthiesen_core.neoforge.utility;
 
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
