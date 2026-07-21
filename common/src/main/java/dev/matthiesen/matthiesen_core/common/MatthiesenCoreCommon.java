@@ -1,8 +1,10 @@
 package dev.matthiesen.matthiesen_core.common;
 
+import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
+import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
@@ -27,12 +29,15 @@ public final class MatthiesenCoreCommon {
     public static final String MOD_NAME = "Matthiesen Lib";
 
     private static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
+
     private static final CommonLoaderUtils COMMON_UTILS =
             ServiceLoader.load(CommonLoaderUtils.class).findFirst().orElseThrow();
     private static final CommonLoaderRegistry COMMON_REGISTRY =
             ServiceLoader.load(CommonLoaderRegistry.class).findFirst().orElseThrow();
     private static final CommonLoaderEventsListeners COMMON_EVENTS_LISTENERS =
             ServiceLoader.load(CommonLoaderEventsListeners.class).findFirst().orElseThrow();
+    private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
+            ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
 
     /**
      * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.
@@ -141,5 +146,17 @@ public final class MatthiesenCoreCommon {
      */
     public ServerEventsManager getServerEventsManager() {
         return ServerEventsManager.INSTANCE;
+    }
+
+    /**
+     * Retrieves the loaded Webhook notifier service. This service is responsible for sending notifications to Discord webhooks.
+     * If no implementation is found, a no-op implementation is returned, which does not perform any actions.
+     * @return The loaded Webhook notifier service, or a no-op implementation if none is found. This service can be used to send
+     * notifications to Discord webhooks, or to perform other actions related to webhook notifications. The no-op implementation
+     * is provided to ensure that the application can function without a webhook notifier service, and will not throw any exceptions
+     * or errors if the service is not available.
+     */
+    public WebhookNotifierService getWebhookService() {
+        return WEBHOOK_NOTIFIER_SERVICE;
     }
 }

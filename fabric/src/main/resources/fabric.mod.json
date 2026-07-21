@@ -17,9 +17,6 @@
     }
   },
   "environment": "*",
-  "mixins": [
-    "matthiesen_core.mixins.json"
-  ],
   "entrypoints": {
     "main": [
       "dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric"
