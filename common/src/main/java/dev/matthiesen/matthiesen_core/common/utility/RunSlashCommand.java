@@ -18,16 +18,18 @@ public class RunSlashCommand {
      */
     protected RunSlashCommand() {}
 
+    private static MinecraftServer getServer() {
+        return MatthiesenCoreCommon.INSTANCE.getCommonUtils().getServer();
+    }
+
     /**
      * Executes a slash command as the server using a provided MinecraftServer instance. This method allows you to run any
      * command with the server's permissions and context.
-     * @param server The MinecraftServer instance on which to execute the command. This allows you to specify a server instance
-     *               directly, which can be useful in certain contexts where the server is already available.
      * @param command The command string to execute, without the leading slash. For example, "say Hello world!".
      */
-    public static void asServer(MinecraftServer server, String command) {
+    public static void asServer(String command) {
         try {
-            server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), command);
+            getServer().getCommands().performPrefixedCommand(getServer().createCommandSourceStack(), command);
         } catch (RuntimeException e) {
             MatthiesenCoreCommon.INSTANCE.createErrorLog("An error occurred while executing the command: " + command, e);
         }
@@ -36,15 +38,13 @@ public class RunSlashCommand {
     /**
      * Executes a slash command as a specific player using a provided MinecraftServer instance. This method allows you to run
      * any command with the player's permissions and context.
-     * @param server The MinecraftServer instance on which to execute the command. This allows you to specify a server instance
-     *               directly, which can be useful in certain contexts where the server is already available.
      * @param player The ServerPlayer instance representing the player as whom the command will be executed. The command will
      *               be executed with this player's permissions and context.
      * @param command The command string to execute, without the leading slash. For example, "say Hello world!".
      */
-    public static void asPlayer(MinecraftServer server, ServerPlayer player, String command) {
+    public static void asPlayer(ServerPlayer player, String command) {
         try {
-            server.getCommands().performPrefixedCommand(player.createCommandSourceStack(), command);
+            getServer().getCommands().performPrefixedCommand(player.createCommandSourceStack(), command);
         } catch (RuntimeException e) {
             MatthiesenCoreCommon.INSTANCE.createErrorLog("An error occurred while executing the command: " + command, e);
         }
