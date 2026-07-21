@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.interfaces;
+package dev.matthiesen.matthiesen_core.common.api.text_parsers;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import net.minecraft.network.chat.Component;
@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 /**
  * Interface for parsing text into Minecraft Components.
  */
+@SuppressWarnings("unused")
 public interface TextParser {
     /**
      * Returns the type of the TextParser. This can be used to identify different implementations of the TextParser interface.

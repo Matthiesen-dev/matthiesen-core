@@ -1,7 +1,7 @@
-package dev.matthiesen.matthiesen_core.common.core.parsers;
+package dev.matthiesen.matthiesen_core.common.core.text_parsers;
 
-import dev.matthiesen.matthiesen_core.common.api.interfaces.BuiltInTextParsers;
-import dev.matthiesen.matthiesen_core.common.api.interfaces.TextParser;
+import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
+import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
 import net.minecraft.network.chat.Component;
 
 /**

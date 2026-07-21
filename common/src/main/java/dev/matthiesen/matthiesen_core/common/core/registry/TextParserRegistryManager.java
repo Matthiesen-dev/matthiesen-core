@@ -1,9 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.core.registry;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.api.interfaces.BuiltInTextParsers;
-import dev.matthiesen.matthiesen_core.common.api.interfaces.TextParser;
-import dev.matthiesen.matthiesen_core.common.core.parsers.VanillaTextParser;
+import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
+import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
+import dev.matthiesen.matthiesen_core.common.core.text_parsers.VanillaTextParser;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

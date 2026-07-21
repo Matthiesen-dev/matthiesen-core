@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.interfaces;
+package dev.matthiesen.matthiesen_core.common.api.text_parsers;
 
 public enum BuiltInTextParsers {
     VANILLA("vanilla");
