@@ -10,6 +10,8 @@ package dev.matthiesen.matthiesen_core.common.api.discord;
  */
 @SuppressWarnings("unused")
 public interface WebhookNotifierService {
+    void initialize();
+
     /**
      * Returns the type of the WebhookNotifierService implementation. This can be used to determine the capabilities of the service and to handle different implementations accordingly.
      * @return The type of the WebhookNotifierService, which can be NOOP (no operation) or DISCORD (for Discord webhook notifications).

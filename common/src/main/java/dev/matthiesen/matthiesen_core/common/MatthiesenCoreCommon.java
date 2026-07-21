@@ -55,6 +55,8 @@ public final class MatthiesenCoreCommon {
     public void initialize() {
         if (initialized) return;
 
+        WEBHOOK_NOTIFIER_SERVICE.initialize();
+
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
