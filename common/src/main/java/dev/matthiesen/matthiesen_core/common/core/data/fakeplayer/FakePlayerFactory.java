@@ -80,6 +80,6 @@ public final class FakePlayerFactory {
         pending.clear();
     }
 
-    private static record FakePlayerKey(int dimensionId, UUID uuid) {
+    private record FakePlayerKey(int dimensionId, UUID uuid) {
     }
 }
