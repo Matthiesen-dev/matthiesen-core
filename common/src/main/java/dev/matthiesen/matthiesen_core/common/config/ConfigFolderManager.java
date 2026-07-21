@@ -18,7 +18,7 @@ import java.util.*;
  * @param <T> The type of the config class to manage
  */
 @SuppressWarnings("unused")
-public class ConfigFolderManager<T> {
+public final class ConfigFolderManager<T> {
     private static final String JSON_EXTENSION = ".json";
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME);
 
