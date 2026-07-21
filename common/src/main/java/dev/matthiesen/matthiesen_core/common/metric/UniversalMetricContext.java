@@ -43,6 +43,7 @@ public final class UniversalMetricContext extends SimpleContext {
         switch (MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment()) {
             case CLIENT -> {
                 ready();
+                shutdown();
                 // TODO reimplement this
 //                MatthiesenLibApiClientUtils.appendRunnableShutdown(this::shutdown);
             }
