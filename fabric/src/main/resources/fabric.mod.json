@@ -18,14 +18,14 @@
   },
   "environment": "*",
   "mixins": [
-    "matthiesen_lib.mixins.json"
+    "matthiesen_core.mixins.json"
   ],
   "entrypoints": {
     "main": [
-      "dev.matthiesen.matthiesen_lib.fabric.MatthiesenLibFabric"
+      "dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric"
     ],
     "client": [
-      "dev.matthiesen.matthiesen_lib.fabric.MatthiesenLibFabricClient"
+      "dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabricClient"
     ]
   },
   "depends": {

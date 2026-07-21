@@ -1,4 +1,4 @@
-rootProject.name = "matthiesen-lib"
+rootProject.name = "matthiesen-core"
 
 pluginManagement {
     repositories {

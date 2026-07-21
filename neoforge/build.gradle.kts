@@ -71,6 +71,6 @@ tasks {
     }
 
     remapJar {
-        atAccessWideners.add("matthiesen_lib.accesswidener")
+        atAccessWideners.add("matthiesen_core.accesswidener")
     }
 }

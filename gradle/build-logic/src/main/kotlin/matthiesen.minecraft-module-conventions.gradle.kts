@@ -11,7 +11,7 @@ plugins {
 pluginManager.withPlugin("dev.architectury.loom") {
     configure<LoomGradleExtensionAPI> {
         enableTransitiveAccessWideners.set(true)
-        accessWidenerPath.set(project(":common").layout.projectDirectory.file("src/main/resources/matthiesen_lib.accesswidener"))
+        accessWidenerPath.set(project(":common").layout.projectDirectory.file("src/main/resources/matthiesen_core.accesswidener"))
         silentMojangMappingsLicense()
     }
 

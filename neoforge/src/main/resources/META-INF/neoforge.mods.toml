@@ -14,10 +14,10 @@ ${mod_description}
 logoFile = "icon.png"
 
 [[mixins]]
-config = "matthiesen_lib.mixins.json"
+config = "matthiesen_core.mixins.json"
 
 [[mixins]]
-config = "matthiesen_lib_neoforge.mixins.json"
+config = "matthiesen_core_neoforge.mixins.json"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
