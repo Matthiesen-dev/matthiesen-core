@@ -5,6 +5,8 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderE
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
+import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
+import dev.matthiesen.matthiesen_core.common.core.events.CoreServerEvents;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
@@ -61,6 +63,9 @@ public final class MatthiesenCoreCommon {
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
+
+        CorePlayerEvents.register();
+        CoreServerEvents.register();
 
         initialized = true;
         createInfoLog("Initialized Common");
@@ -160,5 +165,14 @@ public final class MatthiesenCoreCommon {
      */
     public WebhookNotifierService getWebhookService() {
         return WEBHOOK_NOTIFIER_SERVICE;
+    }
+
+    /**
+     * Retrieves the common utilities instance. This instance provides access to various utility methods and services that are used throughout
+     * the application, such as server access, configuration management, and other common tasks.
+     * @return The common utilities instance, which provides access to various utility methods and services that are used throughout the application.
+     */
+    public CommonLoaderUtils getCommonUtils() {
+        return COMMON_UTILS;
     }
 }
