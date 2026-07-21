@@ -85,6 +85,39 @@ public class CommandBuilder {
     }
 
     /**
+     * Creates a new command builder for a literal root command. This is a convenience method that allows you to create a
+     * command builder without using the {@code new} keyword, which can make the code more readable and fluent when registering commands.
+     * @param baseCmdName the literal command name to register as the root node
+     * @return a new instance of {@link CommandBuilder} initialized with the specified root command name
+     */
+    public static CommandBuilder create(String baseCmdName) {
+        return new CommandBuilder(baseCmdName);
+    }
+
+    /**
+     * Creates a new command builder for a literal root command with a requirement predicate. This is a convenience method that allows you to create a
+     * command builder without using the {@code new} keyword, which can make the code more readable and fluent when registering commands.
+     * @param baseCmdName the literal command name to register as the root node
+     * @param requirement the predicate that determines whether a command source may use this node; may be {@code null}
+     * @return a new instance of {@link CommandBuilder} initialized with the specified root command name and requirement predicate
+     */
+    public static CommandBuilder create(String baseCmdName, Predicate<CommandSourceStack> requirement) {
+        return new CommandBuilder(baseCmdName, requirement);
+    }
+
+    /**
+     * Creates a new command builder for a literal root command with both a requirement predicate and an execution callback. This is a convenience method that allows you to create a
+     * command builder without using the {@code new} keyword, which can make the code more readable and fluent when registering commands.
+     * @param baseCmdName the literal command name to register as the root node
+     * @param requirement the predicate that determines whether a command source may use this node; may be {@code null}
+     * @param executes the command callback to execute when the root node runs; may be {@code null}
+     * @return a new instance of {@link CommandBuilder} initialized with the specified root command name, requirement predicate, and execution callback
+     */
+    public static CommandBuilder create(String baseCmdName, Predicate<CommandSourceStack> requirement, Command<CommandSourceStack> executes) {
+        return new CommandBuilder(baseCmdName, requirement, executes);
+    }
+
+    /**
      * Sets or replaces the requirement predicate for the root command node.
      * <p>
      * This is a convenience wrapper around Brigadier's {@code requires(...)} method and returns the same builder
