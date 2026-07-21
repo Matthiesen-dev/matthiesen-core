@@ -44,7 +44,7 @@ public final class UniversalMetricContext extends SimpleContext {
         switch (MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment()) {
             case CLIENT -> {
                 ready();
-                MatthiesenCoreCommonClient.CLIENT_EVENTS_LISTENERS.onClientStopping(this::shutdown);
+                MatthiesenCoreCommonClient.INSTANCE.getClientEventsListeners().onClientStopping(this::shutdown);
             }
             case SERVER -> MatthiesenCoreCommon.INSTANCE.getServerEventsManager().registerListener(
                     MatthiesenCoreCommon.MOD_ID + "_metrics_context",

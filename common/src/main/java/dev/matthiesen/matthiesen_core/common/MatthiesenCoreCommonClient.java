@@ -5,10 +5,10 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderC
 import java.util.ServiceLoader;
 
 public final class MatthiesenCoreCommonClient {
-    public static final MatthiesenCoreCommonClient INSTANCE = new MatthiesenCoreCommonClient();
-
-    public static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =
+    private static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =
             ServiceLoader.load(CommonLoaderClientEventsListeners.class).findFirst().orElseThrow();
+
+    public static final MatthiesenCoreCommonClient INSTANCE = new MatthiesenCoreCommonClient();
 
     private final MatthiesenCoreCommon COMMON_MOD;
 
@@ -31,5 +31,9 @@ public final class MatthiesenCoreCommonClient {
 
     public void createInfoLog(String message) {
         COMMON_MOD.createInfoLog(message);
+    }
+
+    public CommonLoaderClientEventsListeners getClientEventsListeners() {
+        return CLIENT_EVENTS_LISTENERS;
     }
 }
