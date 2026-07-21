@@ -10,6 +10,7 @@ import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager
 import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.ServerEventsManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.TextParserRegistryManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -63,6 +64,7 @@ public final class MatthiesenCoreCommon {
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
+        TextParserRegistryManager.INSTANCE.initialize();
 
         CorePlayerEvents.register(getPlayerEventsManager());
 
@@ -173,5 +175,14 @@ public final class MatthiesenCoreCommon {
      */
     public CommonLoaderUtils getCommonUtils() {
         return COMMON_UTILS;
+    }
+
+    /**
+     * Retrieves the text parser manager instance. This instance is responsible for managing text parsers within the application,
+     * allowing for the registration and retrieval of text parsers based on their type.
+     * @return The singleton instance of the TextParserRegistryManager, which can be used to register and manage text parsers throughout the application.
+     */
+    public TextParserRegistryManager getTextParserManager() {
+        return TextParserRegistryManager.INSTANCE;
     }
 }

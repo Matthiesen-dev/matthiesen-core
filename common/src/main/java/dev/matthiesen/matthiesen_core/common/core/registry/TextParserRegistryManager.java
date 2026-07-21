@@ -1,0 +1,94 @@
+package dev.matthiesen.matthiesen_core.common.core.registry;
+
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.api.interfaces.BuiltInTextParsers;
+import dev.matthiesen.matthiesen_core.common.api.interfaces.TextParser;
+import dev.matthiesen.matthiesen_core.common.core.parsers.VanillaTextParser;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * The TextParserRegistryManager is responsible for managing the registration and retrieval of text parsers within the mod.
+ * It maintains a registry of text parsers, allowing for the addition of new parsers and the retrieval of existing ones based
+ * on their type. The manager ensures that each parser is uniquely identified by its type and provides a default Vanilla text parser as a fallback option.
+ */
+@SuppressWarnings("unused")
+public final class TextParserRegistryManager {
+    /**
+     * The singleton instance of the TextParserRegistryManager. This instance is used to manage the registration and retrieval of text parsers.
+     */
+    public static final TextParserRegistryManager INSTANCE = new TextParserRegistryManager();
+
+    /**
+     * The default Vanilla text parser that is always registered and used as a fallback if no other parser is found.
+     */
+    public static final TextParser VANILLA_PARSER = new VanillaTextParser();
+
+    private static final Map<String, TextParser> REGISTERED_PARSERS = new ConcurrentHashMap<>();
+
+    private boolean initialized;
+
+    /**
+     * Initializes the Text Parser Registry Manager. This method should be called once during the mod's initialization phase.
+     */
+    public void initialize() {
+        if (initialized) return;
+        initialized = true;
+        MatthiesenCoreCommon.INSTANCE.createInfoLog("Initializing Text Parser Registry Manager");
+        registerTextParser(VANILLA_PARSER);
+    }
+
+    /**
+     * Registers a new text parser with the registry.
+     * @param parser The text parser to register.
+     */
+    public void registerTextParser(TextParser parser) {
+        String name = parser.type();
+        if (isTextParserRegistered(name)) return;
+        parser.initialize();
+        REGISTERED_PARSERS.put(name, parser);
+        MatthiesenCoreCommon.INSTANCE.createInfoLog("Registered text parser: " + name);
+    }
+
+    /**
+     * Retrieves a registered text parser by its type.
+     * @param type The type of the text parser to retrieve.
+     * @return The registered text parser, or the Vanilla text parser if none is found.
+     */
+    public TextParser getTextParser(String type) {
+        TextParser parser = REGISTERED_PARSERS.get(type);
+        if (parser == null) {
+            MatthiesenCoreCommon.INSTANCE.createErrorLog("Text parser with name '" + type + "' is not registered. Falling back to Vanilla text parser.");
+            parser = VANILLA_PARSER;
+        }
+        return parser;
+    }
+
+    /**
+     * Retrieves a registered text parser by its built-in type.
+     * @param type The built-in type of the text parser to retrieve.
+     * @return The registered text parser, or the Vanilla text parser if none is found.
+     */
+    public TextParser getTextParser(BuiltInTextParsers type) {
+        return getTextParser(type.getId());
+    }
+
+    /**
+     * Checks if a text parser is registered with the given type.
+     * @param type The type of the text parser to check.
+     * @return true if a text parser with the given type is registered, false otherwise.
+     */
+    public boolean isTextParserRegistered(String type) {
+        return REGISTERED_PARSERS.containsKey(type);
+    }
+
+    /**
+     * Checks if a text parser is registered with the given built-in type.
+     * @param type The built-in type of the text parser to check.
+     * @return true if a text parser with the given built-in type is registered, false otherwise.
+     */
+    public boolean isTextParserRegistered(BuiltInTextParsers type) {
+        return isTextParserRegistered(type.getId());
+    }
+}

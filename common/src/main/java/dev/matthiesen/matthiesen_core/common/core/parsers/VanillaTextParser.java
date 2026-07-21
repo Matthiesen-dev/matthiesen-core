@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.parsers;
 
+import dev.matthiesen.matthiesen_core.common.api.interfaces.BuiltInTextParsers;
 import dev.matthiesen.matthiesen_core.common.api.interfaces.TextParser;
 import net.minecraft.network.chat.Component;
 
@@ -9,7 +10,7 @@ import net.minecraft.network.chat.Component;
 public final class VanillaTextParser implements TextParser {
     @Override
     public String type() {
-        return "vanilla";
+        return BuiltInTextParsers.VANILLA.getId();
     }
 
     @Override
