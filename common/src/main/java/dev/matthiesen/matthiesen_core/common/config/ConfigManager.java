@@ -26,18 +26,6 @@ public class ConfigManager<T> {
     private T config;
 
     /**
-     * Creates a new ConfigManager for the specified config class and name.
-     *
-     * @param configClass The class of the config to manage
-     * @param configName The name of the config file (without .json extension)
-     * @deprecated Use the constructor that includes the modId parameter to specify the config folder namespace. This will default to using the API's mod id, which may not be appropriate for all configs and can lead to conflicts if multiple configs use the same name. By specifying a mod id namespace, you can ensure that your config is stored in a unique folder and avoid potential conflicts with other configs.
-     */
-    @Deprecated(forRemoval = true)
-    public ConfigManager(Class<T> configClass, String configName) {
-        this(configClass, configName, MatthiesenCoreCommon.MOD_ID);
-    }
-
-    /**
      * Creates a new ConfigManager for the specified config class, name, and mod id namespace.
      *
      * @param configClass The class of the config to manage

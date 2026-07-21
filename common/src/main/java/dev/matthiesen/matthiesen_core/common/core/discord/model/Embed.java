@@ -6,7 +6,7 @@ import java.util.List;
  * Represents a Discord embed object used in webhook messages.
  */
 @SuppressWarnings("unused")
-public class Embed {
+public final class Embed {
     private String title;
     private String description;
     private String url;

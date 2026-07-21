@@ -4,7 +4,7 @@ package dev.matthiesen.matthiesen_core.common.core.discord.model;
  * Represents a binary attachment sent with a Discord webhook request.
  */
 @SuppressWarnings("unused")
-public class WebhookFile {
+public final class WebhookFile {
     private String filename;
     private byte[] data;
 

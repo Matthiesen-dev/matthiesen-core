@@ -8,7 +8,7 @@ import java.util.List;
  * Represents a Discord webhook message payload.
  */
 @SuppressWarnings("unused")
-public class WebhookMessage {
+public final class WebhookMessage {
     private String content;
     private String username;
     @SerializedName("avatar_url")
