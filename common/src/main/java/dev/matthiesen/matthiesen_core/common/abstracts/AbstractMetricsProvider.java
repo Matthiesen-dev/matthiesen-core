@@ -3,7 +3,7 @@ package dev.matthiesen.matthiesen_core.common.abstracts;
 import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Metrics;
 import dev.matthiesen.libs.faststats.Token;
-import dev.matthiesen.matthiesen_core.common.metric.UniversalMetricContext;
+import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;

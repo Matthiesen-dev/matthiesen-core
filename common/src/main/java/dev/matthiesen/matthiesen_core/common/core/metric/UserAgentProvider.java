@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.metric;
+package dev.matthiesen.matthiesen_core.common.core.metric;
 
 import dev.matthiesen.libs.faststats.SdkInfo;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;

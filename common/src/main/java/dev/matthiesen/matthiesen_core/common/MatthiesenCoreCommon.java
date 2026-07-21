@@ -6,7 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
-import dev.matthiesen.matthiesen_core.common.core.events.MatthiesenCoreMetrics;
+import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
