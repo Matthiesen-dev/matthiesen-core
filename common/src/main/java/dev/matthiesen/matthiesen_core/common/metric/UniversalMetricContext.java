@@ -7,6 +7,7 @@ import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.libs.faststats.config.SimpleConfig;
 import dev.matthiesen.libs.faststats.internal.PlatformLoggerFactory;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.events.ServerEventListener;
 import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
 import net.minecraft.server.MinecraftServer;
@@ -43,9 +44,7 @@ public final class UniversalMetricContext extends SimpleContext {
         switch (MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment()) {
             case CLIENT -> {
                 ready();
-                shutdown();
-                // TODO reimplement this
-//                MatthiesenLibApiClientUtils.appendRunnableShutdown(this::shutdown);
+                MatthiesenCoreCommonClient.CLIENT_EVENTS_LISTENERS.onClientStopping(this::shutdown);
             }
             case SERVER -> MatthiesenCoreCommon.INSTANCE.getServerEventsManager().registerListener(
                     MatthiesenCoreCommon.MOD_ID + "_metrics_context",

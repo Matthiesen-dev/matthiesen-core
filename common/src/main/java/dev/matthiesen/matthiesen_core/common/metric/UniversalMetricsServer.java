@@ -2,7 +2,6 @@ package dev.matthiesen.matthiesen_core.common.metric;
 
 import com.google.gson.JsonObject;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.api.events.ServerEventListener;
 import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
 import net.minecraft.server.MinecraftServer;
 
@@ -12,8 +11,6 @@ import net.minecraft.server.MinecraftServer;
  */
 @SuppressWarnings("UnstableApiUsage")
 public final class UniversalMetricsServer extends AbstractUniversalMetric {
-    private volatile MinecraftServer SERVER;
-
     /**
      * Constructs a new UniversalMetricsServerImpl instance with the given factory and mod container. This constructor registers a server event handler to listen for server start and stop events, allowing it to manage the lifecycle of the metrics collection based on these events. When the server starts, it initializes the metrics collection and starts submitting data. When the server stops, it shuts down the metrics collection to ensure that all data is properly sent before the server fully shuts down.
      * @param factory the factory used to create this metrics instance. This is passed to the superclass constructor to initialize the context and other necessary components for metrics collection and submission.
@@ -22,17 +19,10 @@ public final class UniversalMetricsServer extends AbstractUniversalMetric {
      */
     public UniversalMetricsServer(final Factory factory, final ModContainer mod) throws IllegalStateException {
         super(factory, mod);
-        MatthiesenCoreCommon.INSTANCE.getServerEventsManager().registerListener(MatthiesenCoreCommon.MOD_ID + "_metrics_server", new ServerEventListener() {
-            @Override
-            public void onServerStarting(MinecraftServer server) {
-                SERVER = server;
-            }
+    }
 
-            @Override
-            public void onServerStopping(MinecraftServer server) {
-                shutdown();
-            }
-        });
+    private MinecraftServer getServer() {
+        return MatthiesenCoreCommon.INSTANCE.getCommonUtils().getServer();
     }
 
     /**
@@ -41,12 +31,12 @@ public final class UniversalMetricsServer extends AbstractUniversalMetric {
      */
     @Override
     protected void appendDefaultData(final JsonObject metrics) {
-        if (SERVER == null) {
+        if (getServer() == null) {
             MatthiesenCoreCommon.INSTANCE.createErrorLog("Attempted to append server metrics data before server was initialized");
             return;
         }
         metrics.addProperty("online_mode", isOnlineMode());
-        metrics.addProperty("player_count", SERVER.getPlayerCount());
+        metrics.addProperty("player_count", getServer().getPlayerCount());
         appendUniversalData(metrics);
     }
 
@@ -57,6 +47,6 @@ public final class UniversalMetricsServer extends AbstractUniversalMetric {
     private boolean isOnlineMode() {
         if (MatthiesenCoreCommon.INSTANCE.getCommonUtils().isDevelopmentEnvironment())
             return true;
-        return SERVER.usesAuthentication();
+        return getServer().usesAuthentication();
     }
 }
