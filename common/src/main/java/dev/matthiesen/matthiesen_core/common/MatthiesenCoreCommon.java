@@ -6,7 +6,6 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
-import dev.matthiesen.matthiesen_core.common.core.events.CoreServerEvents;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
@@ -60,12 +59,12 @@ public final class MatthiesenCoreCommon {
         WEBHOOK_NOTIFIER_SERVICE.initialize();
 
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
+
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
 
-        CorePlayerEvents.register();
-        CoreServerEvents.register();
+        CorePlayerEvents.register(getPlayerEventsManager());
 
         initialized = true;
         createInfoLog("Initialized Common");
