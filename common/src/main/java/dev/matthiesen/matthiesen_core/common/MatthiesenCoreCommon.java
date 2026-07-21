@@ -182,6 +182,18 @@ public final class MatthiesenCoreCommon {
     }
 
     /**
+     * Retrieves the common registry instance. This instance provides access to various registries that are used throughout
+     * the application, such as command registries, event registries, and other common registries. The common registry is
+     * responsible for managing the registration and retrieval of various components and services within the application,
+     * ensuring that they are properly initialized and available for use.
+     * @return The common registry instance, which provides access to various registries that are used throughout the application.
+     * This instance can be used to register and retrieve various components and services, ensuring that they are properly initialized and available for use.
+     */
+    public CommonLoaderRegistry getCommonRegistry() {
+        return COMMON_REGISTRY;
+    }
+
+    /**
      * Retrieves the text parser manager instance. This instance is responsible for managing text parsers within the application,
      * allowing for the registration and retrieval of text parsers based on their type.
      * @return The singleton instance of the TextParserRegistryManager, which can be used to register and manage text parsers throughout the application.

@@ -21,7 +21,6 @@ import java.util.function.Supplier;
 /**
  * The CommonLoaderRegistry interface provides a unified way to register various game elements such as blocks, items, sounds, and more across different mod loaders.
  */
-@SuppressWarnings("unused")
 public interface CommonLoaderRegistry {
     /**
      * Register a block entity type for the mod. This method allows you to register a new block entity type that can be used in your mod's content, such as for
