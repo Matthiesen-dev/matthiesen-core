@@ -11,6 +11,8 @@ neoforge = "21.1.182"
 junit = "5.1.0"
 publish = "0.35.0"
 sponge-mixin = "0.8.5"
+faststats = "0.27.1"
+emberstextapi = "3.0.0"
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
@@ -32,20 +34,25 @@ neoforge = { group = "net.neoforged", name = "neoforge", version.ref = "neoforge
 junit-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
 junit-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
 sponge-mixin = { group = "org.spongepowered", name = "mixin", version.ref = "sponge-mixin" }
+faststats = { group = "dev.matthiesen.libs", name = "faststats", version.ref = "faststats" }
+emberstextapiFabric = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-fabric-1.21.1", version.ref = "emberstextapi" }
+emberstextapiNeoForge = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-neoforge-1.21.1", version.ref = "emberstextapi" }
 
 [bundles]
 commonCompileOnly = ["sponge-mixin"]
-commonImplementation = []
+commonImplementation = ["faststats"]
+commonModCompileOnly = []
 commonModImplementation = []
 commonModImplementationNoTransitive = []
 
 fabricCompileOnly = []
-fabricImplementation = []
+fabricImplementation = ["faststats"]
 fabricModCompileOnly = ["fabric-permissions-api"]
 fabricModImplementation = ["fabric-loader", "fabric-api"]
 fabricModImplementationNoTransitive = []
 
 neoforgeCompileOnly = []
-neoforgeImplementation = []
+neoforgeImplementation = ["faststats"]
+neoforgeModCompileOnly = []
 neoforgeModImplementation = []
 neoforgeModImplementationNoTransitive = []

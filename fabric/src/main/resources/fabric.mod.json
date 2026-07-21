@@ -17,6 +17,9 @@
     }
   },
   "environment": "*",
+  "mixins": [
+    "matthiesen_lib.mixins.json"
+  ],
   "entrypoints": {
     "main": [
       "dev.matthiesen.matthiesen_lib.fabric.MatthiesenLibFabric"
@@ -27,5 +30,8 @@
   },
   "depends": {
     "minecraft": "1.21.1"
+  },
+  "suggests": {
+    "fabric-permissions-api-v0": "*"
   }
 }

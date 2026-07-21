@@ -14,6 +14,7 @@ dependencies {
 
     compileOnly(libs.bundles.commonCompileOnly)
     implementation(libs.bundles.commonImplementation)
+    modCompileOnly(libs.bundles.commonModCompileOnly)
     modImplementation(libs.bundles.commonModImplementation)
     modImplementation(libs.bundles.commonModImplementationNoTransitive) { isTransitive = false }
 

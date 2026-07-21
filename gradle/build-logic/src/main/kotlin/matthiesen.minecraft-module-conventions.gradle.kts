@@ -11,7 +11,13 @@ plugins {
 pluginManager.withPlugin("dev.architectury.loom") {
     configure<LoomGradleExtensionAPI> {
         enableTransitiveAccessWideners.set(true)
+        accessWidenerPath.set(project(":common").layout.projectDirectory.file("src/main/resources/matthiesen_lib.accesswidener"))
         silentMojangMappingsLicense()
+    }
+
+    tasks.named<org.gradle.jvm.tasks.Jar>("jar") {
+        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveClassifier.set("dev-slim")
     }
 
     tasks.named<RemapJarTask>("remapJar") {

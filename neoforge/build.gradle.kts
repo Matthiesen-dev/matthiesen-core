@@ -10,6 +10,8 @@ architectury {
     neoForge()
 }
 
+evaluationDependsOn(":common")
+
 repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/groups/public/")
@@ -29,6 +31,7 @@ dependencies {
 
     compileOnly(libs.bundles.neoforgeCompileOnly)
     implementation(libs.bundles.neoforgeImplementation)
+    modCompileOnly(libs.bundles.neoforgeModCompileOnly)
     modImplementation(libs.bundles.neoforgeModImplementation)
     modImplementation(libs.bundles.neoforgeModImplementationNoTransitive) { isTransitive = false }
 
@@ -37,6 +40,8 @@ dependencies {
         isTransitive = false
     }
     shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
+
+    shadowBundle(libs.faststats)
 
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
@@ -49,8 +54,23 @@ tasks {
         }
     }
 
+    sourcesJar {
+        val depSources = project(":common").tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar")
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn(depSources)
+        from(depSources.flatMap { it.archiveFile }.map { zipTree(it) }) {
+            exclude("architectury.accessWidener")
+        }
+    }
+
     shadowJar {
         exclude("fabric.mod.json")
+        exclude("architectury-common.accessWidener")
+        exclude("architectury.common.json")
         configurations = listOf(shadowBundle)
+    }
+
+    remapJar {
+        atAccessWideners.add("matthiesen_lib.accesswidener")
     }
 }

@@ -5,6 +5,14 @@ plugins {
     id("matthiesen.shadow-platform-conventions")
 }
 
+val generatedResources = file("src/generated/resources")
+
+sourceSets.main {
+    resources {
+        srcDir(generatedResources)
+    }
+}
+
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -26,15 +34,30 @@ dependencies {
     "developmentFabric"(project(":common", configuration = "namedElements"))
     shadowBundle(project(":common", configuration = "transformProductionFabric"))
 
+    shadowBundle(libs.faststats)
+
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }
 
 tasks {
+    // The AW file is needed in :fabric project resources when the game is run.
+    val copyAccessWidener by registering(Copy::class) {
+        description = "Copies the access widener file to the generated resources directory"
+        from(loom.accessWidenerPath)
+        into(generatedResources)
+    }
+
     processResources {
+        dependsOn(copyAccessWidener)
+
         filesMatching("fabric.mod.json") {
             expand(project.properties)
         }
+    }
+
+    sourcesJar {
+        dependsOn(copyAccessWidener)
     }
 
     shadowJar {
