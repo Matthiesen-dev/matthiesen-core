@@ -15,11 +15,12 @@ public final class MatthiesenCoreFabric implements ModInitializer {
         var instance = MatthiesenCoreCommon.INSTANCE;
         instance.createInfoLog("Loading for Fabric Mod Loader");
         instance.initialize();
-        instance.onCommonServerSetup();
 
         if (instance.getCommonUtils().isModLoaded(BuiltInTextParsers.EMBERS.getId())) {
             instance.getTextParserManager().registerTextParser(new EmbersTextParserFabric());
         }
+
+        instance.onCommonServerSetup();
 
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SERVER_INSTANCE = server);
