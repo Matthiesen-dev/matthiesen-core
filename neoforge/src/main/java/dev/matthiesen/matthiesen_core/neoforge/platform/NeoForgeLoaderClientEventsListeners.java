@@ -18,7 +18,15 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * The NeoForgeLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides
+ * client-side event handling functionalities for the NeoForge mod loader. It allows for the registration of various client-side
+ * components such as screens, entity renderers, HUD elements, and key bindings, as well as handling client tick events and block highlight overrides.
+ */
 public final class NeoForgeLoaderClientEventsListeners implements CommonLoaderClientEventsListeners {
+    /**
+     * A list of Runnables that will be executed at the end of each client tick. This allows for scheduling tasks that need to be performed after the main client tick processing is complete.
+     */
     public static final List<Runnable> END_CLIENT_TICK_RUNNABLES = new ArrayList<>();
 
     @Override

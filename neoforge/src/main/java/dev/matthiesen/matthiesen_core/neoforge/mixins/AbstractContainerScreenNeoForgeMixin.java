@@ -9,6 +9,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * This mixin class modifies the behavior of the AbstractContainerScreen class in the NeoForge mod loader environment.
+ * It specifically targets the rendering of slot highlights, allowing for the suppression of the highlight effect for
+ * CreativeTabSectionHeaderItem slots. This is achieved by injecting code into the renderSlotHighlight method, where it
+ * checks if the slot being highlighted is a section marker stack and cancels the highlight rendering if so. This ensures
+ * that the user interface behaves as intended when interacting with creative tab section headers.
+ */
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenNeoForgeMixin {
 

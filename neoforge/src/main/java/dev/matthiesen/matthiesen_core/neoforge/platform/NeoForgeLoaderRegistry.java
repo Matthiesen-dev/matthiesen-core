@@ -25,6 +25,12 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * The NeoForgeLoaderRegistry class implements the CommonLoaderRegistry interface and provides methods for registering various
+ * game elements such as blocks, items, block entities, sounds, creative mode tabs, criteria triggers, stats, menu types, features,
+ * data component types, and entity effects in the NeoForge mod loader environment. It serves as a bridge between the common
+ * registration interface and the specific registration system provided by NeoForge.
+ */
 public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
     @Override
     public <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(ResourceLocation id, Supplier<BlockEntityType<T>> blockEntityType) {

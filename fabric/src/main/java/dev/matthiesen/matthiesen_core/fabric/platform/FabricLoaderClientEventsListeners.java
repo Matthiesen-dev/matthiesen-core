@@ -22,6 +22,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * The FabricLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides client-side event handling for the Fabric mod loader.
+ */
 public final class FabricLoaderClientEventsListeners implements CommonLoaderClientEventsListeners {
     @Override
     public void onClientStopping(Runnable runnable) {

@@ -27,6 +27,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * The FabricLoaderRegistry class implements the CommonLoaderRegistry interface and provides registration functionalities for various game elements in the Fabric mod loader environment.
+ */
 public final class FabricLoaderRegistry implements CommonLoaderRegistry {
     @Override
     public <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(ResourceLocation id, Supplier<BlockEntityType<T>> blockEntityType) {

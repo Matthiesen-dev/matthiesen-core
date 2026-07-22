@@ -15,6 +15,12 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 import java.util.function.Consumer;
 
+/**
+ * The NeoForgeLoaderEventsListeners class implements the CommonLoaderEventsListeners interface and provides event handling
+ * functionalities for the NeoForge mod loader. It allows for the registration of various server-side events such as server
+ * starting, stopping, ticking, player joining, leaving, and item/block interaction results. This class serves as a bridge
+ * between the common event handling interface and the specific event system provided by NeoForge.
+ */
 public final class NeoForgeLoaderEventsListeners implements CommonLoaderEventsListeners {
     @Override
     public void onServerStarting(Consumer<MinecraftServer> serverConsumer) {

@@ -16,6 +16,11 @@ import net.neoforged.neoforge.common.NeoForge;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * The NeoForgeClientRegistryHelper class provides utility methods for registering client-side components such as screens,
+ * entity renderers, HUD elements, and key bindings in the NeoForge mod loader environment. It ensures that these registrations
+ * are performed at the appropriate time during the mod loading process by utilizing the event bus system provided by NeoForge.
+ */
 public final class NeoForgeClientRegistryHelper {
     private static volatile IEventBus modBus;
 

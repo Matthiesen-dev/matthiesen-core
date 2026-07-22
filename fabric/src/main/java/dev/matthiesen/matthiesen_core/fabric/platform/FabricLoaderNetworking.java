@@ -12,6 +12,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.function.BiConsumer;
 
+/**
+ * The FabricLoaderNetworking class implements the CommonLoaderNetworking interface and provides networking functionalities for the Fabric mod loader.
+ */
 public final class FabricLoaderNetworking implements CommonLoaderNetworking {
     @Override
     public <T extends CustomPacketPayload> void registerC2S(

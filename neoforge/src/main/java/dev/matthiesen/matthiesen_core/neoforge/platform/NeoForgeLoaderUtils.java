@@ -12,6 +12,13 @@ import net.neoforged.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 
+/**
+ * The NeoForgeLoaderUtils class implements the CommonLoaderUtils interface and provides utility methods for interacting with
+ * the NeoForge mod loader environment. It allows for retrieving the Minecraft server instance, checking if the environment
+ * is a development environment, verifying if a specific mod is loaded, obtaining game directories and configuration paths,
+ * determining the current environment (client or server), and accessing mod container information. This class serves as a
+ * bridge between the common utility interface and the specific functionalities provided by NeoForge.
+ */
 public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
     @Override
     public MinecraftServer getServer() {

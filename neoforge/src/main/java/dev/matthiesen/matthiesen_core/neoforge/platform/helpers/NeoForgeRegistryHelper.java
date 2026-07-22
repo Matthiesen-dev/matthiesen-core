@@ -21,6 +21,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
+/**
+ * The NeoForgeRegistryHelper class provides utility methods for registering various game elements such as blocks, items, block entities,
+ * sounds, creative mode tabs, criteria triggers, stats, menu types, features, data component types, and entity effects in the NeoForge
+ * mod loader environment. It manages deferred registration of these elements and ensures that they are registered at the appropriate
+ * time during the mod loading process.
+ */
 public final class NeoForgeRegistryHelper {
     private static final Map<String, DeferredRegister<?>> DEFERRED_REGISTERS = new ConcurrentHashMap<>();
     private static volatile IEventBus modBus;

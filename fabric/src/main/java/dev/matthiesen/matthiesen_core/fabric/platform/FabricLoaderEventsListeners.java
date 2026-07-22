@@ -13,6 +13,9 @@ import net.minecraft.world.InteractionResultHolder;
 
 import java.util.function.Consumer;
 
+/**
+ * The FabricLoaderEventsListeners class implements the CommonLoaderEventsListeners interface and provides server-side event handling for the Fabric mod loader.
+ */
 public final class FabricLoaderEventsListeners implements CommonLoaderEventsListeners {
     @Override
     public void onServerStarting(Consumer<MinecraftServer> serverConsumer) {

@@ -10,6 +10,9 @@ import net.minecraft.server.MinecraftServer;
 
 import java.nio.file.Path;
 
+/**
+ * The FabricLoaderUtils class implements the CommonLoaderUtils interface and provides utility methods for interacting with the Fabric mod loader environment.
+ */
 public final class FabricLoaderUtils implements CommonLoaderUtils {
     @Override
     public MinecraftServer getServer() {
