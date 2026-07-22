@@ -8,6 +8,9 @@ handle the platform-specific details.
 > Note: For regular users, This library does nothing on its own aside from setting up the core functionality for other mods to utilize. 
 > If you are not a mod developer, simply drop the mod in your `mods/` folder alongside the other mods that depend on it, and you are good to go.
  
+Matthiesen Core is the successor to [Matthiesen Lib](https://modrinth.com/mod/matthiesen-lib) and [Matthiesen Lib Api](https://modrinth.com/mod/matthiesen-lib-api), which 
+were two separate libraries that have now been combined into a single unified library mod, that provides a more streamlined and efficient experience for mod developers.
+ 
 ## Features
 
 Matthiesen Core provides a unified API for:
