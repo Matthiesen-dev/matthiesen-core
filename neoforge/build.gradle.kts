@@ -32,6 +32,7 @@ dependencies {
     compileOnly(libs.bundles.neoforgeCompileOnly)
     implementation(libs.bundles.neoforgeImplementation)
     modCompileOnly(libs.bundles.neoforgeModCompileOnly)
+    modRuntimeOnly(libs.bundles.neoforgeModRuntimeOnly)
     modImplementation(libs.bundles.neoforgeModImplementation)
     modImplementation(libs.bundles.neoforgeModImplementationNoTransitive) { isTransitive = false }
 

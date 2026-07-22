@@ -27,6 +27,7 @@ dependencies {
     compileOnly(libs.bundles.fabricCompileOnly)
     implementation(libs.bundles.fabricImplementation)
     modCompileOnly(libs.bundles.fabricModCompileOnly)
+    modRuntimeOnly(libs.bundles.fabricModRuntimeOnly)
     modImplementation(libs.bundles.fabricModImplementation)
     modImplementation(libs.bundles.fabricModImplementationNoTransitive) { isTransitive = false }
 

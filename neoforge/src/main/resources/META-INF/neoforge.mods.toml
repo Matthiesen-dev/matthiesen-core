@@ -13,11 +13,11 @@ ${mod_description}
 '''
 logoFile = "icon.png"
 
-#[[mixins]]
-#config = "matthiesen_core.mixins.json"
+[[mixins]]
+config = "matthiesen_core.mixins.json"
 
-#[[mixins]]
-#config = "matthiesen_core_neoforge.mixins.json"
+[[mixins]]
+config = "matthiesen_core_neoforge.mixins.json"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
@@ -31,4 +31,12 @@ modId = "neoforge"
 mandatory = true
 versionRange = "[21.1.182,)"
 ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "emberstextapi"
+type = "optional"
+mandatory = false
+versionRange = "[3.0.0,)"
+ordering = "AFTER"
 side = "BOTH"

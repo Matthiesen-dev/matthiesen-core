@@ -7,6 +7,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderU
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
+import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,7 @@ public final class MatthiesenCoreCommon {
             ServiceLoader.load(CommonLoaderRegistry.class).findFirst().orElseThrow();
     private static final CommonLoaderEventsListeners COMMON_EVENTS_LISTENERS =
             ServiceLoader.load(CommonLoaderEventsListeners.class).findFirst().orElseThrow();
+
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
             ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
 
@@ -64,6 +66,8 @@ public final class MatthiesenCoreCommon {
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
+        NetworkingManager.INSTANCE.initialize();
+
         TextParserRegistryManager.INSTANCE.initialize();
 
         CreativeModeTabSectionsManager.initialize();
@@ -225,5 +229,14 @@ public final class MatthiesenCoreCommon {
      */
     public void registerModToMetrics(String modId) {
         getCoreMetrics().registerModToMetrics(modId);
+    }
+
+    /**
+     * Retrieves the NetworkingManager instance. This instance is responsible for managing network communications within the application,
+     * allowing for the registration of packet types, sending and receiving packets, and handling network events.
+     * @return The singleton instance of the NetworkingManager, which can be used to register and manage network communications throughout the application.
+     */
+    public NetworkingManager getNetworkingManager() {
+        return NetworkingManager.INSTANCE;
     }
 }
