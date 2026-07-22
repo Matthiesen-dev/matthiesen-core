@@ -1,4 +1,4 @@
-# Matthiesen Core
+# Matthiesen Core [Work in Progress]
 
 Matthiesen Core is a library mod for NeoForge and Fabric that enables developers to create mods with a shared common codebase. 
 It provides a set of core functionalities and utilities that can be used across multiple mods, allowing for easier development and maintenance.
