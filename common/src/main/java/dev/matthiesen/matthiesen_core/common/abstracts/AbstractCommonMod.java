@@ -256,6 +256,15 @@ public abstract class AbstractCommonMod {
     }
 
     /**
+     * Retrieves the CreativeModeAugmentsManager instance. This instance is responsible for managing augmentations (item additions) to creative mode tabs.
+     *
+     * @return The singleton instance of the CreativeModeAugmentsManager, which can be used to register and retrieve creative tab item augmentations.
+     */
+    public CreativeModeAugmentsManager getCreativeModeAugmentsManager() {
+        return MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager();
+    }
+
+    /**
      * Static class that provides a MetricsProvider for the mod. This class extends AbstractMetricsProvider and is responsible for providing
      * metrics-related functionality for the mod, including error tracking and metric reporting. The MetricsProvider is initialized with the
      * mod ID and metrics token, and can be used to create an ErrorTracker and build a UniversalMetricContext for the mod. This allows the mod

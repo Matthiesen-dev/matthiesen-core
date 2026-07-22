@@ -17,6 +17,7 @@ import java.util.function.Consumer;
  * Multiple items can be registered for a single tab, and registrations can happen before or after
  * tab population, with late registrations being applied on demand.</p>
  */
+@SuppressWarnings("unused")
 public final class CreativeModeAugmentsManager {
 	private static final List<TabAugmentation> REGISTERED_AUGMENTATIONS = new CopyOnWriteArrayList<>();
 
