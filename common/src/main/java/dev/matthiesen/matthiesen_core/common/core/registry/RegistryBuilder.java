@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts;
+package dev.matthiesen.matthiesen_core.common.core.registry;
 
 import com.mojang.serialization.MapCodec;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
@@ -19,23 +19,23 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import java.util.function.Supplier;
 
 /**
- * The AbstractRegistryBuilder class provides a convenient and standardized way for mod developers to register various game
+ * The RegistryBuilder class provides a convenient and standardized way for mod developers to register various game
  * elements such as items, blocks, block entities, creative mode tabs, sound events, criteria triggers, statistics, menu types,
  * data component types, enchantment entity effects, and features. It serves as a base class that can be extended by specific
  * mod implementations to facilitate the registration process while ensuring consistency and compatibility across different platforms.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractRegistryBuilder {
+public class RegistryBuilder {
     private final String modId;
     private final CommonLoaderRegistry registry;
 
     /**
-     * Constructs a new AbstractRegistryBuilder for the specified mod ID. This constructor initializes the registry builder
+     * Constructs a new RegistryBuilder for the specified mod ID. This constructor initializes the registry builder
      * with the provided mod ID and retrieves the common registry instance from MatthiesenCoreCommon.
      * @param modId The mod ID for which this registry builder is being created. This mod ID will be used to generate unique
      *              ResourceLocation identifiers for registered items, blocks, and other game elements.
      */
-    protected AbstractRegistryBuilder(final String modId) {
+    public RegistryBuilder(final String modId) {
         this.modId = modId;
         this.registry = MatthiesenCoreCommon.INSTANCE.getCommonRegistry();
         MatthiesenCoreCommon.INSTANCE.createDebugLog("Creating registry builder for mod: " + modId);

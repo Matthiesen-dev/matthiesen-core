@@ -7,6 +7,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 
@@ -24,6 +25,11 @@ public final class MatthiesenCoreNeoForge {
 
     @EventBusSubscriber(modid = MatthiesenCoreCommon.MOD_ID)
     public static class ServerEventsSubscriber {
+
+        @SubscribeEvent
+        public static void onCommonSetup(FMLCommonSetupEvent event) {
+            event.enqueueWork(INSTANCE::onCommonServerSetup);
+        }
 
         @SubscribeEvent
         public static void onServerStarting(ServerStartingEvent event) {

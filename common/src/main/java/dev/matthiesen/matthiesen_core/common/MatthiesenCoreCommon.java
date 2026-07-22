@@ -8,10 +8,7 @@ import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotif
 import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
-import dev.matthiesen.matthiesen_core.common.core.registry.CommandsRegistryManager;
-import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
-import dev.matthiesen.matthiesen_core.common.core.registry.ServerEventsManager;
-import dev.matthiesen.matthiesen_core.common.core.registry.TextParserRegistryManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,6 +39,8 @@ public final class MatthiesenCoreCommon {
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
             ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
 
+    private RegistryBuilder internalRegistryBuilder;
+
     /**
      * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.
      * It is initialized lazily and is thread-safe, ensuring that only one instance exists throughout the lifecycle of the application.
@@ -69,10 +68,23 @@ public final class MatthiesenCoreCommon {
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         TextParserRegistryManager.INSTANCE.initialize();
 
+        CreativeModeTabSectionsManager.initialize();
+
         CorePlayerEvents.register(getPlayerEventsManager());
 
         initialized = true;
         createInfoLog("Initialized Common");
+    }
+
+    public void onCommonServerSetup() {
+        CreativeModeTabSectionsManager.runAutoRegistrations();
+    }
+
+    public RegistryBuilder getInternalRegistryBuilder() {
+        if (internalRegistryBuilder == null) {
+            internalRegistryBuilder = new RegistryBuilder(MOD_ID);
+        }
+        return internalRegistryBuilder;
     }
 
     /**
