@@ -16,6 +16,8 @@ import org.jetbrains.annotations.Contract;
 import java.util.Set;
 import java.util.concurrent.*;
 
+// TODO Upgrade to 0.28.0 https://github.com/faststats-dev/faststats-java/compare/0.27.1...0.28.0
+
 /**
  * UniversalMetricContext is a specialized context for collecting and submitting metrics data for a specific mod. It extends the SimpleContext from the FastStats library and provides mod-specific information such as the mod version and platform. This context is designed to be used with the UniversalMetrics implementation, which handles the actual collection and submission of metrics data. The UniversalMetricContext initializes the mod container based on the provided mod ID and ensures that the necessary services for metrics collection are set up correctly. It also overrides the getProjectName method to return a unique identifier for the mod, which is used in the metrics submission process to associate the collected data with the correct mod.
  * The Factory inner class provides a convenient way to create instances of UniversalMetricContext by accepting the mod ID and token as parameters. This allows for easy integration of metrics collection into mods by simply creating a new Factory instance with the appropriate mod ID and token, and then calling the create method to obtain a UniversalMetricContext instance ready for use with the UniversalMetrics implementation.
