@@ -63,9 +63,9 @@ public final class MatthiesenCoreCommon {
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
-        NetworkingManager.INSTANCE.initialize();
+        NetworkingManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
-        CreativeModeTabSectionsManager.initialize();
+        CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
         CorePlayerEvents.register(getPlayerEventsManager());
 
         initialized = true;
@@ -86,7 +86,7 @@ public final class MatthiesenCoreCommon {
      * Called during the common server setup phase. This method is responsible for running auto-registrations for creative mode tab sections.
      */
     public void onCommonServerSetup() {
-        CreativeModeTabSectionsManager.runAutoRegistrations();
+        CreativeModeTabSectionsManager.INSTANCE.runAutoRegistrations();
     }
 
     /**

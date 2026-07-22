@@ -54,7 +54,7 @@ public abstract class AbstractContainerScreenMixin {
 
             ResourceLocation creativeModeTabId = CreativeTabSectionHeaderItem.getCreativeModeTabId(slot.getItem());
             ResourceLocation sectionId = CreativeTabSectionHeaderItem.getSectionId(slot.getItem());
-            CreativeModeTabSectionsManager.SectionData sectionData = CreativeModeTabSectionsManager.getTabMetaData(creativeModeTabId, sectionId);
+            CreativeModeTabSectionsManager.SectionData sectionData = CreativeModeTabSectionsManager.INSTANCE.getTabMetaData(creativeModeTabId, sectionId);
 
             if (sectionData != null) {
                 int barWidth = 160;

@@ -94,7 +94,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      * @return A {@link Supplier} that provides the registered {@link CreativeModeTab} instance.
      */
     protected final Supplier<CreativeModeTab> registerSectionedCreativeTab(String name, Component title, Supplier<ItemStack> displayIcon, Consumer<CreativeModeTabSectionsManager.SectionBuilder> builderConsumer) {
-        CreativeModeTabSectionsManager.addAutoRegistration(modId, () -> registerCreativeModeTabSections(name, builderConsumer));
+        CreativeModeTabSectionsManager.INSTANCE.addAutoRegistration(modId, () -> registerCreativeModeTabSections(name, builderConsumer));
         return register(name, () -> newCreativeModeTabBuilder()
                 .title(title)
                 .icon(displayIcon)
@@ -114,7 +114,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      */
     protected final Supplier<CreativeModeTab> registerSectionedCreativeTab(ResourceLocation location, Component title, Supplier<ItemStack> displayIcon, Consumer<CreativeModeTabSectionsManager.SectionBuilder> builderConsumer) {
         var name = location.getPath();
-        CreativeModeTabSectionsManager.addAutoRegistration(modId, () -> registerCreativeModeTabSections(name, builderConsumer));
+        CreativeModeTabSectionsManager.INSTANCE.addAutoRegistration(modId, () -> registerCreativeModeTabSections(name, builderConsumer));
         return register(name, () -> newCreativeModeTabBuilder()
                 .title(title)
                 .icon(displayIcon)
@@ -129,7 +129,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      * @param builderConsumer A {@link Consumer} that configures the section builder for creative mode tab sections.
      */
     protected final void registerCreativeModeTabSections(String creativeModeTabId, Consumer<CreativeModeTabSectionsManager.SectionBuilder> builderConsumer) {
-        CreativeModeTabSectionsManager.registerCreativeModeTabSections(ResourceLocation.fromNamespaceAndPath(modId, creativeModeTabId), builderConsumer);
+        CreativeModeTabSectionsManager.INSTANCE.registerCreativeModeTabSections(ResourceLocation.fromNamespaceAndPath(modId, creativeModeTabId), builderConsumer);
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      * @return A list of {@link ItemStack} instances associated with the specified creative mode tab ID.
      */
     protected final List<ItemStack> getCreativeModeTabSectionItems(String creativeModeTabId) {
-        return CreativeModeTabSectionsManager.getTabSections(ResourceLocation.fromNamespaceAndPath(modId, creativeModeTabId))
+        return CreativeModeTabSectionsManager.INSTANCE.getTabSections(ResourceLocation.fromNamespaceAndPath(modId, creativeModeTabId))
                 .sections()
                 .values().
                 stream()

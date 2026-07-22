@@ -33,13 +33,13 @@ public class CreativeModeInventoryScreenMixin {
         if (creativeModeTab == null) return;
         ResourceLocation selectedTabId = BuiltInRegistries.CREATIVE_MODE_TAB.getKey(creativeModeTab);
         if (selectedTabId == null) return;
-        if (CreativeModeTabSectionsManager.hasTabSections(selectedTabId)) {
+        if (CreativeModeTabSectionsManager.INSTANCE.hasTabSections(selectedTabId)) {
             NonNullList<ItemStack> structuredItems = NonNullList.create();
-            Map<ResourceLocation, List<ItemStack>> sections = CreativeModeTabSectionsManager.getTabSections(selectedTabId).sections();
+            Map<ResourceLocation, List<ItemStack>> sections = CreativeModeTabSectionsManager.INSTANCE.getTabSections(selectedTabId).sections();
             if (sections == null) return;
             sections.entrySet().stream()
                     .sorted(Comparator.comparingInt((Map.Entry<ResourceLocation, List<ItemStack>> e) ->
-                                    CreativeModeTabSectionsManager.getTabSections(selectedTabId)
+                                    CreativeModeTabSectionsManager.INSTANCE.getTabSections(selectedTabId)
                                             .metadata()
                                             .get(e.getKey())
                                             .priority())

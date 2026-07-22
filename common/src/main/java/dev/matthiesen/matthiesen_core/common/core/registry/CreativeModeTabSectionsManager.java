@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * Usage:
  * <pre>
  * // Register creative mode tab sections for a specific creative mode tab
- * MatthiesenLibCreativeModeTabSectionsManager.registerCreativeModeTabSections(new ResourceLocation("modid", "creative_tab"), builder -> {
+ * CreativeModeTabSectionsManager.INSTANCE.registerCreativeModeTabSections(new ResourceLocation("modid", "creative_tab"), builder -> {
  *     builder.registerSection(new ResourceLocation("modid", "section1"), Component.literal("Section 1"), 100);
  *     builder.registerSection(new ResourceLocation("modid", "section2"), Component.literal("Section 2"), 50, meta -> {
  *         meta.setSectionTitleColor(0xFF0000);
@@ -33,32 +33,45 @@ import java.util.function.Consumer;
  */
 @SuppressWarnings("unused")
 public final class CreativeModeTabSectionsManager {
-    private static final Map<String, Runnable> autoRegistrations = new HashMap<>();
-    private static final Map<ResourceLocation, CreativeModeTabSectionRegistration> MOD_TAB_SECTIONS = new HashMap<>();
+    private final Map<String, Runnable> autoRegistrations = new HashMap<>();
+    private final Map<ResourceLocation, CreativeModeTabSectionRegistration> MOD_TAB_SECTIONS = new HashMap<>();
 
-    private static boolean autoRegistrationStarted = false;
+    /**
+     * Singleton instance of the CreativeModeTabSectionsManager. This instance is used to manage creative mode tab sections for all mods.
+     */
+    public static final CreativeModeTabSectionsManager INSTANCE = new CreativeModeTabSectionsManager();
+
+    private boolean autoRegistrationStarted = false;
 
     /**
      * Private constructor to prevent instantiation. This class is intended to be used as a static utility class for managing creative mode tab sections.
      */
     private CreativeModeTabSectionsManager() {}
 
+    private boolean initialized;
+    private MatthiesenCoreCommon modInstance;
+
     /**
      * Initializes the creative mode tab sections manager by invoking the initialization of the internal registry.
      */
-    public static void initialize() {}
+    public void initialize(MatthiesenCoreCommon modInstance) {
+        if (initialized) return;
+        initialized = true;
+        this.modInstance = modInstance;
+        modInstance.createInfoLog("Initializing CreativeModeTabSectionsManager");
+    }
 
     /**
      * Registers an auto-registration task for a specific mod ID. The provided task will be executed during the creative mode tab sections registration process.
      * @param modId The mod ID for which the auto-registration task is being registered.
      * @param task The Runnable task to be executed during the creative mode tab sections registration process.
      */
-    public static void addAutoRegistration(String modId, Runnable task) {
+    public void addAutoRegistration(String modId, Runnable task) {
         if (!autoRegistrationStarted) {
             autoRegistrations.put(modId, task);
             return;
         }
-        MatthiesenCoreCommon.INSTANCE.createInfoLog("Running Creative-mode tab sections registration for " + modId);
+        modInstance.createInfoLog("Running Creative-mode tab sections registration for " + modId);
         task.run();
     }
 
@@ -66,20 +79,20 @@ public final class CreativeModeTabSectionsManager {
      * Retrieves the map of auto-registration tasks for creative mode tab sections.
      * @return A map where the keys are mod IDs and the values are Runnable tasks to be executed during the creative mode tab sections registration process.
      */
-    public static Map<String, Runnable> getAutoRegistrations() {
+    public Map<String, Runnable> getAutoRegistrations() {
         return autoRegistrations;
     }
 
     /**
      * Executes all registered auto-registration tasks for creative mode tab sections. This method iterates through the registered tasks and runs each one, allowing mods to register their creative mode tab sections automatically.
      */
-    public static void runAutoRegistrations() {
-        var tasks = CreativeModeTabSectionsManager.getAutoRegistrations();
+    public void runAutoRegistrations() {
+        var tasks = getAutoRegistrations();
         if (!tasks.isEmpty()) {
             for (var entry : tasks.entrySet()) {
                 String modId = entry.getKey();
                 Runnable task = entry.getValue();
-                MatthiesenCoreCommon.INSTANCE.createInfoLog("Running Creative-mode tab sections registration for " + modId);
+                modInstance.createInfoLog("Running Creative-mode tab sections registration for " + modId);
                 task.run();
             }
         }
@@ -92,7 +105,7 @@ public final class CreativeModeTabSectionsManager {
      * @param creativeTabResource The ResourceLocation identifier of the creative mode tab for which sections are being registered.
      * @param builderConsumer A Consumer that accepts a SectionBuilder to define the sections and their metadata for the specified creative mode tab.
      */
-    public static void registerCreativeModeTabSections(ResourceLocation creativeTabResource, Consumer<SectionBuilder> builderConsumer) {
+    public void registerCreativeModeTabSections(ResourceLocation creativeTabResource, Consumer<SectionBuilder> builderConsumer) {
         SectionBuilder builder = new SectionBuilder();
         builderConsumer.accept(builder);
         MOD_TAB_SECTIONS.put(creativeTabResource, new CreativeModeTabSectionRegistration(builder.getSections(), builder.getMetadata()));
@@ -103,7 +116,7 @@ public final class CreativeModeTabSectionsManager {
      * @param creativeModeTabID The ResourceLocation identifier of the creative mode tab.
      * @return A CreativeModeTabSectionRegistration containing the sections and metadata for the specified creative mode tab, or null if no sections are registered.
      */
-    public static CreativeModeTabSectionRegistration getTabSections(ResourceLocation creativeModeTabID) {
+    public CreativeModeTabSectionRegistration getTabSections(ResourceLocation creativeModeTabID) {
         return MOD_TAB_SECTIONS.get(creativeModeTabID);
     }
 
@@ -112,7 +125,7 @@ public final class CreativeModeTabSectionsManager {
      * @param creativeModeTabId The ResourceLocation identifier of the creative mode tab.
      * @return true if the creative mode tab has registered sections, false otherwise.
      */
-    public static boolean hasTabSections(ResourceLocation creativeModeTabId) {
+    public boolean hasTabSections(ResourceLocation creativeModeTabId) {
         return MOD_TAB_SECTIONS.containsKey(creativeModeTabId);
     }
 
@@ -122,7 +135,7 @@ public final class CreativeModeTabSectionsManager {
      * @param sectionId The ResourceLocation identifier of the section within the creative mode tab.
      * @return The SectionData containing the metadata for the specified section, or null if the section does not exist.
      */
-    public static SectionData getTabMetaData(ResourceLocation creativeModeTabId, ResourceLocation sectionId) {
+    public SectionData getTabMetaData(ResourceLocation creativeModeTabId, ResourceLocation sectionId) {
         CreativeModeTabSectionRegistration registration = MOD_TAB_SECTIONS.get(creativeModeTabId);
         if (registration != null) {
             return registration.metadata().get(sectionId);

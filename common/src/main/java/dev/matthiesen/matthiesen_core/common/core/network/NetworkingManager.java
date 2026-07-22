@@ -36,10 +36,10 @@ public final class NetworkingManager {
      * This method should be called during the mod's initialization phase to ensure that the networking system is
      * ready for registering packet types and handling network communications.
      */
-    public void initialize() {
+    public void initialize(MatthiesenCoreCommon modInstance) {
         if (initialized) return;
         initialized = true;
-        MatthiesenCoreCommon.INSTANCE.createInfoLog("Initializing NetworkingManager");
+        modInstance.createInfoLog("Initializing NetworkingManager");
     }
 
     /**
