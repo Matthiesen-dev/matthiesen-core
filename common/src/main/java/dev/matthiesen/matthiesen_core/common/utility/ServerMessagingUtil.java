@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
  * trying to send messages when the server is not initialized.
  */
 @SuppressWarnings("unused")
-public class ServerMessagingUtil {
+public final class ServerMessagingUtil {
     private static MinecraftServer getServer() {
         return MatthiesenCoreCommon.INSTANCE.getCommonUtils().getServer();
     }

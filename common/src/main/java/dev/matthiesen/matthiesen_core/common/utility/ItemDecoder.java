@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.Blocks;
  * item and log an error.
  */
 @SuppressWarnings("unused")
-public class ItemDecoder {
+public final class ItemDecoder {
 
     /**
      * Default constructor for the ItemDecoder class. This constructor is used when creating a new instance of the ItemDecoder

@@ -11,14 +11,13 @@ import net.minecraft.world.inventory.MenuConstructor;
  * menu for a player using a SimpleMenuProvider.
  */
 @SuppressWarnings("unused")
-public class MenuProvider {
+public final class MenuProvider {
 
     /**
-     * Default constructor for the MenuProvider class. This constructor is used when creating a new instance of the
-     * MenuProvider class. Since all methods in this class are static, there is no need to create an instance of the class
-     * to use its methods.
+     * Default constructor for MenuProvider. This constructor is private to prevent instantiation, as this class is intended
+     * to be used as a utility class with static methods only.
      */
-    public MenuProvider() {}
+    private MenuProvider() {}
 
     /**
      * Creates a SimpleMenuProvider from a MenuConstructor and a title. This is used to avoid having to duplicate code

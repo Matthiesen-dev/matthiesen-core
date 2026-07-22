@@ -23,7 +23,7 @@ import net.minecraft.sounds.SoundSource;
  * </pre>
  */
 @SuppressWarnings("unused")
-public class SoundsPlayer {
+public final class SoundsPlayer {
     private final SoundEvent soundEvent;
     private final SoundSource soundSource = SoundSource.MASTER;
     private Float volume = 1.0F;

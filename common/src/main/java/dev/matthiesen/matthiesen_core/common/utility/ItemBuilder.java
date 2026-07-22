@@ -23,7 +23,7 @@ import java.util.stream.Stream;
  * the final ItemStack. After calling build(), the ItemBuilder should not be used anymore, as it may cause unexpected behavior.
  */
 @SuppressWarnings("unused")
-public class ItemBuilder {
+public final class ItemBuilder {
     private final ItemStack stack;
 
     /**

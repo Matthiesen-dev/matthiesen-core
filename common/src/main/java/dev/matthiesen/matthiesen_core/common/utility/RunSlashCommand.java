@@ -11,12 +11,12 @@ import net.minecraft.server.level.ServerPlayer;
  * making it safe for server-only projects that should not depend on the MatthiesenLib mod facade.</p>
  */
 @SuppressWarnings("unused")
-public class RunSlashCommand {
+public final class RunSlashCommand {
     /**
      * Default constructor for RunSlashCommand. This constructor is protected so the common-layer convenience
      * wrapper can extend this class while preventing normal instantiation.
      */
-    protected RunSlashCommand() {}
+    private RunSlashCommand() {}
 
     private static MinecraftServer getServer() {
         return MatthiesenCoreCommon.INSTANCE.getCommonUtils().getServer();

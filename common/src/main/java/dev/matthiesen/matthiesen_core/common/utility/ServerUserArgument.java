@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.playerdata;
+package dev.matthiesen.matthiesen_core.common.utility;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
