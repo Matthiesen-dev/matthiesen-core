@@ -66,7 +66,8 @@ public final class MatthiesenCoreCommon {
         NetworkingManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
-        CorePlayerEvents.register(getPlayerEventsManager());
+
+        CorePlayerEvents.register(INSTANCE);
 
         initialized = true;
         createInfoLog("Initialized Common");

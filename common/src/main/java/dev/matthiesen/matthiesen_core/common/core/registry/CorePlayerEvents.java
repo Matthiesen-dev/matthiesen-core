@@ -14,8 +14,8 @@ public final class CorePlayerEvents {
     /**
      * Registers the player event listeners for the mod. This method sets up a listener for player join events, ensuring that when a player joins the server, their saved player data is verified. The listener is registered with the PlayerEventsManager of the MatthiesenCoreCommon instance, using the mod's unique identifier (MOD_ID) to associate the listener with this specific mod. This allows for modular and organized event handling within the Minecraft server environment.
      */
-    public static void register(PlayerEventsManager eventsManager) {
-        eventsManager.registerListener(MatthiesenCoreCommon.MOD_ID, new PlayerEventListener() {
+    public static void register(MatthiesenCoreCommon modInstance) {
+        modInstance.getPlayerEventsManager().registerListener(MatthiesenCoreCommon.MOD_ID, new PlayerEventListener() {
             @Override
             public void onPlayerJoin(ServerPlayer player) {
                 SavedPlayerData.verifyPlayerData(player);
