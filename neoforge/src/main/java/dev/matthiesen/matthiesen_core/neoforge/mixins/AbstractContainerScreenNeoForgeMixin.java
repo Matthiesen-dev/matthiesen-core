@@ -24,7 +24,7 @@ public abstract class AbstractContainerScreenNeoForgeMixin {
     )
     private void skipSectionHeaderHoverHighlight(
             GuiGraphics guiGraphics, Slot slot, int x, int y, float partialTick, CallbackInfo ci) {
-        if (slot != null && slot.getItem().getItem() instanceof CreativeTabSectionHeaderItem) {
+        if (slot != null && CreativeTabSectionHeaderItem.isSectionMarkerStack(slot.getItem())) {
             ci.cancel();
         }
     }

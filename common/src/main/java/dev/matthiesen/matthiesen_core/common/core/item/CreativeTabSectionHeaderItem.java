@@ -2,57 +2,80 @@ package dev.matthiesen.matthiesen_core.common.core.item;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
+import dev.matthiesen.matthiesen_core.common.utility.ItemBuilder;
 
 /**
- * This class is used to create section headers and placeholders for creative mode tabs. It allows for the creation of ItemStacks
- * that represent section headers and placeholders, and provides methods to extract the section ID and creative mode tab ID from these ItemStacks.
+ * Utility for creative tab section marker stacks.
+ *
+ * <p>Markers use a vanilla barrier stack with custom data and custom model data so no custom
+ * item registration is required. This keeps the system safe for server-only installations while
+ * still allowing client-side model overrides.</p>
  */
-public final class CreativeTabSectionHeaderItem extends Item {
+public final class CreativeTabSectionHeaderItem {
+    public static final int MARKER_MODEL_DATA = 2047001;
+
     private static final String SECTION_ID_KEY = "SectionID";
     private static final String CREATIVE_MODE_TAB_ID = "CreativeModeTabID";
     private static final String ROLE_KEY = "SectionRole";
     private static final String ROLE_HEADER = "header";
     private static final String ROLE_PLACEHOLDER = "placeholder";
 
-    /**
-     * Used by the mixin to identify section rows and extract custom section data.
-     */
-    public CreativeTabSectionHeaderItem() {
-        super(new Properties().stacksTo(1));
-    }
+    private CreativeTabSectionHeaderItem() {}
 
     /**
      * Used by the mixin to identify section rows and extract custom section data.
-     * @param item the Item to create a header stack for
      * @param creativeModeTabId the ResourceLocation of the CreativeModeTab this section belongs to
      * @param sectionId the ResourceLocation of the section this header represents
      * @return an ItemStack representing the section header
      */
-    public static ItemStack createHeaderStack(Item item, ResourceLocation creativeModeTabId, ResourceLocation sectionId) {
-        ItemStack stack = new ItemStack(item);
+    public static ItemStack createHeaderStack(ResourceLocation creativeModeTabId, ResourceLocation sectionId) {
         CompoundTag tag = new CompoundTag();
         tag.putString(CREATIVE_MODE_TAB_ID, creativeModeTabId.toString());
         tag.putString(SECTION_ID_KEY, sectionId.toString());
         tag.putString(ROLE_KEY, ROLE_HEADER);
-        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-        return stack;
+
+        return new ItemBuilder(Items.BARRIER)
+                .setModelData(MARKER_MODEL_DATA)
+                .setCustomData(CustomData.of(tag))
+                .hideAdditional()
+                .setCustomName(Component.empty())
+                .build();
     }
 
     /**
      * Used by the mixin to identify section rows and extract custom section data.
-     * @param item the Item to create a placeholder stack for
      * @return an ItemStack representing a placeholder for the section header
      */
-    public static ItemStack createPlaceholderStack(Item item) {
-        ItemStack stack = new ItemStack(item);
+    public static ItemStack createPlaceholderStack() {
         CompoundTag tag = new CompoundTag();
         tag.putString(ROLE_KEY, ROLE_PLACEHOLDER);
-        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-        return stack;
+
+        return new ItemBuilder(Items.BARRIER)
+                .setModelData(MARKER_MODEL_DATA)
+                .setCustomData(CustomData.of(tag))
+                .hideAdditional()
+                .setCustomName(Component.empty())
+                .build();
+    }
+
+    /**
+     * Checks whether an ItemStack is a section header marker managed by this utility.
+     *
+     * @param stack the stack to inspect
+     * @return true when the stack is a tagged creative tab section marker
+     */
+    public static boolean isSectionMarkerStack(ItemStack stack) {
+        if (stack.isEmpty() || stack.getItem() != Items.BARRIER) {
+            return false;
+        }
+
+        String role = getRole(stack);
+        return ROLE_HEADER.equals(role) || ROLE_PLACEHOLDER.equals(role);
     }
 
     /**

@@ -34,7 +34,7 @@ public abstract class AbstractContainerScreenMixin {
             )
     )
     private void skipSectionHeaderHoverHighlight(GuiGraphics guiGraphics, int i, int j, int k) {
-        if (hoveredSlot != null && hoveredSlot.getItem().getItem() instanceof CreativeTabSectionHeaderItem) {
+        if (hoveredSlot != null && CreativeTabSectionHeaderItem.isSectionMarkerStack(hoveredSlot.getItem())) {
             return;
         }
         AbstractContainerScreen.renderSlotHighlight(guiGraphics, i, j, k);
@@ -42,7 +42,7 @@ public abstract class AbstractContainerScreenMixin {
 
     @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
     private void drawSectionBanner(GuiGraphics guiGraphics, Slot slot, CallbackInfo info) {
-        if ((Object) this instanceof CreativeModeInventoryScreen && slot.getItem().getItem() instanceof CreativeTabSectionHeaderItem) {
+        if ((Object) this instanceof CreativeModeInventoryScreen && CreativeTabSectionHeaderItem.isSectionMarkerStack(slot.getItem())) {
             info.cancel();
 
             if (CreativeTabSectionHeaderItem.isPlaceholder(slot.getItem())) {
@@ -94,7 +94,7 @@ public abstract class AbstractContainerScreenMixin {
     private void hideSectionHeaderTooltip(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
         if ((Object) this instanceof CreativeModeInventoryScreen
                 && hoveredSlot != null
-                && hoveredSlot.getItem().getItem() instanceof CreativeTabSectionHeaderItem) {
+                && CreativeTabSectionHeaderItem.isSectionMarkerStack(hoveredSlot.getItem())) {
             ci.cancel();
         }
     }

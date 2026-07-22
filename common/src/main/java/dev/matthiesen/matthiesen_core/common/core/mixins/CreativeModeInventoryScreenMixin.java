@@ -23,7 +23,7 @@ import java.util.Map;
 public class CreativeModeInventoryScreenMixin {
     @Inject(method = "slotClicked", at = @At("HEAD"), cancellable = true)
     private void blockSectionHeaderSlotClicks(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
-        if (slot != null && slot.getItem().getItem() instanceof CreativeTabSectionHeaderItem) {
+        if (slot != null && CreativeTabSectionHeaderItem.isSectionMarkerStack(slot.getItem())) {
             ci.cancel();
         }
     }
@@ -47,14 +47,10 @@ public class CreativeModeInventoryScreenMixin {
                     )
                     .forEach(entry -> {
                         ResourceLocation sectionId = entry.getKey();
-                        ItemStack headerStack = CreativeTabSectionHeaderItem.createHeaderStack(
-                                CreativeModeTabSectionsManager.CREATIVE_TAB_SECTION_HEADER_ITEM.get(),
-                                selectedTabId,
-                                sectionId
-                        );
+                        ItemStack headerStack = CreativeTabSectionHeaderItem.createHeaderStack(selectedTabId, sectionId);
                         structuredItems.add(headerStack);
                         for (int i = 0; i < 8; i++) {
-                            structuredItems.add(CreativeTabSectionHeaderItem.createPlaceholderStack(CreativeModeTabSectionsManager.CREATIVE_TAB_SECTION_HEADER_ITEM.get()));
+                            structuredItems.add(CreativeTabSectionHeaderItem.createPlaceholderStack());
                         }
                         structuredItems.addAll(entry.getValue());
                         while (structuredItems.size() % 9 != 0) {
