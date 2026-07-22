@@ -3,7 +3,7 @@ package dev.matthiesen.matthiesen_core.neoforge.permissions;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.permissions.Permission;
 import dev.matthiesen.matthiesen_core.common.api.permissions.PermissionValidator;
-import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

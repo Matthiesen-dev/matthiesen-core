@@ -9,7 +9,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderU
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
-import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

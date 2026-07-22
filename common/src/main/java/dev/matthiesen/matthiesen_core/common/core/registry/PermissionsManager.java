@@ -1,9 +1,10 @@
-package dev.matthiesen.matthiesen_core.common.core.permissions;
+package dev.matthiesen.matthiesen_core.common.core.registry;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.permissions.Permission;
 import dev.matthiesen.matthiesen_core.common.api.permissions.PermissionValidator;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
+import dev.matthiesen.matthiesen_core.common.core.permissions.VanillaPermissionValidator;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

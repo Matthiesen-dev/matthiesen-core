@@ -5,10 +5,10 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderE
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
-import dev.matthiesen.matthiesen_core.common.core.events.CorePlayerEvents;
+import dev.matthiesen.matthiesen_core.common.core.registry.CorePlayerEvents;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
-import dev.matthiesen.matthiesen_core.common.core.permissions.PermissionsManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,20 +57,15 @@ public final class MatthiesenCoreCommon {
         if (initialized) return;
 
         MatthiesenCoreMetrics.initialize();
-
         WEBHOOK_NOTIFIER_SERVICE.initialize();
 
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
-
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         NetworkingManager.INSTANCE.initialize();
-
         TextParserRegistryManager.INSTANCE.initialize();
-
         CreativeModeTabSectionsManager.initialize();
-
         CorePlayerEvents.register(getPlayerEventsManager());
 
         initialized = true;

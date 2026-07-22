@@ -1,9 +1,8 @@
-package dev.matthiesen.matthiesen_core.common.core.events;
+package dev.matthiesen.matthiesen_core.common.core.registry;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.events.PlayerEventListener;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
-import dev.matthiesen.matthiesen_core.common.core.registry.PlayerEventsManager;
 import net.minecraft.server.level.ServerPlayer;
 
 /**
