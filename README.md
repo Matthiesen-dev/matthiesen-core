@@ -63,8 +63,8 @@ matthiesen_core_version=1.x.x
 
 | Release Type | Version Badge                                                                                                                                  |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| Latest Release | [![Latest Release](https://maven.matthiesen.dev/api/badge/latest/releases/dev/matthiesen/matthiesen-core-common?name=matthiesen-core-common)](https://maven.matthiesen.dev/#/releases/dev/matthiesen/matthiesen-core-common) |
-| Snapshot | [![Latest Snapshot](https://maven.matthiesen.dev/api/badge/latest/snapshots/dev/matthiesen/matthiesen-core-common?name=matthiesen-core-common)](https://maven.matthiesen.dev/#/snapshots/dev/matthiesen/matthiesen-core-common) |
+| Latest Release | [![Latest Release](https://maven.matthiesen.dev/api/badge/latest/releases/dev/matthiesen/matthiesen-core-common?name=matthiesen-core-common)](https://maven.matthiesen.dev/#/releases/dev/matthiesen/) |
+| Snapshot | [![Latest Snapshot](https://maven.matthiesen.dev/api/badge/latest/snapshots/dev/matthiesen/matthiesen-core-common?name=matthiesen-core-common)](https://maven.matthiesen.dev/#/snapshots/dev/matthiesen/) |
 
 **Step 3**: Add the dependency to your `build.gradle.kts` file
 
