@@ -148,9 +148,10 @@ public final class ExampleModCommon extends AbstractCommonMod {
 **AbstractCommonClientMod**: Extend the `AbstractCommonClientMod` class in your client mod codebase to leverage Matthiesen Core's client-specific features. This class provides a foundation for your client-side mod, allowing you to focus on implementing your mod's unique client-side features while Matthiesen Core handles the platform-specific details.
 
 ```java
-package com.example.mymod;
+package com.example.mymod.client;
 
 import dev.matthiesen.common.matthiesen_lib_api.abstracts.AbstractCommonClientMod;
+import com.example.mymod.ExampleModCommon;
 
 public final class ExampleModCommonClient extends AbstractCommonClientMod {
     public static final ExampleModCommonClient INSTANCE = new ExampleModCommonClient();
