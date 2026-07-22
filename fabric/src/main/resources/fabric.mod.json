@@ -12,8 +12,10 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.github_releases": "${github_url}"
-      }
+        "modmenu.github_releases": "${github_url}",
+        "modmenu.discord": "${discord_url}"
+      },
+      "badges": ["library"]
     }
   },
   "environment": "*",
