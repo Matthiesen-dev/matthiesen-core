@@ -123,7 +123,7 @@ side = "BOTH"
 ```java
 package com.example.mymod;
 
-import dev.matthiesen.common.matthiesen_lib_api.abstracts.AbstractCommonMod;
+import dev.matthiesen.matthiesen_core.common.abstracts.AbstractCommonMod;
 import dev.matthiesen.libs.faststats.Token;
 
 public final class ExampleModCommon extends AbstractCommonMod {
@@ -155,7 +155,7 @@ public final class ExampleModCommon extends AbstractCommonMod {
 ```java
 package com.example.mymod.client;
 
-import dev.matthiesen.common.matthiesen_lib_api.abstracts.AbstractCommonClientMod;
+import dev.matthiesen.matthiesen_core.common.abstracts.AbstractCommonClientMod;
 import com.example.mymod.ExampleModCommon;
 
 public final class ExampleModCommonClient extends AbstractCommonClientMod {
