@@ -6,11 +6,15 @@ import dev.matthiesen.matthiesen_core.common.core.client.EntityRendererManager;
 import dev.matthiesen.matthiesen_core.common.core.client.HudManager;
 import dev.matthiesen.matthiesen_core.common.core.client.KeybindingsManager;
 import dev.matthiesen.matthiesen_core.common.core.client.ScreenManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ServiceLoader;
 
 @SuppressWarnings("unused")
 public final class MatthiesenCoreCommonClient {
+    private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
+
     private static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =
             ServiceLoader.load(CommonLoaderClientEventsListeners.class).findFirst().orElseThrow();
 
@@ -19,15 +23,12 @@ public final class MatthiesenCoreCommonClient {
      */
     public static final MatthiesenCoreCommonClient INSTANCE = new MatthiesenCoreCommonClient();
 
-    private final MatthiesenCoreCommon COMMON_MOD;
-
     private boolean initialized;
 
     /**
-     * Initializes the MatthiesenCoreCommonClient instance and sets the reference to the common mod instance.
+     * Initializes the MatthiesenCoreCommonClient instance.
      */
     public MatthiesenCoreCommonClient() {
-        COMMON_MOD = MatthiesenCoreCommon.INSTANCE;
     }
 
     /**
@@ -45,7 +46,7 @@ public final class MatthiesenCoreCommonClient {
         HudManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         KeybindingsManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
 
-        COMMON_MOD.createInfoLog("Initialized Common Client");
+        LOGGER.info("Initialized Common Client");
     }
 
     /**
@@ -58,7 +59,7 @@ public final class MatthiesenCoreCommonClient {
      * @param message the message to log
      */
     public void createInfoLog(String message) {
-        COMMON_MOD.createInfoLog(message);
+        LOGGER.info(message);
     }
 
     /**
@@ -66,7 +67,7 @@ public final class MatthiesenCoreCommonClient {
      * @param message the message to log
      */
     public void createErrorLog(String message) {
-        COMMON_MOD.createErrorLog(message);
+        LOGGER.error(message);
     }
 
     /**
@@ -75,7 +76,7 @@ public final class MatthiesenCoreCommonClient {
      * @param throwable the throwable associated with the error, providing additional context for debugging
      */
     public void createErrorLog(String message, Throwable throwable) {
-        COMMON_MOD.createErrorLog(message, throwable);
+        LOGGER.error(message, throwable);
     }
 
     /**
