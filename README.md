@@ -59,7 +59,12 @@ repositories {
 matthiesen_core_version=1.x.x
 ```
 
-> Note: Replace `1.x.x` with the latest version of Matthiesen Core. You can find the latest version on [Matthiesen Dev Maven](https://maven.matthiesen.dev).
+> Note: Replace `1.x.x` with the latest version of Matthiesen Core. You can find the latest version on [Matthiesen Dev Maven](https://maven.matthiesen.dev) or see the table below for the latest version.
+
+| Release Type | Version Badge                                                                                                                                  |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| Latest Release | [![Latest Release](https://maven.matthiesen.dev/api/badge/latest/releases/dev/matthiesen/matthiesen-core-common?name=matthiesen-core-common)](https://maven.matthiesen.dev/#/releases/dev/matthiesen/matthiesen-core-common) |
+| Snapshot | [![Latest Snapshot](https://maven.matthiesen.dev/api/badge/latest/snapshots/dev/matthiesen/matthiesen-core-common?name=matthiesen-core-common)](https://maven.matthiesen.dev/#/snapshots/dev/matthiesen/matthiesen-core-common) |
 
 **Step 3**: Add the dependency to your `build.gradle.kts` file
 
