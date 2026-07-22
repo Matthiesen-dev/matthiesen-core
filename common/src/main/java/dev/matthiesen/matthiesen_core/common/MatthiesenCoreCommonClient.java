@@ -62,6 +62,23 @@ public final class MatthiesenCoreCommonClient {
     }
 
     /**
+     * Creates an error log message using the common mod's logger.
+     * @param message the message to log
+     */
+    public void createErrorLog(String message) {
+        COMMON_MOD.createErrorLog(message);
+    }
+
+    /**
+     * Creates an error log message using the common mod's logger, including an associated throwable for debugging purposes.
+     * @param message the message to log
+     * @param throwable the throwable associated with the error, providing additional context for debugging
+     */
+    public void createErrorLog(String message, Throwable throwable) {
+        COMMON_MOD.createErrorLog(message, throwable);
+    }
+
+    /**
      * Returns the CommonLoaderClientEventsListeners instance for handling platform-specific client events.
      * @return the CommonLoaderClientEventsListeners instance
      */

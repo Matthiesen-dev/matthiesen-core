@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.KeybindMapping;
 import dev.matthiesen.matthiesen_core.common.api.client.KeybindRegistrar;
@@ -46,7 +46,7 @@ public final class KeybindingsManager {
 		initialized = true;
 		clientEventsListeners.applyKeyBindingRegistrations(this::applyKeybindRegistrations);
 		clientEventsListeners.endClientTick(this::tickKeybinds);
-		MatthiesenCoreCommon.INSTANCE.createInfoLog("Initialized KeybindingsManager");
+		MatthiesenCoreCommonClient.INSTANCE.createInfoLog("Initialized KeybindingsManager");
 	}
 
 	/**
@@ -127,7 +127,7 @@ public final class KeybindingsManager {
 			try {
 				registration.keybind().onClientTick();
 			} catch (Throwable throwable) {
-				MatthiesenCoreCommon.INSTANCE.createErrorLog("Exception while handling keybind tick for " + registration.name(), throwable);
+				MatthiesenCoreCommonClient.INSTANCE.createErrorLog("Exception while handling keybind tick for " + registration.name(), throwable);
 			}
 		}
 	}

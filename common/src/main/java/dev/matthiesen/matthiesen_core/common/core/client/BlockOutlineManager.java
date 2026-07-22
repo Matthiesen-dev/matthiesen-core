@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineListener;
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineRegistrar;
@@ -40,7 +40,7 @@ public final class BlockOutlineManager {
         }
         initialized = true;
         clientEventsListeners.applyBlockHighlightOverrides(this::notifyListeners);
-        MatthiesenCoreCommon.INSTANCE.createInfoLog("Initialized BlockOutlineManager");
+        MatthiesenCoreCommonClient.INSTANCE.createInfoLog("Initialized BlockOutlineManager");
     }
 
     /**

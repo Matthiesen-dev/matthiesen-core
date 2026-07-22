@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.HudOrdering;
 import dev.matthiesen.matthiesen_core.common.api.client.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.NeoForgeVanillaGuiLayers;
@@ -78,7 +78,7 @@ public final class HudManager {
 		}
 		initialized = true;
 		clientEventsListeners.applyHudRegistrations(this::applyHudLayerRegistrations);
-		MatthiesenCoreCommon.INSTANCE.createInfoLog("Initialized HudManager");
+		MatthiesenCoreCommonClient.INSTANCE.createInfoLog("Initialized HudManager");
 	}
 
 	/**
@@ -136,7 +136,7 @@ public final class HudManager {
 			try {
 				registration.layer().render(drawContext, tickCounter);
 			} catch (Throwable throwable) {
-				MatthiesenCoreCommon.INSTANCE.createErrorLog("Exception while rendering HUD layer " + registration.key(), throwable);
+				MatthiesenCoreCommonClient.INSTANCE.createErrorLog("Exception while rendering HUD layer " + registration.key(), throwable);
 			}
 		}
 	}
@@ -194,7 +194,7 @@ public final class HudManager {
 
 	private synchronized void warnMissingOrderTarget(ResourceLocation missingTarget) {
 		if (WARNED_MISSING_ORDER_TARGETS.add(missingTarget)) {
-			MatthiesenCoreCommon.INSTANCE.createErrorLog("HUD layer ordering target not found: " + missingTarget + ". Rendering at edge of stack instead.");
+			MatthiesenCoreCommonClient.INSTANCE.createErrorLog("HUD layer ordering target not found: " + missingTarget + ". Rendering at edge of stack instead.");
 		}
 	}
 
