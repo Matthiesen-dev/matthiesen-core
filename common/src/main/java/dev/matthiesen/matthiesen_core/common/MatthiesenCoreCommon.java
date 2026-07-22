@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ServiceLoader;
 
-@SuppressWarnings("unused")
 public final class MatthiesenCoreCommon {
     /**
      * The unique identifier for the mod, used for registration and identification purposes. This constant is used throughout
@@ -78,6 +77,19 @@ public final class MatthiesenCoreCommon {
         createInfoLog("Initialized Common");
     }
 
+    /**
+     * Registers a mod to the metrics system. This method allows mods to be registered with the metrics system, enabling the collection of
+     * usage data and other relevant metrics for the registered mod.
+     * @param modId The unique identifier of the mod to be registered. This should be a string that uniquely identifies the mod within the
+     *              application, and is used to associate collected metrics with the correct mod.
+     */
+    public void registerModToMetrics(String modId) {
+        getCoreMetrics().registerModToMetrics(modId);
+    }
+
+    /**
+     * Called during the common server setup phase. This method is responsible for running auto-registrations for creative mode tab sections.
+     */
     public void onCommonServerSetup() {
         CreativeModeTabSectionsManager.runAutoRegistrations();
     }
@@ -127,6 +139,7 @@ public final class MatthiesenCoreCommon {
      *                providing enough context to understand the issue.
      * @param throwable The throwable associated with the error, which provides the stack trace and additional context for
      *                  debugging. This allows developers to trace the source of the error and understand
+     *                  the circumstances under which the error occurred.
      */
     public void createErrorLog(String message, Throwable throwable) {
         LOGGER.error(message, throwable);
@@ -219,16 +232,6 @@ public final class MatthiesenCoreCommon {
      */
     public MatthiesenCoreMetrics getCoreMetrics() {
         return MatthiesenCoreMetrics.INSTANCE;
-    }
-
-    /**
-     * Registers a mod to the metrics system. This method allows mods to be registered with the metrics system, enabling the collection of
-     * usage data and other relevant metrics for the registered mod.
-     * @param modId The unique identifier of the mod to be registered. This should be a string that uniquely identifies the mod within the
-     *              application, and is used to associate collected metrics with the correct mod.
-     */
-    public void registerModToMetrics(String modId) {
-        getCoreMetrics().registerModToMetrics(modId);
     }
 
     /**
