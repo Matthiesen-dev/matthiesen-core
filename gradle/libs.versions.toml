@@ -41,7 +41,7 @@ emberstextapiNeoForge = { group = "net.tysontheember.emberstextapi", name = "emb
 [bundles]
 commonCompileOnly = ["sponge-mixin"]
 commonImplementation = ["faststats"]
-commonModCompileOnly = []
+commonModCompileOnly = ["emberstextapiFabric"]
 commonModImplementation = []
 commonModImplementationNoTransitive = []
 

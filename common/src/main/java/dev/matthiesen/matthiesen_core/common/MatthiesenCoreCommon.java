@@ -64,7 +64,7 @@ public final class MatthiesenCoreCommon {
         PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
         NetworkingManager.INSTANCE.initialize();
-        TextParserRegistryManager.INSTANCE.initialize();
+        TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.initialize();
         CorePlayerEvents.register(getPlayerEventsManager());
 

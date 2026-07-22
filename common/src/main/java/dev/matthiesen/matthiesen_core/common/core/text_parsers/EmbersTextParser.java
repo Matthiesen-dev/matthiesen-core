@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.text_parsers;
+package dev.matthiesen.matthiesen_core.common.core.text_parsers;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
@@ -13,7 +13,7 @@ import net.tysontheember.emberstextapi.util.StyleUtil;
 
 import java.util.List;
 
-public final class EmbersTextParserNeoForge implements TextParser {
+public final class EmbersTextParser implements TextParser {
     @Override
     public String type() {
         return BuiltInTextParsers.EMBERS.getId();
@@ -34,7 +34,7 @@ public final class EmbersTextParserNeoForge implements TextParser {
             }
             return result;
         }
-        MatthiesenCoreCommon.INSTANCE.createErrorLog("EmbersTextParserNeoForge.parse() called but EmbersTextAPI is not loaded. Falling back to vanilla parser.");
+        MatthiesenCoreCommon.INSTANCE.createErrorLog("EmbersTextParserFabric.parse() called but EmbersTextAPI is not loaded. Falling back to vanilla parser.");
         return TextParserRegistryManager.VANILLA_PARSER.parse(text);
     }
 }

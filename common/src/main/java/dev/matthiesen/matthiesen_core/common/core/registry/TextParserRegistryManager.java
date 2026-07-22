@@ -3,6 +3,7 @@ package dev.matthiesen.matthiesen_core.common.core.registry;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
+import dev.matthiesen.matthiesen_core.common.core.text_parsers.EmbersTextParser;
 import dev.matthiesen.matthiesen_core.common.core.text_parsers.VanillaTextParser;
 
 import java.util.Map;
@@ -25,18 +26,33 @@ public final class TextParserRegistryManager {
      */
     public static final TextParser VANILLA_PARSER = new VanillaTextParser();
 
+    /**
+     * The Embers text parser, which is conditionally registered based on the presence of the Embers mod. This parser is
+     * used for advanced text formatting and features provided by the Embers mod. If the Embers mod is not loaded, this parser
+     * will not be registered and will remain null. The presence of this parser can be checked using the isTextParserRegistered
+     * method with the BuiltInTextParsers.EMBERS type.
+     */
+    public static volatile TextParser EMBERS_PARSER;
+
     private static final Map<String, TextParser> REGISTERED_PARSERS = new ConcurrentHashMap<>();
 
     private boolean initialized;
+    private MatthiesenCoreCommon modInstance;
 
     /**
      * Initializes the Text Parser Registry Manager. This method should be called once during the mod's initialization phase.
      */
-    public void initialize() {
+    public void initialize(MatthiesenCoreCommon instance) {
         if (initialized) return;
         initialized = true;
-        MatthiesenCoreCommon.INSTANCE.createInfoLog("Initializing Text Parser Registry Manager");
+        modInstance = instance;
+        modInstance.createInfoLog("Initializing Text Parser Registry Manager");
         registerTextParser(VANILLA_PARSER);
+
+        if (modInstance.getCommonUtils().isModLoaded(BuiltInTextParsers.EMBERS.getId())) {
+            EMBERS_PARSER = new EmbersTextParser();
+            registerTextParser(EMBERS_PARSER);
+        }
     }
 
     /**
@@ -48,7 +64,7 @@ public final class TextParserRegistryManager {
         if (isTextParserRegistered(name)) return;
         parser.initialize();
         REGISTERED_PARSERS.put(name, parser);
-        MatthiesenCoreCommon.INSTANCE.createInfoLog("Registered text parser: " + name);
+        modInstance.createInfoLog("Registered text parser: " + name);
     }
 
     /**
@@ -59,7 +75,7 @@ public final class TextParserRegistryManager {
     public TextParser getTextParser(String type) {
         TextParser parser = REGISTERED_PARSERS.get(type);
         if (parser == null) {
-            MatthiesenCoreCommon.INSTANCE.createErrorLog("Text parser with name '" + type + "' is not registered. Falling back to Vanilla text parser.");
+            modInstance.createErrorLog("Text parser with name '" + type + "' is not registered. Falling back to Vanilla text parser.");
             parser = VANILLA_PARSER;
         }
         return parser;

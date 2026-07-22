@@ -1,11 +1,9 @@
 package dev.matthiesen.matthiesen_core.neoforge;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
 import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
 import dev.matthiesen.matthiesen_core.neoforge.platform.NeoForgeLoaderNetworking;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
-import dev.matthiesen.matthiesen_core.neoforge.text_parsers.EmbersTextParserNeoForge;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.IEventBus;
@@ -31,10 +29,6 @@ public final class MatthiesenCoreNeoForge {
         INSTANCE.createInfoLog("Loading for NeoForge Mod Loader");
         NeoForgeRegistryHelper.init(modBus);
         INSTANCE.initialize();
-
-        if (INSTANCE.getCommonUtils().isModLoaded(BuiltInTextParsers.EMBERS.getId())) {
-            INSTANCE.getTextParserManager().registerTextParser(new EmbersTextParserNeoForge());
-        }
     }
 
     @EventBusSubscriber(modid = MatthiesenCoreCommon.MOD_ID)
