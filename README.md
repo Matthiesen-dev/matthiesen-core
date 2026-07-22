@@ -27,15 +27,148 @@ Matthiesen Core provides a unified API for:
 
 - [Ember's Text API](https://modrinth.com/mod/embers-text-api) - Use fancy text effects anywhere, including custom fonts!
 
-## Docs
-
-Documentation for this mod can be found at [mods.matthiesen.dev](https://mods.matthiesen.dev/matthiesen-core/)
-
 ## Version Compatibility
 
 | Minecraft Version | Mod Version |
 |-------------------|-------------|
 | 1.21.1            | 1.x.x       |
+
+## Developer Quick Start
+
+Matthiesen Core development versions and sources are available from [Matthiesen Dev Maven](https://maven.matthiesen.dev).
+
+### Gradle
+
+**Step 1**: Add the Maven repository to your `build.gradle.kts` file
+
+```kotlin
+repositories {
+    maven("https://maven.matthiesen.dev/releases") {
+        name = "devMatthiesenMaven-releases"
+    }
+    // For Snapshot versions, also include the snapshots repository
+    maven("https://maven.matthiesen.dev/snapshots") {
+        name = "devMatthiesenMaven-snapshots"
+    }
+}
+```
+
+**Step 2**: Add the version property to your `gradle.properties` file
+
+```properties
+matthiesen_core_version=1.x.x
+```
+
+> Note: Replace `1.x.x` with the latest version of Matthiesen Core. You can find the latest version on [Matthiesen Dev Maven](https://maven.matthiesen.dev).
+
+**Step 3**: Add the dependency to your `build.gradle.kts` file
+
+```kotlin
+// In common/build.gradle.kts
+dependencies {
+    modImplementation("dev.matthiesen:matthiesen-core-common:${property("matthiesen_core_version")}") {
+        isTransitive = false
+    }
+}
+
+// In fabric/build.gradle.kts
+dependencies {
+    modImplementation("dev.matthiesen:matthiesen-core-fabric:${property("matthiesen_core_version")}") {
+        isTransitive = false
+    }
+}
+
+// In neoforge/build.gradle.kts
+dependencies {
+    modImplementation("dev.matthiesen:matthiesen-core-neoforge:${property("matthiesen_core_version")}") {
+        isTransitive = false
+    }
+}
+```
+
+**Step 4**: Loader-specific Dependency Setup
+
+For Fabric and NeoForge, you will need to add the appropriate loader-specific dependency to your mod metadata file (e.g., `fabric.mod.json` for Fabric or `neoforge.mods.toml` for NeoForge). This ensures that the correct version of Matthiesen Core is loaded alongside your mod.
+
+**Fabric Example** (`fabric.mod.json`):
+
+```json
+{
+  "depends": {
+    "matthiesen_core": ">=1.x.x"
+  }
+}
+```
+
+**NeoForge Example** (`neoforge.mods.toml`):
+
+```toml
+[[dependencies.yourmodid]]
+modId = "matthiesen_core"
+type = "required"
+versionRange = "[1.x.x,)"
+ordering = "AFTER"
+side = "BOTH"
+```
+
+**Step 5**: Sync your project and set up your common mod codebase to use Matthiesen Core's APIs for content registration, event handling, networking, and other features.
+
+**AbstractCommonMod**: Extend the `AbstractCommonMod` class in your common mod codebase to leverage Matthiesen Core's core functionalities. This class provides a foundation for your mod, allowing you to focus on implementing your mod's unique features while Matthiesen Core handles the platform-specific details.
+
+```java
+package com.example.mymod;
+
+import dev.matthiesen.common.matthiesen_lib_api.abstracts.AbstractCommonMod;
+import dev.matthiesen.libs.faststats.Token;
+
+public final class ExampleModCommon extends AbstractCommonMod {
+    public static final String MOD_ID = "examplemod";
+    public static final String MOD_NAME = "Example Mod";
+    public static @Token final String METRICS_TOKEN = ""; // Provided by FastStats.dev (Optional, can be null to disable metrics for your mod)
+
+    public static final ExampleModCommon INSTANCE = new ExampleModCommon();
+
+    private ExampleModCommon() {
+        super(MOD_ID, MOD_NAME);
+    }
+
+    @Override
+    public @Nullable @Token String getMetricsToken() {
+        return METRICS_TOKEN;
+    }
+    
+    @Override
+    public void initialize() {
+        super.initialize();
+        createInfoLog("Initializing Example Mod Common...");
+    }
+}
+```
+
+**AbstractCommonClientMod**: Extend the `AbstractCommonClientMod` class in your client mod codebase to leverage Matthiesen Core's client-specific features. This class provides a foundation for your client-side mod, allowing you to focus on implementing your mod's unique client-side features while Matthiesen Core handles the platform-specific details.
+
+```java
+package com.example.mymod;
+
+import dev.matthiesen.common.matthiesen_lib_api.abstracts.AbstractCommonClientMod;
+
+public final class ExampleModCommonClient extends AbstractCommonClientMod {
+    public static final ExampleModCommonClient INSTANCE = new ExampleModCommonClient();
+    
+    private ExampleModCommonClient() {
+        super(ExampleModCommon.INSTANCE);
+    }
+
+    @Override
+    public void initialize() {
+        createInfoLog("Initializing Example Mod Common Client logic...");
+    }
+}
+```
+
+## Further Reading
+
+Documentation for this mod can be found at [mods.matthiesen.dev](https://mods.matthiesen.dev/matthiesen-core/)
 
 ## FastStats Metrics
 
