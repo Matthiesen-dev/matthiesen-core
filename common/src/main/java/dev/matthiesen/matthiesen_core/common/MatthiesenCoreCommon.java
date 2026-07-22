@@ -74,6 +74,7 @@ public final class MatthiesenCoreCommon {
         NetworkingManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
+        CreativeModeAugmentsManager.INSTANCE.initialize(INSTANCE);
 
         CorePlayerEvents.register(INSTANCE);
 
@@ -245,5 +246,14 @@ public final class MatthiesenCoreCommon {
      */
     public NetworkingManager getNetworkingManager() {
         return NetworkingManager.INSTANCE;
+    }
+
+    /**
+     * Retrieves the CreativeModeAugmentsManager instance. This instance is responsible for managing augmentations (item additions) to creative mode tabs.
+     *
+     * @return The singleton instance of the CreativeModeAugmentsManager, which can be used to register and retrieve creative tab item augmentations.
+     */
+    public CreativeModeAugmentsManager getCreativeModeAugmentsManager() {
+        return CreativeModeAugmentsManager.INSTANCE;
     }
 }

@@ -8,6 +8,7 @@ import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 import dev.matthiesen.matthiesen_core.fabric.permissions.FabricPermissionValidator;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
@@ -31,6 +32,8 @@ import java.util.function.Supplier;
  * The FabricLoaderRegistry class implements the CommonLoaderRegistry interface and provides registration functionalities for various game elements in the Fabric mod loader environment.
  */
 public final class FabricLoaderRegistry implements CommonLoaderRegistry {
+    private boolean creativeModeAugmentsHookInstalled;
+
     @Override
     public <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(ResourceLocation id, Supplier<BlockEntityType<T>> blockEntityType) {
         return registerSupplier(BuiltInRegistries.BLOCK_ENTITY_TYPE, id, blockEntityType);
@@ -96,6 +99,25 @@ public final class FabricLoaderRegistry implements CommonLoaderRegistry {
     @Override
     public CreativeModeTab.Builder newCreativeTabBuilder() {
         return FabricItemGroup.builder();
+    }
+
+    @Override
+    public synchronized void initializeCreativeModeTabAugmentations() {
+        if (creativeModeAugmentsHookInstalled) {
+            return;
+        }
+
+        // Register one global handler and fan out by tab key via the augments manager.
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((tabKey, entries) -> {
+            if (tabKey == null) {
+                return;
+            }
+            BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(tabKey).ifPresent(key ->
+                    entries.acceptAll(MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().getAugmentationsForTab(key))
+            );
+        });
+
+        creativeModeAugmentsHookInstalled = true;
     }
 
     @Override

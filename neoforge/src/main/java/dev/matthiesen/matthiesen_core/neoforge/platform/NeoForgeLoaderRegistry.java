@@ -98,6 +98,11 @@ public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
     }
 
     @Override
+    public void initializeCreativeModeTabAugmentations() {
+        NeoForgeRegistryHelper.initializeCreativeModeTabAugmentations();
+    }
+
+    @Override
     public void registerCommands(Consumer<CommandRegistry> registrationHandler) {
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) ->
                 registrationHandler.accept((CoreCommand command) -> command.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection()))

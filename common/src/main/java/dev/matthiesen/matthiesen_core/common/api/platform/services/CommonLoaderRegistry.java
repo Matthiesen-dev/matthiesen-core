@@ -231,6 +231,14 @@ public interface CommonLoaderRegistry {
     CreativeModeTab.Builder newCreativeTabBuilder();
 
     /**
+     * Installs platform listeners that append augmentations from the creative tab augments manager.
+     *
+     * <p>This should be invoked during common initialization so the platform can populate each tab
+     * from {@code CreativeModeAugmentsManager} when tab contents are built.</p>
+     */
+    void initializeCreativeModeTabAugmentations();
+
+    /**
      * Register commands for the mod. This method allows you to register commands that can be executed by players or the server console. Commands are
      * used to perform various actions in the game, such as giving items, teleporting players, or changing game settings. By registering commands, you
      * can provide players with additional functionality and control over the game, enhancing their experience and allowing for more complex interactions

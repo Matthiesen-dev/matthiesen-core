@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
 
 import com.mojang.serialization.MapCodec;
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -15,10 +16,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 /**
@@ -29,6 +32,7 @@ import java.util.function.Supplier;
  */
 public final class NeoForgeRegistryHelper {
     private static final Map<String, DeferredRegister<?>> DEFERRED_REGISTERS = new ConcurrentHashMap<>();
+    private static final AtomicBoolean CREATIVE_AUGMENTS_HOOK_INSTALLED = new AtomicBoolean(false);
     private static volatile IEventBus modBus;
 
     private NeoForgeRegistryHelper() {}
@@ -55,6 +59,20 @@ public final class NeoForgeRegistryHelper {
 
     public static <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(ResourceLocation id, Supplier<T> tab) {
         return registerDeferred(Registries.CREATIVE_MODE_TAB, id, tab);
+    }
+
+    public static void initializeCreativeModeTabAugmentations() {
+        IEventBus eventBus = modBus;
+        if (eventBus == null) {
+            throw new IllegalStateException("NeoForgeRegistryHelper has not been initialized yet");
+        }
+        if (!CREATIVE_AUGMENTS_HOOK_INSTALLED.compareAndSet(false, true)) {
+            return;
+        }
+
+        eventBus.addListener((BuildCreativeModeTabContentsEvent event) ->
+                event.acceptAll(MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().getAugmentationsForTab(event.getTabKey()))
+        );
     }
 
     public static <T extends CriterionTrigger<?>> Supplier<T> registerCriteriaTriggers(ResourceLocation id, Supplier<T> criterionTrigger) {
