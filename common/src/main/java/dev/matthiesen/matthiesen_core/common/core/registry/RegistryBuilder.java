@@ -25,7 +25,7 @@ import java.util.function.Supplier;
  * mod implementations to facilitate the registration process while ensuring consistency and compatibility across different platforms.
  */
 @SuppressWarnings("unused")
-public class RegistryBuilder {
+public final class RegistryBuilder {
     private final String modId;
     private final CommonLoaderRegistry registry;
 

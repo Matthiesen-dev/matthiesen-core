@@ -39,8 +39,6 @@ public final class MatthiesenCoreCommon {
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
             ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
 
-    private RegistryBuilder internalRegistryBuilder;
-
     /**
      * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.
      * It is initialized lazily and is thread-safe, ensuring that only one instance exists throughout the lifecycle of the application.
@@ -78,13 +76,6 @@ public final class MatthiesenCoreCommon {
 
     public void onCommonServerSetup() {
         CreativeModeTabSectionsManager.runAutoRegistrations();
-    }
-
-    public RegistryBuilder getInternalRegistryBuilder() {
-        if (internalRegistryBuilder == null) {
-            internalRegistryBuilder = new RegistryBuilder(MOD_ID);
-        }
-        return internalRegistryBuilder;
     }
 
     /**
