@@ -13,6 +13,10 @@ import net.tysontheember.emberstextapi.util.StyleUtil;
 
 import java.util.List;
 
+/**
+ * EmbersTextParser is a text parser implementation that uses the EmbersTextAPI to parse and format text.
+ * It converts text with markup into Minecraft components, applying styles such as bold, italic, and color.
+ */
 public final class EmbersTextParser implements TextParser {
     @Override
     public String type() {

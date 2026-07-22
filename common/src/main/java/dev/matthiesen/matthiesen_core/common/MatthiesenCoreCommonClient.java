@@ -11,7 +11,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ServiceLoader;
 
-@SuppressWarnings("unused")
+/**
+ * MatthiesenCoreCommonClient is a singleton class that provides client-side functionalities and services for the Matthiesen Lib mod.
+ * It manages initialization, logging, and access to various client-side managers and services used throughout the application.
+ * This class is designed to be thread-safe and ensures that only one instance exists throughout the lifecycle of the application.
+ * It provides methods for logging and access to client-side utilities and managers. It also handles the initialization of various
+ * managers responsible for screens, entity renderers, block outlines, HUD layers, and keybindings. The class is intended to be used
+ * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to client-side functionalities and services.
+ */
 public final class MatthiesenCoreCommonClient {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
 

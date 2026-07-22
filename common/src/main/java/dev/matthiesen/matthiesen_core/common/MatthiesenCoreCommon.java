@@ -15,6 +15,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ServiceLoader;
 
+/**
+ * MatthiesenCoreCommon is a singleton class that provides core functionalities and services for the Matthiesen Lib mod.
+ * It manages initialization, logging, metrics, and access to various managers and services used throughout the application.
+ * This class is designed to be thread-safe and ensures that only one instance exists throughout the lifecycle of the application.
+ * It provides methods for logging, error tracking, and access to common utilities and registries. It also handles the initialization
+ * of various managers responsible for permissions, commands, events, networking, and text parsing. The class is intended to be used
+ * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to core functionalities and services.
+ */
 public final class MatthiesenCoreCommon {
     /**
      * The unique identifier for the mod, used for registration and identification purposes. This constant is used throughout
