@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts;
+package dev.matthiesen.matthiesen_core.common.core.metric;
 
 import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Metrics;
