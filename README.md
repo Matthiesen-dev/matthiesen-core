@@ -25,7 +25,8 @@ Matthiesen Core provides a unified API for:
 
 ## Optional Dependencies
 
-- [Ember's Text API](https://modrinth.com/mod/embers-text-api) - Use fancy text effects anywhere, including custom fonts!
+- [Ember's Text API](https://modrinth.com/mod/embers-text-api)
+- [Fabric Permissions API](https://modrinth.com/mod/fabric-permissions-api) (Fabric only)
 
 ## Version Compatibility
 
