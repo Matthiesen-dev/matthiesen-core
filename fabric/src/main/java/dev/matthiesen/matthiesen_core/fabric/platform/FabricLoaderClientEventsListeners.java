@@ -1,6 +1,10 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.client.*;
+import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
+import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.client.HudManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;

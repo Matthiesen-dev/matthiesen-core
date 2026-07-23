@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.client;
+package dev.matthiesen.matthiesen_core.common.api.client.hud;
 
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;

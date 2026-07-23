@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.platform;
+package dev.matthiesen.matthiesen_core.common.api.platform.loader;
 
 /**
  * This interface represents a mod container, which provides information about a mod, such as its name, version, and platform

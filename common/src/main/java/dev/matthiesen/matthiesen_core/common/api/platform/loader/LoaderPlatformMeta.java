@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.platform;
+package dev.matthiesen.matthiesen_core.common.api.platform.loader;
 
 /**
  * This enum represents the different platforms that the mod can run on. Each platform has a label and a mod ID associated

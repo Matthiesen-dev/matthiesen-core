@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.client;
+package dev.matthiesen.matthiesen_core.common.api.client.hud;
 
 /**
  * Relative insertion order for HUD layers.

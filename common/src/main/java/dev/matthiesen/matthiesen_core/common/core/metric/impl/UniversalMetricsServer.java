@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core.metric.impl;
 
 import com.google.gson.JsonObject;
-import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonMetricsCompatLayer;
 
 /**

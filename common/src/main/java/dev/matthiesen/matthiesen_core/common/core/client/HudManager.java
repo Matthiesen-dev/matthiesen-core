@@ -1,9 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
-import dev.matthiesen.matthiesen_core.common.api.client.HudOrdering;
-import dev.matthiesen.matthiesen_core.common.api.client.HudRegistrar;
-import dev.matthiesen.matthiesen_core.common.api.client.NeoForgeVanillaGuiLayers;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.NeoForgeVanillaGuiLayers;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;

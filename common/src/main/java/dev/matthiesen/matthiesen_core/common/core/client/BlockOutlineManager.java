@@ -1,9 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
-import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
-import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineListener;
-import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
+import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
+import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 
 import java.util.List;

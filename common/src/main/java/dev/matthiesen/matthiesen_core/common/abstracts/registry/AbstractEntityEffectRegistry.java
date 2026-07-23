@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.abstracts.registry;
 
 import com.mojang.serialization.MapCodec;
-import dev.matthiesen.matthiesen_core.common.api.platform.SupportedRegistries;
+import dev.matthiesen.matthiesen_core.common.api.platform.registry.SupportedRegistries;
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 

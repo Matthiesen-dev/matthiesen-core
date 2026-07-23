@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.client;
+package dev.matthiesen.matthiesen_core.common.api.client.block_outline;
 
 /**
  * Utility interface for registering block outline listeners.

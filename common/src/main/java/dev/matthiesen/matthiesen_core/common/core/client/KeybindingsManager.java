@@ -1,9 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
-import dev.matthiesen.matthiesen_core.common.api.client.KeyMappingRegistrar;
-import dev.matthiesen.matthiesen_core.common.api.client.KeybindMapping;
-import dev.matthiesen.matthiesen_core.common.api.client.KeybindRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeybindMapping;
+import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeybindRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import net.minecraft.client.KeyMapping;
 

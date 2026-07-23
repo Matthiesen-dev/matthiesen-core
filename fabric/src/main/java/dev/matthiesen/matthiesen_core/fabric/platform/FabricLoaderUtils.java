@@ -1,8 +1,8 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
-import dev.matthiesen.matthiesen_core.common.api.platform.Environment;
-import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
-import dev.matthiesen.matthiesen_core.common.api.platform.LoaderPlatformMeta;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
 import net.fabricmc.loader.api.FabricLoader;

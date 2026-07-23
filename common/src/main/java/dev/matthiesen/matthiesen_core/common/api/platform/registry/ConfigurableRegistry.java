@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.platform;
+package dev.matthiesen.matthiesen_core.common.api.platform.registry;
 
 import java.util.function.Supplier;
 

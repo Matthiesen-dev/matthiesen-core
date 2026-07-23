@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.abstracts.registry;
 
-import dev.matthiesen.matthiesen_core.common.api.platform.ConfigurableRegistry;
-import dev.matthiesen.matthiesen_core.common.api.platform.SupportedRegistries;
+import dev.matthiesen.matthiesen_core.common.api.platform.registry.ConfigurableRegistry;
+import dev.matthiesen.matthiesen_core.common.api.platform.registry.SupportedRegistries;
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
 
 import java.util.function.Supplier;

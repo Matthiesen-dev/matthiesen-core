@@ -9,7 +9,7 @@ import dev.matthiesen.libs.faststats.internal.PlatformLoggerFactory;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.events.ServerEventListener;
-import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonMetricsCompatLayer;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Contract;

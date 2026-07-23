@@ -1,8 +1,8 @@
 package dev.matthiesen.matthiesen_core.common.api.platform.services;
 
-import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineListener;
-import dev.matthiesen.matthiesen_core.common.api.client.HudRegistrar;
-import dev.matthiesen.matthiesen_core.common.api.client.KeyMappingRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

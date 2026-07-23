@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.platform;
+package dev.matthiesen.matthiesen_core.common.api.platform.loader;
 
 /**
  * An enumeration representing the different environments in which the mod can run. This is used to differentiate between
