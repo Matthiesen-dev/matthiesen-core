@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.config;
+package dev.matthiesen.matthiesen_core.common.utility.config;
 
 import com.google.gson.*;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
