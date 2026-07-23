@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core.data.fakeplayer;
 
 import com.mojang.authlib.GameProfile;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.ChatType;

@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
 
 import com.mojang.serialization.MapCodec;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;

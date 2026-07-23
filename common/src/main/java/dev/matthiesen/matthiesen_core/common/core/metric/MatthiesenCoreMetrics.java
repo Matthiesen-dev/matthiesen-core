@@ -4,7 +4,7 @@ import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Metrics;
 import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.libs.faststats.data.Metric;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;
 

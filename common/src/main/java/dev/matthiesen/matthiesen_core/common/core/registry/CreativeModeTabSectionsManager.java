@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.registry;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

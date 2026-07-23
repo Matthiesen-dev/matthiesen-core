@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeybindMapping;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeybindRegistrar;

@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.utility.player_data;
 
 import com.mojang.authlib.GameProfile;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
 import dev.matthiesen.matthiesen_core.common.core.data.fakeplayer.FakePlayerFactory;
 import net.minecraft.server.MinecraftServer;

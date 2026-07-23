@@ -2,7 +2,7 @@ package dev.matthiesen.matthiesen_core.common.core.discord.no_op;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookClient;
 import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessage;
-import dev.matthiesen.matthiesen_core.common.exceptions.DiscordWebhookException;
+import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookException;
 
 /**
  * A no-operation implementation of the WebhookClient interface. This class provides a placeholder implementation that

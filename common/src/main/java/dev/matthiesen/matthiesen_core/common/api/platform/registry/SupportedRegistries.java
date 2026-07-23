@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.platform.registry;
 
 import com.mojang.serialization.MapCodec;
-import dev.matthiesen.matthiesen_core.common.abstracts.registry.AbstractRegistry;
+import dev.matthiesen.matthiesen_core.common.registry.AbstractRegistry;
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;

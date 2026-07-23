@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts;
+package dev.matthiesen.matthiesen_core.common.utility;
 
 import dev.matthiesen.matthiesen_core.common.api.permissions.Permission;
 import dev.matthiesen.matthiesen_core.common.api.permissions.PermissionLevel;

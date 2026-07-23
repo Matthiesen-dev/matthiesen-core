@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.fabric;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import net.fabricmc.api.ClientModInitializer;
 
 /**

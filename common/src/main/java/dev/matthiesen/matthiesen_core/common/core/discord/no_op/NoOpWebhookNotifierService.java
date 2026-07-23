@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.discord.no_op;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierInstance;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 

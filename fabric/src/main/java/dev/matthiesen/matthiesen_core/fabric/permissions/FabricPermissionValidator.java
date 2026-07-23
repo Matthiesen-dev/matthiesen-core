@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.fabric.permissions;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.permissions.Permission;
 import dev.matthiesen.matthiesen_core.common.api.permissions.PermissionValidator;
 import me.lucko.fabric.api.permissions.v0.Permissions;

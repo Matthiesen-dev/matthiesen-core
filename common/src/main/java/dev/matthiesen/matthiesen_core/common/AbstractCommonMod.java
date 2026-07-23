@@ -1,11 +1,11 @@
-package dev.matthiesen.matthiesen_core.common.abstracts;
+package dev.matthiesen.matthiesen_core.common;
 
 import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Token;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.metric.UniversalMetricProvider;
 import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;

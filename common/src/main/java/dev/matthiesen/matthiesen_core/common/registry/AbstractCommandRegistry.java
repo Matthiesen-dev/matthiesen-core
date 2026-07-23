@@ -1,6 +1,6 @@
-package dev.matthiesen.matthiesen_core.common.abstracts.registry;
+package dev.matthiesen.matthiesen_core.common.registry;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 
 /**

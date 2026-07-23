@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts.registry;
+package dev.matthiesen.matthiesen_core.common.registry;
 
 import com.mojang.serialization.MapCodec;
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.SupportedRegistries;

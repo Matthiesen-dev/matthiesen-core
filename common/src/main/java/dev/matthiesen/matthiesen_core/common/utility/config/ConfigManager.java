@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.utility.config;
 
 import com.google.gson.*;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

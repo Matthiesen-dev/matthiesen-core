@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.registry;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
 import dev.matthiesen.matthiesen_core.common.core.text_parsers.EmbersTextParser;

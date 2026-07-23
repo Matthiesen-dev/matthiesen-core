@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common;
+package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.client.BlockOutlineManager;

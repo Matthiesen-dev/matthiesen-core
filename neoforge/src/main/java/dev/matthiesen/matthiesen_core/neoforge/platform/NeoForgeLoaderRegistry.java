@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import com.mojang.serialization.MapCodec;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;

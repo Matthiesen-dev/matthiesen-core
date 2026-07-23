@@ -1,7 +1,7 @@
-package dev.matthiesen.matthiesen_core.common.abstracts;
+package dev.matthiesen.matthiesen_core.common;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.core.client.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

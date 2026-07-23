@@ -2,7 +2,7 @@ package dev.matthiesen.matthiesen_core.common.core.metric.impl;
 
 import com.google.gson.JsonObject;
 import dev.matthiesen.libs.faststats.SimpleMetrics;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 
 /**

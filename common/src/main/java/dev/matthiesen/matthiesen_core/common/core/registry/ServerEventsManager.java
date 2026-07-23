@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.registry;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.events.ServerEventListener;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 

@@ -2,7 +2,7 @@ package dev.matthiesen.matthiesen_core.common.api.discord;
 
 import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessage;
 import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessageBuilder;
-import dev.matthiesen.matthiesen_core.common.exceptions.DiscordWebhookException;
+import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookException;
 
 import java.util.function.Consumer;
 

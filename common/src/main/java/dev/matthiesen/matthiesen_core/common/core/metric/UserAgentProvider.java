@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core.metric;
 
 import dev.matthiesen.libs.faststats.SdkInfo;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 
 /**
  * Provides a custom user agent for the FastStats SDK, including the mod name and version.

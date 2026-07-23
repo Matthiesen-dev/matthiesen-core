@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.NeoForgeVanillaGuiLayers;

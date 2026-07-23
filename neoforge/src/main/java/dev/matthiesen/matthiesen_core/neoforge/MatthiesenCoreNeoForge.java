@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.neoforge;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
 import dev.matthiesen.matthiesen_core.neoforge.platform.NeoForgeLoaderNetworking;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;

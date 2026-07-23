@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import net.minecraft.client.gui.screens.MenuScreens;

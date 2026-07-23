@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common;
+package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;

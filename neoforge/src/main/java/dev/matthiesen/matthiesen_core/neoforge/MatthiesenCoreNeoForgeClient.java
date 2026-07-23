@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge;
 
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.neoforge.platform.NeoForgeLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeClientRegistryHelper;
 import net.minecraft.client.Minecraft;
