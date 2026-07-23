@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.utility;
+package dev.matthiesen.matthiesen_core.common.utility.item;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;

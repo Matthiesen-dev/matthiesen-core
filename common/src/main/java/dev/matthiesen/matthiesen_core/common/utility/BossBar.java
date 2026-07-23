@@ -14,7 +14,7 @@ import net.minecraft.world.BossEvent;
  * of the boss bar for players in a PlayerList.
  */
 @SuppressWarnings("unused")
-public class BossBar {
+public final class BossBar {
     private final Builder builder;
 
     /**

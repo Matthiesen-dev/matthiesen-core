@@ -14,7 +14,7 @@ import java.util.List;
  * table. After calling build(), the ChatTableBuilder should not be used anymore, as it may cause unexpected behavior.
  */
 @SuppressWarnings("unused")
-public class ChatTableBuilder {
+public final class ChatTableBuilder {
     private final String title;
     private final List<Entry> entries = new ArrayList<>();
     private final Formatting formatting;

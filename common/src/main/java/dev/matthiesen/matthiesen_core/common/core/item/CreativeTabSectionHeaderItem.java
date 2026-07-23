@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
-import dev.matthiesen.matthiesen_core.common.utility.ItemBuilder;
+import dev.matthiesen.matthiesen_core.common.utility.item.ItemBuilder;
 
 /**
  * Utility for creative tab section marker stacks.

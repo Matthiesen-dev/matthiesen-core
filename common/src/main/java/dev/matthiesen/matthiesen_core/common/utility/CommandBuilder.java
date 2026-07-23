@@ -41,7 +41,7 @@ import java.util.function.Predicate;
  * The builder is mutable and designed for one-time configuration during command registration.
  */
 @SuppressWarnings("unused")
-public class CommandBuilder {
+public final class CommandBuilder {
     private LiteralArgumentBuilder<CommandSourceStack> base;
 
     /**
