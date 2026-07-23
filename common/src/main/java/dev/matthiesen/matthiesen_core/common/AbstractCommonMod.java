@@ -177,22 +177,6 @@ public abstract class AbstractCommonMod {
     }
 
     /**
-     * Retrieves the PlayerEventsManager instance. The PlayerEventsManager is responsible for managing player event listeners within the application,
-     * @return The singleton instance of the PlayerEventsManager, which can be used to register and manage player event listeners throughout the application.
-     */
-    public PlayerEventsManager getPlayerEventsManager() {
-        return MatthiesenCoreCommon.INSTANCE.getPlayerEventsManager();
-    }
-
-    /**
-     * Retrieves the ServerEventsManager instance. The ServerEventsManager is responsible for managing server event listeners within the application,
-     * @return The singleton instance of the ServerEventsManager, which can be used to register and manage server event listeners throughout the application.
-     */
-    public ServerEventsManager getServerEventsManager() {
-        return MatthiesenCoreCommon.INSTANCE.getServerEventsManager();
-    }
-
-    /**
      * Retrieves the loaded Webhook notifier service. This service is responsible for sending notifications to Discord webhooks.
      * If no implementation is found, a no-op implementation is returned, which does not perform any actions.
      * @return The loaded Webhook notifier service, or a no-op implementation if none is found. This service can be used to send

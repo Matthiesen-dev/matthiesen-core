@@ -16,7 +16,7 @@ were two separate libraries that have now been combined into a single unified li
 Matthiesen Core provides a unified API for:
 
 - **Content Registration**: Register blocks, items, entities, and other game content in a platform-agnostic way.
-- **Event Handling**: Listen to and handle game events across different platforms.
+- **Event Handling**: Listen to and handle game events across different platforms. See [docs/platform-events.md](docs/platform-events.md) for the full Platform Events reference.
 - **Networking**: Send and receive network packets between the client and server.
 - **Configuration Management**: Manage mod configurations and settings in a consistent manner.
 - **Utility Functions**: Access a variety of utility functions for common tasks, such as logging, resource management, and more.

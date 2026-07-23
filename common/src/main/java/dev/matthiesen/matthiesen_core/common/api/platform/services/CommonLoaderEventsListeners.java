@@ -55,12 +55,26 @@ public interface CommonLoaderEventsListeners {
     void onServerStarting(Consumer<MinecraftServer> serverConsumer);
 
     /**
+     * Called when the server has fully started and is ready to accept player connections.
+     * @param serverConsumer The consumer that will be called when the server has started. It receives the MinecraftServer
+     *                       instance, allowing you to perform any post-startup logic.
+     */
+    void onServerStarted(Consumer<MinecraftServer> serverConsumer);
+
+    /**
      * Called when the server is stopping. This method allows you to register a consumer that will be called when the server
      * is shutting down, providing access to the MinecraftServer instance.
      * @param serverConsumer The consumer that will be called when the server is stopping. It receives the MinecraftServer
      *                       instance, allowing you to perform cleanup or save operations before the server shuts down.
      */
     void onServerStopping(Consumer<MinecraftServer> serverConsumer);
+
+    /**
+     * Called after the server has fully stopped and all worlds have been saved.
+     * @param serverConsumer The consumer that will be called when the server has stopped. It receives the MinecraftServer
+     *                       instance, allowing you to perform any post-shutdown cleanup.
+     */
+    void onServerStopped(Consumer<MinecraftServer> serverConsumer);
 
     /**
      * Called when the server starts a tick. This method allows you to register a consumer that will be called at the start

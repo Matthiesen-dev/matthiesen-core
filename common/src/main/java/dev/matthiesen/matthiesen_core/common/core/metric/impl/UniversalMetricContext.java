@@ -6,12 +6,11 @@ import dev.matthiesen.libs.faststats.SimpleMetrics;
 import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.libs.faststats.config.SimpleConfig;
 import dev.matthiesen.libs.faststats.internal.PlatformLoggerFactory;
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
-import dev.matthiesen.matthiesen_core.common.api.events.ServerEventListener;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonMetricsCompatLayer;
-import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ServiceLoader;
@@ -52,20 +51,10 @@ public final class UniversalMetricContext extends SimpleContext {
                 ready();
                 MatthiesenCoreCommonClient.INSTANCE.getClientEventsListeners().onClientStopping(this::shutdown);
             }
-            case SERVER -> MatthiesenCoreCommon.INSTANCE.getServerEventsManager().registerListener(
-                    MatthiesenCoreCommon.MOD_ID + "_metrics_context",
-                    new ServerEventListener() {
-                        @Override
-                        public void onServerStarting(MinecraftServer server) {
-                            ready();
-                        }
-
-                        @Override
-                        public void onServerStopping(MinecraftServer server) {
-                            shutdown();
-                        }
-                    }
-            );
+            case SERVER -> {
+                PlatformEvents.SERVER_STARTING.subscribe(event -> ready());
+                PlatformEvents.SERVER_STOPPING.subscribe(event -> shutdown());
+            }
         }
     }
 

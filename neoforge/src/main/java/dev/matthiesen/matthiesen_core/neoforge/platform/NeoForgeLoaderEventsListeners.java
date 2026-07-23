@@ -9,7 +9,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
@@ -29,8 +31,20 @@ public final class NeoForgeLoaderEventsListeners implements CommonLoaderEventsLi
     }
 
     @Override
+    public void onServerStarted(Consumer<MinecraftServer> serverConsumer) {
+        NeoForge.EVENT_BUS.addListener((ServerStartedEvent event) ->
+                serverConsumer.accept(event.getServer()));
+    }
+
+    @Override
     public void onServerStopping(Consumer<MinecraftServer> serverConsumer) {
         NeoForge.EVENT_BUS.addListener((ServerStoppingEvent event) ->
+                serverConsumer.accept(event.getServer()));
+    }
+
+    @Override
+    public void onServerStopped(Consumer<MinecraftServer> serverConsumer) {
+        NeoForge.EVENT_BUS.addListener((ServerStoppedEvent event) ->
                 serverConsumer.accept(event.getServer()));
     }
 

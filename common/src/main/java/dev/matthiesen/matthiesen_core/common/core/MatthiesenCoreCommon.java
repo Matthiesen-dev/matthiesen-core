@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
@@ -69,14 +70,13 @@ public final class MatthiesenCoreCommon {
 
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
-        PlayerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
-        ServerEventsManager.INSTANCE.initialize(COMMON_EVENTS_LISTENERS);
+        PlatformEvents.initialize(COMMON_EVENTS_LISTENERS);
         NetworkingManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
         CreativeModeAugmentsManager.INSTANCE.initialize(INSTANCE);
 
-        CorePlayerEvents.register(INSTANCE);
+        CorePlayerEvents.register();
 
         initialized = true;
         createInfoLog("Initialized Common");
@@ -167,22 +167,6 @@ public final class MatthiesenCoreCommon {
      */
     public CommandsRegistryManager getCommandsRegistryManager() {
         return CommandsRegistryManager.INSTANCE;
-    }
-
-    /**
-     * Retrieves the PlayerEventsManager instance. The PlayerEventsManager is responsible for managing player event listeners within the application,
-     * @return The singleton instance of the PlayerEventsManager, which can be used to register and manage player event listeners throughout the application.
-     */
-    public PlayerEventsManager getPlayerEventsManager() {
-        return PlayerEventsManager.INSTANCE;
-    }
-
-    /**
-     * Retrieves the ServerEventsManager instance. The ServerEventsManager is responsible for managing server event listeners within the application,
-     * @return The singleton instance of the ServerEventsManager, which can be used to register and manage server event listeners throughout the application.
-     */
-    public ServerEventsManager getServerEventsManager() {
-        return ServerEventsManager.INSTANCE;
     }
 
     /**

@@ -23,8 +23,18 @@ public final class FabricLoaderEventsListeners implements CommonLoaderEventsList
     }
 
     @Override
+    public void onServerStarted(Consumer<MinecraftServer> serverConsumer) {
+        ServerLifecycleEvents.SERVER_STARTED.register(serverConsumer::accept);
+    }
+
+    @Override
     public void onServerStopping(Consumer<MinecraftServer> serverConsumer) {
         ServerLifecycleEvents.SERVER_STOPPING.register(serverConsumer::accept);
+    }
+
+    @Override
+    public void onServerStopped(Consumer<MinecraftServer> serverConsumer) {
+        ServerLifecycleEvents.SERVER_STOPPED.register(serverConsumer::accept);
     }
 
     @Override
