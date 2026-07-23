@@ -10,6 +10,7 @@ import java.util.function.Supplier;
  * An abstract implementation of a configurable registry that provides basic functionality for registering entries.
  * @param <T> the type of entries in this registry
  */
+@SuppressWarnings("unused")
 public abstract class AbstractRegistry<T> implements ConfigurableRegistry<T> {
     private final RegistryBuilder registryBuilder;
     private final SupportedRegistries<T> supportedRegistry;

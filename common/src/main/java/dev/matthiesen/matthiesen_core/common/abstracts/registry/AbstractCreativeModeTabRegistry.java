@@ -1,9 +1,12 @@
 package dev.matthiesen.matthiesen_core.common.abstracts.registry;
 
+import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.SupportedRegistries;
+import dev.matthiesen.matthiesen_core.common.core.registry.CreativeModeAugmentsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CreativeModeTabSectionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -46,6 +49,36 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      */
     protected final CreativeModeTab.Builder newCreativeModeTabBuilder() {
         return this.getRegistryBuilder().newCreativeTabBuilder();
+    }
+
+
+    /**
+     * Registers multiple item augmentations to a creative mode tab using a registrar callback.
+     *
+     * @param registrarConsumer callback that receives a registrar helper
+     */
+    protected final void registerTabAugmentations(Consumer<CreativeModeAugmentsManager.TabAugmentationRegistrar> registrarConsumer) {
+        MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabAugmentations(registrarConsumer);
+    }
+
+    /**
+     * Registers an item to be added to a creative mode tab.
+     *
+     * @param tab the target creative mode tab
+     * @param item the item to add to the tab
+     */
+    protected final void registerTabAugmentation(ResourceKey<CreativeModeTab> tab, ItemStack item) {
+        MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabAugmentation(tab, item);
+    }
+
+    /**
+     * Registers multiple items to be added to a creative mode tab.
+     *
+     * @param tab the target creative mode tab
+     * @param items the items to add to the tab
+     */
+    protected final void registerTabAugmentations(ResourceKey<CreativeModeTab> tab, List<ItemStack> items) {
+        MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabAugmentations(tab, items);
     }
 
     /**
