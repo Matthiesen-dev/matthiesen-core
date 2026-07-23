@@ -1,9 +1,8 @@
 package dev.matthiesen.matthiesen_core.common.api.platform.services;
 
-import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
-import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
@@ -42,6 +41,16 @@ public interface CommonLoaderClientEventsListeners {
     void endClientTick(Runnable runnable);
 
     /**
+     * Registers a HUD render event callback to be invoked during each client frame.
+     *
+     * <p>The provided Consumer receives a {@link ClientEvent.HudRender}
+     * event on each frame, allowing platform-specific HUD rendering to be emitted through {@link dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents}.</p>
+     *
+     * @param hudRenderEventConsumer A Consumer that receives HUD render events
+     */
+    void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer);
+
+    /**
      * Registers screen registrations for the mod. This method allows the mod to define custom screens that will be displayed in the game.
      * The provided Consumer takes a ScreenRegistrar, which is used to register these screens. The registrar is registered with the mod's
      * unique identifier (MOD_ID) to associate it with this specific mod, ensuring that the screens are properly integrated into the Minecraft client environment.
@@ -67,16 +76,6 @@ public interface CommonLoaderClientEventsListeners {
             > entityRendererConsumer);
 
     /**
-     * Registers HUD layers for the mod. This method allows the mod to define custom HUD elements that will be rendered on the player's screen.
-     * The provided HudRegistrar is used to register these HUD layers, enabling the mod to display additional information or visual elements during
-     * gameplay. The registrar is registered with the mod's unique identifier (MOD_ID) to associate it with this specific mod, ensuring that the
-     * HUD layers are properly integrated into the Minecraft client environment.
-     * @param registrar The HudRegistrar used to register custom HUD layers for the mod. This registrar allows the mod to define and manage HUD elements,
-     *                  enabling the display of additional information or visual elements on the player's screen during gameplay.
-     */
-    void applyHudRegistrations(Consumer<HudRegistrar> registrar);
-
-    /**
      * Registers key bindings for the mod. This method allows the mod to define custom key bindings that players can use to interact with the mod's features.
      * The provided KeyMappingRegistrar is used to register the key bindings, enabling players to customize their controls and access mod-specific functionalities
      * through keyboard shortcuts. The registrar is registered with the mod's unique identifier (MOD_ID) to associate it with this specific mod, ensuring that the
@@ -87,12 +86,13 @@ public interface CommonLoaderClientEventsListeners {
     void applyKeyBindingRegistrations(Consumer<KeyMappingRegistrar> registrar);
 
     /**
-     * Registers block highlight overrides for the mod. This method allows the mod to customize the appearance of block outlines in the game. The provided
-     * BlockOutlineListener is used to define how block outlines should be rendered, enabling features such as custom colors, shapes, or effects for specific
-     * blocks. The listener is registered with the mod's unique identifier (MOD_ID) to associate it with this specific mod, ensuring that the customizations
-     * are applied correctly within the Minecraft client environment.
-     * @param registrar The BlockOutlineListener used to define custom block outline rendering behavior for the mod. This listener allows the mod to specify
-     *                  how block outlines should be displayed, enabling visual enhancements or modifications to the default block highlighting behavior in the game.
+     * Registers a block highlight override event callback to be invoked before block outlines are rendered.
+     *
+     * <p>The provided Consumer receives a {@link ClientEvent.BlockHighlight}
+     * event and returns a boolean: {@code true} to continue with default rendering, or {@code false} to cancel it.
+     * This allows platform-specific block highlight rendering to be emitted through {@link dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents}.</p>
+     *
+     * @param blockHighlightEventConsumer A Consumer that receives block highlight events and returns success/failure
      */
-    void applyBlockHighlightOverrides(BlockOutlineListener registrar);
+    void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer);
 }

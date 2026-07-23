@@ -2,11 +2,9 @@ package dev.matthiesen.matthiesen_core.fabric.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.client.*;
 import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
-import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
-import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
-import dev.matthiesen.matthiesen_core.common.core.client.HudManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -56,10 +54,9 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
     }
 
     @Override
-    public void applyHudRegistrations(Consumer<HudRegistrar> registrar) {
-        HudRenderCallback.EVENT.register(HudManager.INSTANCE::renderHudLayers);
-        // Fabric does not expose native layer insertion by id, so common HudManager handles ordering and rendering.
-        registrar.accept((ordering, other, key, layer) -> {});
+    public void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer) {
+        HudRenderCallback.EVENT.register((drawContext, tickCounter) ->
+                hudRenderEventConsumer.accept(new ClientEvent.HudRender(drawContext, tickCounter)));
     }
 
     @Override
@@ -68,7 +65,7 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
     }
 
     @Override
-    public void applyBlockHighlightOverrides(BlockOutlineListener listener) {
+    public void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer) {
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldContext, hitResult) -> {
             if (!(hitResult instanceof BlockHitResult blockHitResult)) return true;
             BlockOutlineContext context = new BlockOutlineContext(
@@ -78,7 +75,9 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
                     worldContext.camera(),
                     worldContext.consumers()
             );
-            return listener.onBlockOutline(context);
+            ClientEvent.BlockHighlight event = new ClientEvent.BlockHighlight(context);
+            blockHighlightEventConsumer.accept(event);
+            return true;
         });
     }
 }

@@ -1,9 +1,9 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
-import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeClientRegistryHelper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -51,17 +51,17 @@ public final class NeoForgeLoaderClientEventsListeners implements CommonLoaderCl
     }
 
     @Override
-    public void applyHudRegistrations(Consumer<HudRegistrar> registrar) {
-        NeoForgeClientRegistryHelper.applyHudRegistrations(registrar);
-    }
-
-    @Override
     public void applyKeyBindingRegistrations(Consumer<KeyMappingRegistrar> registrar) {
         NeoForgeClientRegistryHelper.applyKeyBindingRegistrations(registrar);
     }
 
     @Override
-    public void applyBlockHighlightOverrides(BlockOutlineListener listener) {
-        NeoForgeClientRegistryHelper.applyBlockHighlightOverrides(listener);
+    public void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer) {
+        NeoForgeClientRegistryHelper.onHudRender(hudRenderEventConsumer);
+    }
+
+    @Override
+    public void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer) {
+        NeoForgeClientRegistryHelper.applyBlockHighlightOverrides(blockHighlightEventConsumer);
     }
 }

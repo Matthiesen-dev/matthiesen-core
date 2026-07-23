@@ -1,9 +1,8 @@
 package dev.matthiesen.matthiesen_core.common.core;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
-import dev.matthiesen.matthiesen_core.common.core.client.BlockOutlineManager;
 import dev.matthiesen.matthiesen_core.common.core.client.EntityRendererManager;
-import dev.matthiesen.matthiesen_core.common.core.client.HudManager;
 import dev.matthiesen.matthiesen_core.common.core.client.KeybindingsManager;
 import dev.matthiesen.matthiesen_core.common.core.client.ScreenManager;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +18,7 @@ import java.util.ServiceLoader;
  * managers responsible for screens, entity renderers, block outlines, HUD layers, and keybindings. The class is intended to be used
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to client-side functionalities and services.
  */
+@SuppressWarnings("unused")
 public final class MatthiesenCoreCommonClient {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
 
@@ -49,9 +49,9 @@ public final class MatthiesenCoreCommonClient {
 
         ScreenManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         EntityRendererManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
-        BlockOutlineManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
-        HudManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         KeybindingsManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
+
+        PlatformClientEvents.initialize(CLIENT_EVENTS_LISTENERS);
 
         LOGGER.info("Initialized Common Client");
     }
@@ -95,14 +95,6 @@ public final class MatthiesenCoreCommonClient {
     }
 
     /**
-     * Returns the BlockOutlineManager instance for managing block outline rendering and platform callbacks.
-     * @return the BlockOutlineManager instance
-     */
-    public BlockOutlineManager getBlockOutlineManager() {
-        return BlockOutlineManager.INSTANCE;
-    }
-
-    /**
      * Returns the ScreenManager instance for managing menu screen registrations and platform callbacks.
      * @return the ScreenManager instance
      */
@@ -116,14 +108,6 @@ public final class MatthiesenCoreCommonClient {
      */
     public EntityRendererManager getEntityRendererManager() {
         return EntityRendererManager.INSTANCE;
-    }
-
-    /**
-     * Returns the HudManager instance for managing custom HUD layer registrations and rendering.
-     * @return the HudManager instance
-     */
-    public HudManager getHudManager() {
-        return HudManager.INSTANCE;
     }
 
     /**

@@ -101,14 +101,6 @@ public abstract class AbstractCommonClientMod {
     }
 
     /**
-     * Returns the BlockOutlineManager instance for managing block outline rendering and platform callbacks.
-     * @return the BlockOutlineManager instance
-     */
-    public BlockOutlineManager getBlockOutlineManager() {
-        return MatthiesenCoreCommonClient.INSTANCE.getBlockOutlineManager();
-    }
-
-    /**
      * Returns the ScreenManager instance for managing menu screen registrations and platform callbacks.
      * @return the ScreenManager instance
      */
@@ -122,14 +114,6 @@ public abstract class AbstractCommonClientMod {
      */
     public EntityRendererManager getEntityRendererManager() {
         return MatthiesenCoreCommonClient.INSTANCE.getEntityRendererManager();
-    }
-
-    /**
-     * Returns the HudManager instance for managing custom HUD layer registrations and rendering.
-     * @return the HudManager instance
-     */
-    public HudManager getHudManager() {
-        return MatthiesenCoreCommonClient.INSTANCE.getHudManager();
     }
 
     /**

@@ -2,10 +2,8 @@ package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
 
 import dev.matthiesen.matthiesen_core.common.api.client.*;
 import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
-import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineListener;
-import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
-import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -57,30 +55,6 @@ public final class NeoForgeClientRegistryHelper {
                 entityRendererConsumer.accept(event::registerEntityRenderer, event::registerBlockEntityRenderer));
     }
 
-    public static void applyHudRegistrations(Consumer<HudRegistrar> registrar) {
-        IEventBus eventBus = modBus;
-        if (eventBus == null) {
-            throw new IllegalStateException("NeoForgeClientRegistryHelper has not been initialized.");
-        }
-        eventBus.addListener(EventPriority.LOWEST, (RegisterGuiLayersEvent event) ->
-            registrar.accept(((ordering, other, key, layer) -> {
-                if (ordering == HudOrdering.BEFORE) {
-                    if (other == null) {
-                        event.registerBelowAll(key, layer);
-                    } else {
-                        event.registerBelow(other, key, layer);
-                    }
-                } else {
-                    if (other == null) {
-                        event.registerAboveAll(key, layer);
-                    } else {
-                        event.registerAbove(other, key, layer);
-                    }
-                }
-            }))
-        );
-    }
-
     public static void applyKeyBindingRegistrations(Consumer<KeyMappingRegistrar> registrar) {
         IEventBus eventBus = modBus;
         if (eventBus == null) {
@@ -90,7 +64,16 @@ public final class NeoForgeClientRegistryHelper {
                 registrar.accept(event::register));
     }
 
-    public static void applyBlockHighlightOverrides(BlockOutlineListener listener) {
+    public static void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer) {
+        NeoForge.EVENT_BUS.addListener(EventPriority.NORMAL, (RenderGuiLayerEvent.Post event) -> {
+            hudRenderEventConsumer.accept(new ClientEvent.HudRender(
+                    event.getGuiGraphics(),
+                    event.getPartialTick()
+            ));
+        });
+    }
+
+    public static void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer) {
         NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, (RenderHighlightEvent.Block event) -> {
             if (Minecraft.getInstance().level == null) return;
 
@@ -102,11 +85,7 @@ public final class NeoForgeClientRegistryHelper {
                     event.getMultiBufferSource()
             );
 
-            boolean result = listener.onBlockOutline(context);
-
-            if (!result) {
-                event.setCanceled(true);
-            }
+            blockHighlightEventConsumer.accept(new ClientEvent.BlockHighlight(context));
         });
     }
 }
