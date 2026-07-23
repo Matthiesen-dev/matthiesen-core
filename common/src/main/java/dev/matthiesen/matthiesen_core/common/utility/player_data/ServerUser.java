@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.player_data;
+package dev.matthiesen.matthiesen_core.common.utility.player_data;
 
 import com.mojang.authlib.GameProfile;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;

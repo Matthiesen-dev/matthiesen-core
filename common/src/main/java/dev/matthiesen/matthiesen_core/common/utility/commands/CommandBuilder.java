@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.utility;
+package dev.matthiesen.matthiesen_core.common.utility.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.ArgumentType;

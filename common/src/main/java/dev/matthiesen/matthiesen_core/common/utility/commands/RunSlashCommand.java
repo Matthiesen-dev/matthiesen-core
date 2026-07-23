@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.utility;
+package dev.matthiesen.matthiesen_core.common.utility.commands;
 
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import net.minecraft.server.MinecraftServer;

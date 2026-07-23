@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.utility;
+package dev.matthiesen.matthiesen_core.common.utility.chat;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
