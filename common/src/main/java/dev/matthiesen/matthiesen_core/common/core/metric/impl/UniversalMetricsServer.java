@@ -35,9 +35,10 @@ public final class UniversalMetricsServer extends AbstractUniversalMetric {
             MatthiesenCoreCommon.INSTANCE.createErrorLog("Attempted to append server metrics data before server was initialized");
             return;
         }
+        String serverType = modContainer.getPlatformData().getLabel() + "-server";
         metrics.addProperty("online_mode", isOnlineMode());
         metrics.addProperty("player_count", getServer().getPlayerCount());
-        appendUniversalData(metrics, modContainer.getPlatformData().getLabel() + " (server)");
+        appendUniversalData(metrics, serverType);
     }
 
     /**

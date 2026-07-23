@@ -29,7 +29,7 @@ public final class UniversalMetricsClient extends AbstractUniversalMetric {
     protected void appendDefaultData(JsonObject metrics) {
         metrics.addProperty("online_mode", isOnlineMode());
         metrics.addProperty("player_count", getPlayerCount());
-        appendUniversalData(metrics, modContainer.getPlatformData().getLabel() + " (client)");
+        appendUniversalData(metrics, modContainer.getPlatformData().getLabel() + "-client");
     }
 
     /**
