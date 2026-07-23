@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts.ui.button;
+package dev.matthiesen.matthiesen_core.common.utility.ui.button;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;

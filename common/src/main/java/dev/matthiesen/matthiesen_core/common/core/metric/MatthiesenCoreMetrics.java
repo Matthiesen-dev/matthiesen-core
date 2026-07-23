@@ -18,17 +18,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * tracker and a universal metric context for reporting purposes.
  */
 @SuppressWarnings("unused")
-public final class MatthiesenCoreMetrics extends AbstractMetricsProvider {
+public final class MatthiesenCoreMetrics {
     private static final @Token String TOKEN = "41cdbbe3ecea001225a5ee5aec374db7";
 
     /**
      * Singleton instance of MatthiesenCoreMetrics. This instance is used to manage metrics collection and error tracking
      * for the mod. It provides methods to register mods, track errors, and retrieve registered mods for reporting purposes.
      */
-    public static final MatthiesenCoreMetrics INSTANCE = new MatthiesenCoreMetrics(MatthiesenCoreCommon.MOD_ID);
+    public static final UniversalMetricProvider INSTANCE = new UniversalMetricProvider(MatthiesenCoreCommon.MOD_ID, TOKEN);
 
-    private MatthiesenCoreMetrics(String modId) {
-        super(modId, TOKEN);
+    private MatthiesenCoreMetrics() {
     }
 
     /**
@@ -47,13 +46,13 @@ public final class MatthiesenCoreMetrics extends AbstractMetricsProvider {
         METRIC_CONTEXT = INSTANCE.getBaseMetricsFactory()
                 .metrics(Metrics.Factory::create)
                 .metrics(factory -> factory
-                        .addMetric(Metric.stringArray("registered_mods", INSTANCE::getRegisteredMods))
+                        .addMetric(Metric.stringArray("registered_mods", MatthiesenCoreMetrics::getRegisteredMods))
                         .create()
                 )
                 .create();
     }
 
-    private String[] getRegisteredMods() {
+    private static String[] getRegisteredMods() {
         return REGISTERED_MODS.toArray(new String[0]);
     }
 

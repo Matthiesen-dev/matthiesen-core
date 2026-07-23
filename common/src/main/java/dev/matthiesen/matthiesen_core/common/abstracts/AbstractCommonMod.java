@@ -6,8 +6,8 @@ import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
-import dev.matthiesen.matthiesen_core.common.core.metric.AbstractMetricsProvider;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
+import dev.matthiesen.matthiesen_core.common.core.metric.UniversalMetricProvider;
 import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
@@ -47,9 +47,9 @@ public abstract class AbstractCommonMod {
         this.registryBuilder = new RegistryBuilder(MOD_ID);
 
         var metricsToken = getMetricsToken();
-        CommonMetricsProvider metricsProvider;
+        UniversalMetricProvider metricsProvider;
         if (metricsToken != null) {
-            metricsProvider = new CommonMetricsProvider(MOD_ID, metricsToken);
+            metricsProvider = new UniversalMetricProvider(MOD_ID, metricsToken);
             errorTracker = metricsProvider.makeErrorTracker();
             metricContext = metricsProvider.buildErrorTrackingMetricProvider(errorTracker);
         } else {
@@ -262,25 +262,5 @@ public abstract class AbstractCommonMod {
      */
     public CreativeModeAugmentsManager getCreativeModeAugmentsManager() {
         return MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager();
-    }
-
-    /**
-     * Static class that provides a MetricsProvider for the mod. This class extends AbstractMetricsProvider and is responsible for providing
-     * metrics-related functionality for the mod, including error tracking and metric reporting. The MetricsProvider is initialized with the
-     * mod ID and metrics token, and can be used to create an ErrorTracker and build a UniversalMetricContext for the mod. This allows the mod
-     * to collect and report metrics related to its performance, usage, and other relevant data, as well as track errors that occur during its operation.
-     */
-    public static class CommonMetricsProvider extends AbstractMetricsProvider {
-        /**
-         * Constructs an AbstractMetricsProvider with the specified modId and token. The modId is used to identify the mod for
-         * which metrics are being collected, and the token is used for authentication and authorization purposes when reporting metrics.
-         *
-         * @param modId The mod ID for the mod for which metrics are being collected. This should be a unique identifier for the mod.
-         * @param token The token used for authentication and authorization when reporting metrics. This should be a secure token
-         *              that is unique to the mod and is used to verify the identity of the mod when sending metrics data.
-         */
-        protected CommonMetricsProvider(final String modId, final @Token String token) {
-            super(modId, token);
-        }
     }
 }

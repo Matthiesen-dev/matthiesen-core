@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts.ui;
+package dev.matthiesen.matthiesen_core.common.utility.ui.menu;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;

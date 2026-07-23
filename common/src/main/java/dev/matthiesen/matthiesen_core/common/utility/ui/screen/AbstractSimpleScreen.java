@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.abstracts.ui;
+package dev.matthiesen.matthiesen_core.common.utility.ui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;

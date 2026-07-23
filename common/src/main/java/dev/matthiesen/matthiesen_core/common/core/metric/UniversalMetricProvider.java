@@ -9,27 +9,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;
 
 /**
- * AbstractMetricsProvider is an abstract class that provides a framework for creating and managing metrics collection and
- * error tracking for a specific mod. It encapsulates the logic for building metric contexts and error trackers, allowing
- * subclasses to easily implement metrics collection and error tracking functionality without having to deal with the
- * underlying implementation details.
+ * A provider for creating UniversalMetricContext instances, which are used for collecting and reporting metrics related to a specific mod.
+ * @param modId The unique identifier of the mod for which metrics are being collected. This ID is used to associate metrics with the correct mod.
+ * @param token A token used for authenticating and authorizing the collection and reporting of metrics. This token should be kept secure and not exposed publicly.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractMetricsProvider {
-    private final String modId;
-    private final @Token String token;
-
-    /**
-     * Constructs an AbstractMetricsProvider with the specified modId and token. The modId is used to identify the mod for
-     * which metrics are being collected, and the token is used for authentication and authorization purposes when reporting metrics.
-     * @param modId The mod ID for the mod for which metrics are being collected. This should be a unique identifier for the mod.
-     * @param token The token used for authentication and authorization when reporting metrics. This should be a secure token
-     *              that is unique to the mod and is used to verify the identity of the mod when sending metrics data.
-     */
-    protected AbstractMetricsProvider(final String modId, final @Token String token) {
-        this.modId = modId;
-        this.token = token;
-    }
+public record UniversalMetricProvider(String modId, @Token String token) {
 
     /**
      * Builds a UniversalMetricContext for general metrics collection, using the modId and token provided during the instantiation
