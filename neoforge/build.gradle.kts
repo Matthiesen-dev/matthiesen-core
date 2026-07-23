@@ -38,12 +38,10 @@ dependencies {
     modImplementation(libs.bundles.neoforgeModImplementationNoTransitive) { isTransitive = false }
 
     implementation(project(":common", configuration = "namedElements"))
-    "developmentNeoForge"(project(":common", configuration = "namedElements")) {
+    "developmentNeoForge"(project(":common", configuration = "transformProductionNeoForge")) {
         isTransitive = false
     }
     shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
-
-    shadowBundle(libs.faststats)
 
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
@@ -58,7 +56,7 @@ tasks {
 
     sourcesJar {
         val depSources = project(":common").tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar")
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
         dependsOn(depSources)
         from(depSources.flatMap { it.archiveFile }.map { zipTree(it) }) {
             exclude("architectury.accessWidener")

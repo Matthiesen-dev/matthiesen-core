@@ -50,11 +50,12 @@ public abstract class AbstractUniversalMetric extends SimpleMetrics {
     /**
      * Appends universal data to the metrics JSON object. This method is called by the subclasses to add common data fields to the metrics before submission. The data added in this method includes the mod version and platform, which are retrieved from the mod container. This allows for consistent inclusion of these fields in both client and server metrics, providing valuable information about the mod's environment and version for analysis.
      * @param metrics the JsonObject representing the metrics data that will be submitted. This object is modified by adding properties for the mod version and platform, which are obtained from the mod container. Subclasses can call this method to ensure that these universal data fields are included in the metrics submission, regardless of whether it's client or server metrics.
+     * @param serverType the type of server (e.g., "client" or "dedicated") that is submitting the metrics. This value is added to the metrics JSON object to provide context about the environment in which the metrics are being collected.
      */
-    protected void appendUniversalData(final JsonObject metrics) {
+    protected void appendUniversalData(final JsonObject metrics, final String serverType) {
         metrics.addProperty("minecraft_version", minecraftVersion());
         metrics.addProperty("platform_version", getPlatformVersion());
         metrics.addProperty("plugin_version", modContainer.getModVersion());
-        metrics.addProperty("server_type", modContainer.getPlatformData().getLabel());
+        metrics.addProperty("server_type", serverType);
     }
 }

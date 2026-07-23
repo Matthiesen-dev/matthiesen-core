@@ -37,7 +37,7 @@ public final class UniversalMetricsServer extends AbstractUniversalMetric {
         }
         metrics.addProperty("online_mode", isOnlineMode());
         metrics.addProperty("player_count", getServer().getPlayerCount());
-        appendUniversalData(metrics);
+        appendUniversalData(metrics, modContainer.getPlatformData().getLabel() + " (server)");
     }
 
     /**

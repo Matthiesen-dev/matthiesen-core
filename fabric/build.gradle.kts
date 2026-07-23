@@ -19,6 +19,8 @@ architectury {
     fabric()
 }
 
+evaluationDependsOn(":common")
+
 val shadowBundle: Configuration by configurations.creating
 
 dependencies {
@@ -33,10 +35,8 @@ dependencies {
     modImplementation(libs.bundles.fabricModImplementationNoTransitive) { isTransitive = false }
 
     implementation(project(":common", configuration = "namedElements"))
-    "developmentFabric"(project(":common", configuration = "namedElements"))
+    "developmentFabric"(project(":common", configuration = "transformProductionFabric"))
     shadowBundle(project(":common", configuration = "transformProductionFabric"))
-
-    shadowBundle(libs.faststats)
 
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
