@@ -1,9 +1,8 @@
 package dev.matthiesen.matthiesen_core.common.core.metric.impl;
 
 import com.google.gson.JsonObject;
-import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
-import net.minecraft.server.MinecraftServer;
+import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonMetricsCompatLayer;
 
 /**
  * This class implements the UniversalMetrics interface for the server environment. It listens for server start and stop events to manage the lifecycle of the metrics collection.
@@ -11,18 +10,18 @@ import net.minecraft.server.MinecraftServer;
  */
 @SuppressWarnings("UnstableApiUsage")
 public final class UniversalMetricsServer extends AbstractUniversalMetric {
+    private final CommonMetricsCompatLayer compatibilityLayer;
+
     /**
      * Constructs a new UniversalMetricsServerImpl instance with the given factory and mod container. This constructor registers a server event handler to listen for server start and stop events, allowing it to manage the lifecycle of the metrics collection based on these events. When the server starts, it initializes the metrics collection and starts submitting data. When the server stops, it shuts down the metrics collection to ensure that all data is properly sent before the server fully shuts down.
      * @param factory the factory used to create this metrics instance. This is passed to the superclass constructor to initialize the context and other necessary components for metrics collection and submission.
      * @param mod the mod container associated with this metrics instance. This provides access to the mod's information such as version and platform, which can be included in the metrics data.
      * @throws IllegalStateException if there is an issue with initializing the metrics instance, such as invalid configuration or missing dependencies. The actual conditions for throwing this exception depend on the implementation of the superclass and the context initialization.
      */
-    public UniversalMetricsServer(final Factory factory, final ModContainer mod) throws IllegalStateException {
+    UniversalMetricsServer(final Factory factory, final ModContainer mod, final CommonMetricsCompatLayer compatibilityLayer) throws IllegalStateException {
         super(factory, mod);
-    }
-
-    private MinecraftServer getServer() {
-        return MatthiesenCoreCommon.INSTANCE.getCommonUtils().getServer();
+        this.compatibilityLayer = compatibilityLayer;
+        this.compatibilityLayer.initServer();
     }
 
     /**
@@ -31,23 +30,8 @@ public final class UniversalMetricsServer extends AbstractUniversalMetric {
      */
     @Override
     protected void appendDefaultData(final JsonObject metrics) {
-        if (getServer() == null) {
-            MatthiesenCoreCommon.INSTANCE.createErrorLog("Attempted to append server metrics data before server was initialized");
-            return;
-        }
-        String serverType = modContainer.getPlatformData().getLabel() + "-server";
-        metrics.addProperty("online_mode", isOnlineMode());
-        metrics.addProperty("player_count", getServer().getPlayerCount());
-        appendUniversalData(metrics, serverType);
-    }
-
-    /**
-     * Determines whether the server is running in online mode. This method checks if the server is in a development environment, in which case it assumes online mode is enabled for testing purposes. If not in a development environment, it checks the server's authentication settings to determine if online mode is enabled. This information is important for metrics collection as it can affect player behavior and server performance, providing valuable insights for mod developers and users.
-     * @return true if the server is running in online mode, false otherwise. The method first checks if the server is in a development environment, returning true if it is. If not in a development environment, it checks the server's authentication settings using the SERVER.usesAuthentication() method to determine if online mode is enabled, returning the result accordingly.
-     */
-    private boolean isOnlineMode() {
-        if (MatthiesenCoreCommon.INSTANCE.getCommonUtils().isDevelopmentEnvironment())
-            return true;
-        return getServer().usesAuthentication();
+        metrics.addProperty("online_mode", compatibilityLayer.serverOnlineMode());
+        metrics.addProperty("player_count", compatibilityLayer.serverPlayerCount());
+        appendUniversalData(metrics, compatibilityLayer.platformLabel());
     }
 }

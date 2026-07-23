@@ -11,7 +11,7 @@ neoforge = "21.1.182"
 junit = "5.1.0"
 publish = "0.35.0"
 sponge-mixin = "0.8.5"
-faststats = "0.27.1"
+faststats = "0.28.0"
 emberstextapi = "3.0.0"
 modmenu = "11.0.4"
 

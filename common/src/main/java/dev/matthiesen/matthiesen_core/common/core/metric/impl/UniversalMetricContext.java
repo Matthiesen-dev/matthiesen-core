@@ -10,13 +10,13 @@ import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.events.ServerEventListener;
 import dev.matthiesen.matthiesen_core.common.api.platform.ModContainer;
+import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonMetricsCompatLayer;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Contract;
 
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.*;
-
-// TODO Upgrade to 0.28.0 https://github.com/faststats-dev/faststats-java/compare/0.27.1...0.28.0
 
 /**
  * UniversalMetricContext is a specialized context for collecting and submitting metrics data for a specific mod. It extends the SimpleContext from the FastStats library and provides mod-specific information such as the mod version and platform. This context is designed to be used with the UniversalMetrics implementation, which handles the actual collection and submission of metrics data. The UniversalMetricContext initializes the mod container based on the provided mod ID and ensures that the necessary services for metrics collection are set up correctly. It also overrides the getProjectName method to return a unique identifier for the mod, which is used in the metrics submission process to associate the collected data with the correct mod.
@@ -30,6 +30,7 @@ public final class UniversalMetricContext extends SimpleContext {
         return thread;
     });
     private final Set<Future<?>> tasks = new CopyOnWriteArraySet<>();
+    private final CommonMetricsCompatLayer compatibilityLayer;
     private final ModContainer mod;
 
     /**
@@ -42,6 +43,9 @@ public final class UniversalMetricContext extends SimpleContext {
         super(factory, loggerFactory, getPlatformConfig(loggerFactory), "Universal", token);
         this.mod = MatthiesenCoreCommon.INSTANCE.getCommonUtils().getModContainer(modId);
         if (mod == null) throw new IllegalArgumentException("Mod with id '" + modId + "' not found");
+
+        this.compatibilityLayer = ServiceLoader.load(CommonMetricsCompatLayer.class).findFirst().orElseThrow();
+
         initializeServices(factory);
         switch (MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment()) {
             case CLIENT -> {
@@ -78,8 +82,8 @@ public final class UniversalMetricContext extends SimpleContext {
             public Metrics create() throws IllegalStateException {
                 final var mod = ((UniversalMetricContext) context).mod;
                 return switch (MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment()) {
-                    case CLIENT -> new UniversalMetricsClient(this, mod);
-                    case SERVER -> new UniversalMetricsServer(this, mod);
+                    case CLIENT -> new UniversalMetricsClient(this, mod, compatibilityLayer);
+                    case SERVER -> new UniversalMetricsServer(this, mod, compatibilityLayer);
                 };
             }
         };
