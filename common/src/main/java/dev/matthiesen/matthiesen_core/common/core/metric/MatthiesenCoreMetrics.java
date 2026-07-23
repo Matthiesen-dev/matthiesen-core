@@ -25,7 +25,8 @@ public final class MatthiesenCoreMetrics {
      * Singleton instance of MatthiesenCoreMetrics. This instance is used to manage metrics collection and error tracking
      * for the mod. It provides methods to register mods, track errors, and retrieve registered mods for reporting purposes.
      */
-    public static final UniversalMetricProvider INSTANCE = new UniversalMetricProvider(MatthiesenCoreCommon.MOD_ID, TOKEN);
+    public static final UniversalMetricProvider PROVIDER = new UniversalMetricProvider(MatthiesenCoreCommon.MOD_ID, TOKEN);
+    public static final MatthiesenCoreMetrics INSTANCE = new MatthiesenCoreMetrics();
 
     private MatthiesenCoreMetrics() {
     }
@@ -42,18 +43,28 @@ public final class MatthiesenCoreMetrics {
     private static final List<String> REGISTERED_MODS = new CopyOnWriteArrayList<>();
 
     static {
-        ERROR_TRACKER = INSTANCE.makeErrorTracker();
-        METRIC_CONTEXT = INSTANCE.getBaseMetricsFactory()
+        ERROR_TRACKER = PROVIDER.makeErrorTracker();
+        METRIC_CONTEXT = PROVIDER.getBaseMetricsFactory()
                 .metrics(Metrics.Factory::create)
                 .metrics(factory -> factory
-                        .addMetric(Metric.stringArray("registered_mods", MatthiesenCoreMetrics::getRegisteredMods))
+                        .addMetric(Metric.stringArray("registered_mods", INSTANCE::getRegisteredMods))
                         .create()
                 )
                 .create();
     }
 
-    private static String[] getRegisteredMods() {
+    private String[] getRegisteredMods() {
         return REGISTERED_MODS.toArray(new String[0]);
+    }
+
+    /**
+     * Returns the UniversalMetricProvider instance used for metrics collection and error tracking. This provider is responsible for managing the
+     * metrics context and error tracking for the mod, allowing developers to monitor and report on various aspects of the mod's performance and
+     * behavior. The provider is initialized with the mod's ID and a token for authentication with the metrics service.
+     * @return The UniversalMetricProvider instance used for metrics collection and error tracking.
+     */
+    public UniversalMetricProvider getProvider() {
+        return PROVIDER;
     }
 
     /**
