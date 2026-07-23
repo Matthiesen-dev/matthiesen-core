@@ -11,11 +11,11 @@ jobs:
     outputs:
       version: ${{ steps.parsed_version.outputs.version }}
     steps:
-      # Format `PR-1234-SNAPSHOT` where `1234` is the PR number
+      # Format `1.0.0-PR.1234+SNAPSHOT` where `1234` is the PR number
       - name: Generate version for PR snapshot
         id: parsed_version
         run: |
-          echo "version=PR-${{ github.event.number }}-SNAPSHOT" >> $GITHUB_OUTPUT
+          echo "version=1.0.0-PR-${{ github.event.number }}+SNAPSHOT" >> $GITHUB_OUTPUT
 
   build:
     needs: [prepare]

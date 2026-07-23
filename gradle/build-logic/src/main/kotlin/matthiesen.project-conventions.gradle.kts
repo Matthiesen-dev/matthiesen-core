@@ -34,6 +34,9 @@ repositories {
     maven("https://maven.matthiesen.dev/snapshots") {
         name = "devMatthiesenMavenSnapshots"
     }
+    maven("https://maven.terraformersmc.com/repository/maven-terraformers/") {
+        name = "Terraformers"
+    }
     // for development builds
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots1"

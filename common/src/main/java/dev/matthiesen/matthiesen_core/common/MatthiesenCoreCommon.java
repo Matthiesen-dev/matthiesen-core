@@ -28,13 +28,13 @@ public final class MatthiesenCoreCommon {
      * The unique identifier for the mod, used for registration and identification purposes. This constant is used throughout
      * the application to refer to the mod in a consistent manner.
      */
-    public static final String MOD_ID = "matthiesen_lib";
+    public static final String MOD_ID = "matthiesen_core";
 
     /**
      * The name of the mod, used for logging and identification purposes. This constant is used throughout the application
      * to refer to the mod in a consistent manner.
      */
-    public static final String MOD_NAME = "Matthiesen Lib";
+    public static final String MOD_NAME = "Matthiesen Core";
 
     private static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
