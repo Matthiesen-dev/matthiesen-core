@@ -78,7 +78,20 @@ public interface CommonLoaderRegistry {
 
     /**
      * Register a callback for item registry events. This method allows you to register a callback that will be invoked when items are registered in the game.
-     * @param itemConsumer A consumer that will be called with each item that is registered. This allows you to perform additional actions or modifications on items as they are registered,
+     *
+     * <p>
+     * Example usage with Accessories Mod:
+     * </p>
+     * <pre>
+     * registerItemRegistryCallback(item -> {
+     *     if (item instanceof MyCustomItem customItem) {
+     *         AccessoriesAPI.registerAccessory(item, new MyCustomItemAccessory<>(item));
+     *     }
+     * })
+     * </pre>
+     *
+     * @param itemConsumer A consumer that will be called with each item that is registered. This allows you to perform additional actions or modifications
+     *                     on items as they are registered,
      */
     @SuppressWarnings("unused")
     void registerItemRegistryCallback(Consumer<Item> itemConsumer);
