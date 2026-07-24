@@ -5,12 +5,14 @@ import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
+import dev.matthiesen.matthiesen_core.common.core.config.CoreConfig;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.registry.CorePlayerEvents;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
+import dev.matthiesen.matthiesen_core.common.utility.config.ConfigManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,6 +51,9 @@ public final class MatthiesenCoreCommon {
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
             ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
 
+    private static final ConfigManager<CoreConfig> CORE_CONFIG_MANAGER =
+            new ConfigManager<>(CoreConfig.class, "config", MOD_ID);
+
     /**
      * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.
      * It is initialized lazily and is thread-safe, ensuring that only one instance exists throughout the lifecycle of the application.
@@ -65,6 +70,8 @@ public final class MatthiesenCoreCommon {
     public void initialize() {
         if (initialized) return;
 
+        CORE_CONFIG_MANAGER.loadConfig();
+
         MatthiesenCoreMetrics.initialize();
         WEBHOOK_NOTIFIER_SERVICE.initialize();
 
@@ -80,6 +87,15 @@ public final class MatthiesenCoreCommon {
 
         initialized = true;
         createInfoLog("Initialized Common");
+    }
+
+    /**
+     * Retrieves the current configuration for the MatthiesenLibCommon instance. This method provides access to the configuration settings
+     * that control the behavior of the common utilities and services. The configuration is loaded from a file and can be modified to customize the behavior of the application.
+     * @return The current configuration for the MatthiesenLibCommon instance, represented as a CoreConfig object. This object contains various settings and options that control the behavior of the common utilities and services.
+     */
+    public CoreConfig getConfig() {
+        return CORE_CONFIG_MANAGER.getConfig();
     }
 
     /**
@@ -105,6 +121,7 @@ public final class MatthiesenCoreCommon {
      * @param message The message to be logged. This should be a concise and clear description of the information being conveyed.
      */
     public void createInfoLog(String message) {
+        if (!getConfig().logging.enableDebugLogging) return;
         LOGGER.info(message);
     }
 
@@ -124,6 +141,7 @@ public final class MatthiesenCoreCommon {
      *                or understanding the application's flow during development and debugging.
      */
     public void createDebugLog(String message) {
+        if (!getConfig().logging.enableDebugLogging) return;
         LOGGER.debug(message);
     }
 
