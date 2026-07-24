@@ -2,38 +2,52 @@ package dev.matthiesen.matthiesen_core.common.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.NeoForgeVanillaGuiLayers;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 
-/**
- * Central registry for all client-side platform events.
- *
- * <p>This class manages a set of observables that dispatch client-side events (lifecycle, HUD render, block highlight)
- * to registered listeners. It is initialized during client setup and wired to platform-specific event systems via
- * the {@link CommonLoaderClientEventsListeners} bridge.</p>
- *
- * <p>Dispatch semantics:</p>
- * <ul>
- *   <li><strong>Lifecycle events (CLIENT_STOPPING, CLIENT_END_TICK):</strong> Dispatch in priority order (HIGHEST → LOWEST),
- *       then by registration order. Exceptions are logged and suppressed; dispatch continues.</li>
- *   <li><strong>HUD render (HUD_RENDER):</strong> Same priority and exception handling as lifecycle events.</li>
- *   <li><strong>Block highlight (BLOCK_HIGHLIGHT):</strong> Result-based event. First listener returning FAIL immediately
- *       stops dispatch and returns FAIL to the platform. All other listeners must return PASS for rendering to continue.</li>
- * </ul>
- *
- * <p>Example usage:</p>
- * <pre>{@code
- * // Subscribe to HUD render event with default priority
- * PlatformClientEvents.HUD_RENDER.subscribe(event ->
- *     drawContext.drawString(minecraft.font, "Hello", 10, 10, 0xFFFFFF));
- *
- * // Subscribe to block highlight with custom priority
- * PlatformClientEvents.BLOCK_HIGHLIGHT.subscribe(EventPriority.HIGH, event ->
- *     shouldSkipBlock(event.context().blockHitResult())
- *         ? InteractionResult.FAIL
- *         : InteractionResult.PASS);
- * }</pre>
- */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public final class PlatformClientEvents {
+    private static final List<HudLayerRegistration> REGISTERED_HUD_LAYERS = new CopyOnWriteArrayList<>();
+    private static final List<ResourceLocation> VANILLA_LAYER_ORDER = List.of(
+            NeoForgeVanillaGuiLayers.CAMERA_OVERLAYS,
+            NeoForgeVanillaGuiLayers.CROSSHAIR,
+            NeoForgeVanillaGuiLayers.HOTBAR,
+            NeoForgeVanillaGuiLayers.JUMP_METER,
+            NeoForgeVanillaGuiLayers.EXPERIENCE_BAR,
+            NeoForgeVanillaGuiLayers.PLAYER_HEALTH,
+            NeoForgeVanillaGuiLayers.ARMOR_LEVEL,
+            NeoForgeVanillaGuiLayers.FOOD_LEVEL,
+            NeoForgeVanillaGuiLayers.VEHICLE_HEALTH,
+            NeoForgeVanillaGuiLayers.AIR_LEVEL,
+            NeoForgeVanillaGuiLayers.SELECTED_ITEM_NAME,
+            NeoForgeVanillaGuiLayers.SPECTATOR_TOOLTIP,
+            NeoForgeVanillaGuiLayers.EXPERIENCE_LEVEL,
+            NeoForgeVanillaGuiLayers.EFFECTS,
+            NeoForgeVanillaGuiLayers.BOSS_OVERLAY,
+            NeoForgeVanillaGuiLayers.SLEEP_OVERLAY,
+            NeoForgeVanillaGuiLayers.DEMO_OVERLAY,
+            NeoForgeVanillaGuiLayers.DEBUG_OVERLAY,
+            NeoForgeVanillaGuiLayers.SCOREBOARD_SIDEBAR,
+            NeoForgeVanillaGuiLayers.OVERLAY_MESSAGE,
+            NeoForgeVanillaGuiLayers.TITLE,
+            NeoForgeVanillaGuiLayers.CHAT,
+            NeoForgeVanillaGuiLayers.TAB_LIST,
+            NeoForgeVanillaGuiLayers.SUBTITLE_OVERLAY,
+            NeoForgeVanillaGuiLayers.SAVING_INDICATOR
+    );
+
+    private static volatile HudRegistrar activeRegistrar;
+    private static boolean hudRegistrationEventDispatched;
+
     private PlatformClientEvents() {}
 
     /**
@@ -51,12 +65,9 @@ public final class PlatformClientEvents {
     public static final EventObservable<ClientEvent.EndTick> CLIENT_END_TICK = new EventObservable<>();
 
     /**
-     * Fired when the HUD is being rendered.
-     *
-     * <p>Void event. Listeners are dispatched in priority order; exceptions are logged and suppressed.
-     * Emitted on every frame during client rendering.</p>
+     * Fired when HUD layers should be registered with explicit ordering and resource IDs.
      */
-    public static final EventObservable<ClientEvent.HudRender> HUD_RENDER = new EventObservable<>();
+    public static final EventObservable<ClientEvent.HudRegistration> HUD_REGISTRATION = new EventObservable<>();
 
     /**
      * Fired when a block outline highlight is about to be rendered.
@@ -76,19 +87,113 @@ public final class PlatformClientEvents {
     public static void initialize(CommonLoaderClientEventsListeners loader) {
         loader.onClientStopping(() -> CLIENT_STOPPING.emit(new ClientEvent.Stopping()));
         loader.endClientTick(() -> CLIENT_END_TICK.emit(new ClientEvent.EndTick()));
-        loader.onHudRender(PlatformClientEvents::emitHudRender);
+        loader.applyHudRegistrations(PlatformClientEvents::applyHudLayerRegistrations);
         loader.applyBlockHighlightOverrides(PlatformClientEvents::emitBlockHighlight);
     }
 
-    private static void emitHudRender(ClientEvent.HudRender event) {
-        HUD_RENDER.emit(event);
+    /**
+     * Registers a HUD layer above all others.
+     */
+    public static void registerHudLayer(ResourceLocation key, LayeredDraw.Layer layer) {
+        registerHudLayer(HudOrdering.AFTER, null, key, layer);
     }
 
-    private static void emitBlockHighlight(ClientEvent.BlockHighlight event) {
-        BLOCK_HIGHLIGHT.emit(event);
+    /**
+     * Registers a HUD layer with explicit ordering metadata.
+     */
+    public static void registerHudLayer(HudOrdering ordering, ResourceLocation other, ResourceLocation key, LayeredDraw.Layer layer) {
+        registerHudLayerInternal(new HudLayerRegistration(ordering, other, key, layer));
+    }
+
+    private static synchronized void applyHudLayerRegistrations(HudRegistrar registrar) {
+        activeRegistrar = registrar;
+
+        for (HudLayerRegistration registration : REGISTERED_HUD_LAYERS) {
+            registration.apply(registrar);
+        }
+
+        if (!hudRegistrationEventDispatched) {
+            hudRegistrationEventDispatched = true;
+            HUD_REGISTRATION.emit(new ClientEvent.HudRegistration(PlatformClientEvents::registerHudLayer));
+        }
+    }
+
+    private static InteractionResult emitBlockHighlight(ClientEvent.BlockHighlight event) {
+        return BLOCK_HIGHLIGHT.emit(event);
+    }
+
+    private static synchronized void registerHudLayerInternal(HudLayerRegistration registration) {
+        for (HudLayerRegistration existingRegistration : REGISTERED_HUD_LAYERS) {
+            if (existingRegistration.key().equals(registration.key())) {
+                throw new IllegalArgumentException("Layer already registered: " + registration.key());
+            }
+        }
+
+        REGISTERED_HUD_LAYERS.add(registration);
+
+        if (activeRegistrar != null) {
+            registration.apply(activeRegistrar);
+        }
+    }
+
+    /**
+     * Renders all registered HUD layers in the correct order.
+     * (Used internally by the Fabric platform to render HUD layers)
+     * @param drawContext the GUI graphics context for rendering
+     * @param tickCounter the frame delta tracker for animation
+     */
+    public static void renderHudLayers(GuiGraphics drawContext, DeltaTracker tickCounter) {
+        for (HudLayerRegistration registration : resolveRenderOrder()) {
+            try {
+                registration.layer().render(drawContext, tickCounter);
+            } catch (Throwable ignored) {
+                // The observable already handles listener-level failures; keep rendering other layers.
+            }
+        }
+    }
+
+    private static List<HudLayerRegistration> resolveRenderOrder() {
+        List<ResourceLocation> ids = new ArrayList<>(VANILLA_LAYER_ORDER);
+        List<HudLayerRegistration> customLayers = new ArrayList<>();
+
+        for (HudLayerRegistration registration : REGISTERED_HUD_LAYERS) {
+            int insertPosition;
+            if (registration.other() == null) {
+                insertPosition = registration.ordering() == HudOrdering.BEFORE ? 0 : ids.size();
+            } else {
+                int otherIndex = ids.indexOf(registration.other());
+                if (otherIndex < 0) {
+                    insertPosition = registration.ordering() == HudOrdering.BEFORE ? 0 : ids.size();
+                } else {
+                    insertPosition = otherIndex + (registration.ordering() == HudOrdering.BEFORE ? 0 : 1);
+                }
+            }
+
+            ids.add(insertPosition, registration.key());
+            customLayers.add(registration);
+        }
+
+        List<HudLayerRegistration> orderedLayers = new ArrayList<>();
+        for (ResourceLocation id : ids) {
+            for (HudLayerRegistration registration : customLayers) {
+                if (registration.key().equals(id)) {
+                    orderedLayers.add(registration);
+                    break;
+                }
+            }
+        }
+
+        return orderedLayers;
+    }
+
+    private record HudLayerRegistration(
+            HudOrdering ordering,
+            ResourceLocation other,
+            ResourceLocation key,
+            LayeredDraw.Layer layer
+    ) {
+        void apply(HudRegistrar registrar) {
+            registrar.register(ordering, other, key, layer);
+        }
     }
 }
-
-
-
-

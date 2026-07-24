@@ -2,7 +2,9 @@ package dev.matthiesen.matthiesen_core.fabric.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.client.*;
 import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -15,6 +17,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,6 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * The FabricLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides client-side event handling for the Fabric mod loader.
@@ -54,9 +58,8 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
     }
 
     @Override
-    public void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer) {
-        HudRenderCallback.EVENT.register((drawContext, tickCounter) ->
-                hudRenderEventConsumer.accept(new ClientEvent.HudRender(drawContext, tickCounter)));
+    public void applyHudRegistrations(Consumer<HudRegistrar> hudRegistrarConsumer) {
+        HudRenderCallback.EVENT.register(PlatformClientEvents::renderHudLayers);
     }
 
     @Override
@@ -65,9 +68,12 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
     }
 
     @Override
-    public void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer) {
+    public void applyBlockHighlightOverrides(Function<ClientEvent.BlockHighlight, InteractionResult> blockHighlightEventHandler) {
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldContext, hitResult) -> {
-            if (!(hitResult instanceof BlockHitResult blockHitResult)) return true;
+            if (!(hitResult instanceof BlockHitResult blockHitResult)) {
+                return false;
+            }
+
             BlockOutlineContext context = new BlockOutlineContext(
                     worldContext.world(),
                     blockHitResult,
@@ -75,9 +81,10 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
                     worldContext.camera(),
                     worldContext.consumers()
             );
-            ClientEvent.BlockHighlight event = new ClientEvent.BlockHighlight(context);
-            blockHighlightEventConsumer.accept(event);
-            return true;
+
+            InteractionResult result = blockHighlightEventHandler.apply(new ClientEvent.BlockHighlight(context));
+            // Fabric callback uses true to cancel outline rendering.
+            return result == InteractionResult.FAIL;
         });
     }
 }

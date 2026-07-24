@@ -1,8 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.events.client;
 
 import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 
 /**
  * Typed records for all client-side event types.
@@ -28,14 +27,14 @@ public final class ClientEvent {
     public record EndTick() {}
 
     /**
-     * Fired when the HUD is being rendered.
+     * Fired when HUD layers should be registered.
      *
-     * <p>Emitted during each client frame, allowing mods to render additional HUD elements.</p>
+     * <p>Listeners should register layers via the provided registrar using explicit ordering and resource IDs.
+     * On NeoForge, this maps to native layer registration. On Fabric, ordering is applied by common fallback rendering.</p>
      *
-     * @param drawContext the GUI graphics context for rendering
-     * @param tickCounter the frame delta tracker for animation
+     * @param registrar HUD layer registrar
      */
-    public record HudRender(GuiGraphics drawContext, DeltaTracker tickCounter) {}
+    public record HudRegistration(HudRegistrar registrar) {}
 
     /**
      * Fired when a block outline highlight is about to be rendered.
@@ -47,4 +46,3 @@ public final class ClientEvent {
      */
     public record BlockHighlight(BlockOutlineContext context) {}
 }
-

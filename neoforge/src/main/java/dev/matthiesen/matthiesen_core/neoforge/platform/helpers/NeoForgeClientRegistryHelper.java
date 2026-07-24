@@ -2,11 +2,14 @@ package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
 
 import dev.matthiesen.matthiesen_core.common.api.client.*;
 import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
+import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,6 +21,7 @@ import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * The NeoForgeClientRegistryHelper class provides utility methods for registering client-side components such as screens,
@@ -64,18 +68,11 @@ public final class NeoForgeClientRegistryHelper {
                 registrar.accept(event::register));
     }
 
-    public static void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer) {
-        NeoForge.EVENT_BUS.addListener(EventPriority.NORMAL, (RenderGuiLayerEvent.Post event) -> {
-            hudRenderEventConsumer.accept(new ClientEvent.HudRender(
-                    event.getGuiGraphics(),
-                    event.getPartialTick()
-            ));
-        });
-    }
-
-    public static void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer) {
+    public static void applyBlockHighlightOverrides(Function<ClientEvent.BlockHighlight, InteractionResult> blockHighlightEventHandler) {
         NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, (RenderHighlightEvent.Block event) -> {
-            if (Minecraft.getInstance().level == null) return;
+            if (Minecraft.getInstance().level == null) {
+                return;
+            }
 
             BlockOutlineContext context = new BlockOutlineContext(
                     Minecraft.getInstance().level,
@@ -85,7 +82,34 @@ public final class NeoForgeClientRegistryHelper {
                     event.getMultiBufferSource()
             );
 
-            blockHighlightEventConsumer.accept(new ClientEvent.BlockHighlight(context));
+            InteractionResult result = blockHighlightEventHandler.apply(new ClientEvent.BlockHighlight(context));
+            if (result == InteractionResult.FAIL) {
+                event.setCanceled(true);
+            }
         });
+    }
+
+    public static void applyHudRegistrations(Consumer<HudRegistrar> hudRegistrarConsumer) {
+        IEventBus eventBus = modBus;
+        if (eventBus == null) {
+            throw new IllegalStateException("NeoForgeClientRegistryHelper has not been initialized.");
+        }
+
+        eventBus.addListener(EventPriority.NORMAL, (RegisterGuiLayersEvent event) ->
+                hudRegistrarConsumer.accept((ordering, other, key, layer) -> {
+                    if (ordering == HudOrdering.BEFORE) {
+                        if (other == null) {
+                            event.registerBelowAll(key, layer);
+                        } else {
+                            event.registerBelow(other, key, layer);
+                        }
+                    } else {
+                        if (other == null) {
+                            event.registerAboveAll(key, layer);
+                        } else {
+                            event.registerAbove(other, key, layer);
+                        }
+                    }
+                }));
     }
 }

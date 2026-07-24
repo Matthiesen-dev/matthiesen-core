@@ -50,7 +50,6 @@ public final class MatthiesenCoreCommonClient {
         ScreenManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         EntityRendererManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         KeybindingsManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
-
         PlatformClientEvents.initialize(CLIENT_EVENTS_LISTENERS);
 
         LOGGER.info("Initialized Common Client");
@@ -84,14 +83,6 @@ public final class MatthiesenCoreCommonClient {
      */
     public void createErrorLog(String message, Throwable throwable) {
         LOGGER.error(message, throwable);
-    }
-
-    /**
-     * Returns the CommonLoaderClientEventsListeners instance for handling platform-specific client events.
-     * @return the CommonLoaderClientEventsListeners instance
-     */
-    public CommonLoaderClientEventsListeners getClientEventsListeners() {
-        return CLIENT_EVENTS_LISTENERS;
     }
 
     /**

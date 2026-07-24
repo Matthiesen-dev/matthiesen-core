@@ -1,6 +1,5 @@
 package dev.matthiesen.matthiesen_core.common;
 
-import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.core.client.*;
 import org.apache.logging.log4j.LogManager;
@@ -90,14 +89,6 @@ public abstract class AbstractCommonClientMod {
     public void createErrorLog(String message, Throwable throwable) {
         getLogger().error(message, throwable);
         COMMON_MOD.trackError(throwable);
-    }
-
-    /**
-     * Returns the CommonLoaderClientEventsListeners instance for handling platform-specific client events.
-     * @return the CommonLoaderClientEventsListeners instance
-     */
-    public CommonLoaderClientEventsListeners getClientEventsListeners() {
-        return MatthiesenCoreCommonClient.INSTANCE.getClientEventsListeners();
     }
 
     /**

@@ -8,6 +8,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderC
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeClientRegistryHelper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * The NeoForgeLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides
@@ -56,12 +58,12 @@ public final class NeoForgeLoaderClientEventsListeners implements CommonLoaderCl
     }
 
     @Override
-    public void onHudRender(Consumer<ClientEvent.HudRender> hudRenderEventConsumer) {
-        NeoForgeClientRegistryHelper.onHudRender(hudRenderEventConsumer);
+    public void applyHudRegistrations(Consumer<HudRegistrar> hudRegistrarConsumer) {
+        NeoForgeClientRegistryHelper.applyHudRegistrations(hudRegistrarConsumer);
     }
 
     @Override
-    public void applyBlockHighlightOverrides(Consumer<ClientEvent.BlockHighlight> blockHighlightEventConsumer) {
-        NeoForgeClientRegistryHelper.applyBlockHighlightOverrides(blockHighlightEventConsumer);
+    public void applyBlockHighlightOverrides(Function<ClientEvent.BlockHighlight, InteractionResult> blockHighlightEventHandler) {
+        NeoForgeClientRegistryHelper.applyBlockHighlightOverrides(blockHighlightEventHandler);
     }
 }

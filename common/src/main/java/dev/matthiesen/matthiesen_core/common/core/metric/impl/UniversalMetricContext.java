@@ -6,9 +6,9 @@ import dev.matthiesen.libs.faststats.SimpleMetrics;
 import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.libs.faststats.config.SimpleConfig;
 import dev.matthiesen.libs.faststats.internal.PlatformLoggerFactory;
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonMetricsCompatLayer;
 import org.jetbrains.annotations.Contract;
@@ -49,7 +49,7 @@ public final class UniversalMetricContext extends SimpleContext {
         switch (MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment()) {
             case CLIENT -> {
                 ready();
-                MatthiesenCoreCommonClient.INSTANCE.getClientEventsListeners().onClientStopping(this::shutdown);
+                PlatformClientEvents.CLIENT_STOPPING.subscribe(event -> shutdown());
             }
             case SERVER -> {
                 PlatformEvents.SERVER_STARTING.subscribe(event -> ready());
