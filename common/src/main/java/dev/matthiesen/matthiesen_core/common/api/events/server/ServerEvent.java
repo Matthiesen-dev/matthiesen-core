@@ -1,5 +1,6 @@
-package dev.matthiesen.matthiesen_core.common.api.events;
+package dev.matthiesen.matthiesen_core.common.api.events.server;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import net.minecraft.server.MinecraftServer;
 
 /**

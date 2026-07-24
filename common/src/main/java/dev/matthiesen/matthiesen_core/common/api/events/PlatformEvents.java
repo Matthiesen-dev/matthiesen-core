@@ -1,5 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.events;
 
+import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 
 /**

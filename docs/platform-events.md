@@ -205,14 +205,14 @@ Call `MyModEvents.register()` from your common mod's `initialize()` method.
 
 ## API Reference
 
-| Class / Interface | Location |
-|-------------------|----------|
-| `PlatformEvents` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `EventObservable<T>` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `ResultEventObservable<T>` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `ResultEventObservable.ResultListener<T>` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `EventPriority` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `EventSubscription` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `ServerEvent` | `dev.matthiesen.matthiesen_core.common.api.events` |
-| `PlayerEvent` | `dev.matthiesen.matthiesen_core.common.api.events` |
+| Class / Interface | Location                                                  |
+|-------------------|-----------------------------------------------------------|
+| `PlatformEvents` | `dev.matthiesen.matthiesen_core.common.api.events`        |
+| `EventObservable<T>` | `dev.matthiesen.matthiesen_core.common.api.events`        |
+| `ResultEventObservable<T>` | `dev.matthiesen.matthiesen_core.common.api.events`        |
+| `ResultEventObservable.ResultListener<T>` | `dev.matthiesen.matthiesen_core.common.api.events`        |
+| `EventPriority` | `dev.matthiesen.matthiesen_core.common.api.events`        |
+| `EventSubscription` | `dev.matthiesen.matthiesen_core.common.api.events`        |
+| `ServerEvent` | `dev.matthiesen.matthiesen_core.common.api.events.server` |
+| `PlayerEvent` | `dev.matthiesen.matthiesen_core.common.api.events.server` |
 
