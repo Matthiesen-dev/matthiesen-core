@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.client.block_outline;
+package dev.matthiesen.matthiesen_core.common.api.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;

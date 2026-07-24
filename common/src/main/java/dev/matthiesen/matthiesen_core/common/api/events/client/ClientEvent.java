@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.events.client;
 
-import dev.matthiesen.matthiesen_core.common.api.client.block_outline.BlockOutlineContext;
+import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 
 /**
