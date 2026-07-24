@@ -7,6 +7,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 import dev.matthiesen.matthiesen_core.fabric.permissions.FabricPermissionValidator;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -47,6 +48,11 @@ public final class FabricLoaderRegistry implements CommonLoaderRegistry {
     @Override
     public <T extends Item> Supplier<T> registerItem(ResourceLocation id, Supplier<T> item) {
         return registerSupplier(BuiltInRegistries.ITEM, id, item);
+    }
+
+    @Override
+    public void registerItemRegistryCallback(Consumer<Item> itemConsumer) {
+        RegistryEntryAddedCallback.event(BuiltInRegistries.ITEM).register((rawId, id, item) -> itemConsumer.accept(item));
     }
 
     @Override

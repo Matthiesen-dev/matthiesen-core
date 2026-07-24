@@ -9,6 +9,7 @@ import dev.matthiesen.matthiesen_core.neoforge.permissions.NeoForgePermissionVal
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.inventory.MenuType;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.registries.callback.AddCallback;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -45,6 +47,11 @@ public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
     @Override
     public <T extends Item> Supplier<T> registerItem(ResourceLocation id, Supplier<T> item) {
         return NeoForgeRegistryHelper.registerItem(id, item);
+    }
+
+    @Override
+    public void registerItemRegistryCallback(Consumer<Item> itemConsumer) {
+        BuiltInRegistries.ITEM.addCallback((AddCallback<Item>) (registry, i, key, item) -> itemConsumer.accept(item));
     }
 
     @Override

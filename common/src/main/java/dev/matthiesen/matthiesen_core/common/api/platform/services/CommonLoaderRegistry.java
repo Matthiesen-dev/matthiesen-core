@@ -77,6 +77,13 @@ public interface CommonLoaderRegistry {
     <T extends Item> Supplier<T> registerItem(ResourceLocation id, Supplier<T> item);
 
     /**
+     * Register a callback for item registry events. This method allows you to register a callback that will be invoked when items are registered in the game.
+     * @param itemConsumer A consumer that will be called with each item that is registered. This allows you to perform additional actions or modifications on items as they are registered,
+     */
+    @SuppressWarnings("unused")
+    void registerItemRegistryCallback(Consumer<Item> itemConsumer);
+
+    /**
      * Register a sound event for the mod. This method allows you to register a new sound event that can be used in your mod's content, such as for custom blocks,
      * items, or entities. By registering a sound event, you can create unique audio cues that enhance the player's experience and make your mod's content more immersive.
      * The registered sound event can then be referenced in your code when defining the behavior of blocks, items, or entities that should play the sound, allowing you to
