@@ -13,10 +13,14 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -85,6 +89,32 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
             InteractionResult result = blockHighlightEventHandler.apply(new ClientEvent.BlockHighlight(context));
             // Fabric callback uses true to cancel outline rendering.
             return result == InteractionResult.FAIL;
+        });
+    }
+
+    @Override
+    public void applyResourcePackRegistrations(Consumer<ResourcePackRegistrar> resourcePackRegistrarConsumer) {
+        resourcePackRegistrarConsumer.accept((packDef) -> {
+            var modContainer = FabricLoader.getInstance().getModContainer(packDef.modId())
+                    .orElseThrow(() -> new IllegalArgumentException("Mod ID " + packDef.modId() + " not found in Fabric mod list."));
+
+            var activationType = switch (packDef.activationBehaviour()) {
+                case NORMAL -> ResourcePackActivationType.NORMAL;
+                case DEFAULT_ENABLED -> ResourcePackActivationType.DEFAULT_ENABLED;
+                case ALWAYS_ENABLED -> ResourcePackActivationType.ALWAYS_ENABLED;
+            };
+
+            var packId = ResourceLocation.fromNamespaceAndPath(packDef.modId(), packDef.id());
+            boolean registered = ResourceManagerHelper.registerBuiltinResourcePack(
+                    packId,
+                    modContainer,
+                    packDef.displayName(),
+                    activationType
+            );
+
+            if (!registered) {
+                throw new IllegalStateException("Failed to register built-in resource pack " + packId + " for mod " + packDef.modId());
+            }
         });
     }
 }

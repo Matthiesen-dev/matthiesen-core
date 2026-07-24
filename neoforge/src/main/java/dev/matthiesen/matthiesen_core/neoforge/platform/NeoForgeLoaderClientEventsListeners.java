@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
+import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
@@ -65,5 +66,10 @@ public final class NeoForgeLoaderClientEventsListeners implements CommonLoaderCl
     @Override
     public void applyBlockHighlightOverrides(Function<ClientEvent.BlockHighlight, InteractionResult> blockHighlightEventHandler) {
         NeoForgeClientRegistryHelper.applyBlockHighlightOverrides(blockHighlightEventHandler);
+    }
+
+    @Override
+    public void applyResourcePackRegistrations(Consumer<ResourcePackRegistrar> resourcePackRegistrarConsumer) {
+        NeoForgeClientRegistryHelper.applyResourcePackRegistrations(resourcePackRegistrarConsumer);
     }
 }

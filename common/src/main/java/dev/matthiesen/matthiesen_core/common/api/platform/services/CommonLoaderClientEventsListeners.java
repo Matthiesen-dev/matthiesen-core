@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.platform.services;
 
+import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
@@ -97,4 +98,13 @@ public interface CommonLoaderClientEventsListeners {
      * @param blockHighlightEventHandler Handler for block highlight events
      */
     void applyBlockHighlightOverrides(Function<ClientEvent.BlockHighlight, InteractionResult> blockHighlightEventHandler);
+
+    /**
+     * Registers a resource pack registration event callback to be invoked when resource packs can be registered.
+     *
+     * <p>The provided consumer receives a {@link ClientEvent.ResourcePackRegistration} event, allowing the mod to register its resource packs using the provided registrar.</p>
+     *
+     * @param resourcePackRegistrarConsumer Consumer that receives a {@link ClientEvent.ResourcePackRegistration} event, allowing the mod to register its resource packs using the provided registrar.
+     */
+    void applyResourcePackRegistrations(Consumer<ResourcePackRegistrar> resourcePackRegistrarConsumer);
 }

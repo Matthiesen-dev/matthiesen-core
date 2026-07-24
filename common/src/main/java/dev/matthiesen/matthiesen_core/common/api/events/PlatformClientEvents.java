@@ -1,6 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.api.events;
 
+import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
+import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackDef;
+import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackActivationBehaviour;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
@@ -8,11 +11,13 @@ import dev.matthiesen.matthiesen_core.common.api.client.hud.NeoForgeVanillaGuiLa
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class PlatformClientEvents {
@@ -45,8 +50,13 @@ public final class PlatformClientEvents {
             NeoForgeVanillaGuiLayers.SAVING_INDICATOR
     );
 
+    private static final List<ResourcePackDef> REGISTERED_RESOURCE_PACKS = new CopyOnWriteArrayList<>();
+
     private static volatile HudRegistrar activeRegistrar;
     private static boolean hudRegistrationEventDispatched;
+
+    private static volatile ResourcePackRegistrar activeResourcePackRegistrar;
+    private static boolean resourcePackRegistrationEventDispatched;
 
     private PlatformClientEvents() {}
 
@@ -78,6 +88,13 @@ public final class PlatformClientEvents {
     public static final ResultEventObservable<ClientEvent.BlockHighlight> BLOCK_HIGHLIGHT = new ResultEventObservable<>();
 
     /**
+     * Fired when resource packs are ready to be registered.
+     *
+     * <p>Listeners should register their resource packs using the provided resource pack definition.</p>
+     */
+    public static final EventObservable<ClientEvent.ResourcePackRegistration> RESOURCE_PACK_REGISTRATION = new EventObservable<>();
+
+    /**
      * Initializes the client-side event system by wiring platform-specific event callbacks to the observables.
      *
      * <p>Called once during client setup by {@link dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient#initialize()}.</p>
@@ -89,6 +106,7 @@ public final class PlatformClientEvents {
         loader.endClientTick(() -> CLIENT_END_TICK.emit(new ClientEvent.EndTick()));
         loader.applyHudRegistrations(PlatformClientEvents::applyHudLayerRegistrations);
         loader.applyBlockHighlightOverrides(PlatformClientEvents::emitBlockHighlight);
+        loader.applyResourcePackRegistrations(PlatformClientEvents::applyResourcePackRegistrations);
     }
 
     /**
@@ -105,6 +123,51 @@ public final class PlatformClientEvents {
         registerHudLayerInternal(new HudLayerRegistration(ordering, other, key, layer));
     }
 
+    /**
+     * Registers a built-in resource pack using the resource-pack definition record.
+     *
+     * <p>If the platform registrar is already active, the pack is applied immediately.</p>
+     *
+     * @param resourcePackDef resource pack metadata
+     */
+    public static void registerResourcePack(ResourcePackDef resourcePackDef) {
+        registerResourcePackInternal(Objects.requireNonNull(resourcePackDef, "resourcePackDef"));
+    }
+
+    /**
+     * Registers a built-in resource pack using a literal display name.
+     *
+     * @param modId owning mod id
+     * @param id unique pack id within the mod
+     * @param displayName pack display name
+     * @param activationBehaviour activation mode for the pack
+     */
+    public static void registerResourcePack(
+            String modId,
+            String id,
+            String displayName,
+            ResourcePackActivationBehaviour activationBehaviour
+    ) {
+        registerResourcePack(new ResourcePackDef(modId, id, displayName, activationBehaviour));
+    }
+
+    /**
+     * Registers a built-in resource pack using a component display name.
+     *
+     * @param modId owning mod id
+     * @param id unique pack id within the mod
+     * @param displayName pack display name
+     * @param activationBehaviour activation mode for the pack
+     */
+    public static void registerResourcePack(
+            String modId,
+            String id,
+            Component displayName,
+            ResourcePackActivationBehaviour activationBehaviour
+    ) {
+        registerResourcePackInternal(new ResourcePackDef(modId, id, displayName, activationBehaviour));
+    }
+
     private static synchronized void applyHudLayerRegistrations(HudRegistrar registrar) {
         activeRegistrar = registrar;
 
@@ -115,6 +178,33 @@ public final class PlatformClientEvents {
         if (!hudRegistrationEventDispatched) {
             hudRegistrationEventDispatched = true;
             HUD_REGISTRATION.emit(new ClientEvent.HudRegistration(PlatformClientEvents::registerHudLayer));
+        }
+    }
+
+    private static synchronized void applyResourcePackRegistrations(ResourcePackRegistrar registrar) {
+        activeResourcePackRegistrar = registrar;
+
+        for (ResourcePackDef resourcePackDef : REGISTERED_RESOURCE_PACKS) {
+            registrar.register(resourcePackDef);
+        }
+
+        if (!resourcePackRegistrationEventDispatched) {
+            resourcePackRegistrationEventDispatched = true;
+            RESOURCE_PACK_REGISTRATION.emit(new ClientEvent.ResourcePackRegistration(registrar));
+        }
+    }
+
+    private static synchronized void registerResourcePackInternal(ResourcePackDef resourcePackDef) {
+        for (ResourcePackDef existingResourcePack : REGISTERED_RESOURCE_PACKS) {
+            if (existingResourcePack.modId().equals(resourcePackDef.modId()) && existingResourcePack.id().equals(resourcePackDef.id())) {
+                throw new IllegalArgumentException("Resource pack already registered: " + resourcePackDef.modId() + ":" + resourcePackDef.id());
+            }
+        }
+
+        REGISTERED_RESOURCE_PACKS.add(resourcePackDef);
+
+        if (activeResourcePackRegistrar != null) {
+            activeResourcePackRegistrar.register(resourcePackDef);
         }
     }
 

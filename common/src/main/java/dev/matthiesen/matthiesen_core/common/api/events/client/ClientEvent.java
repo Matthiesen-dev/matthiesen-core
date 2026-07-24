@@ -1,7 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.api.events.client;
 
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
+import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackDef;
 
 /**
  * Typed records for all client-side event types.
@@ -45,4 +47,14 @@ public final class ClientEvent {
      * @param context the current block outline render context
      */
     public record BlockHighlight(BlockOutlineContext context) {}
+
+    /**
+     * Fired when resource packs are ready to be added.
+     *
+     * <p>Emitted when resource packs can be registered. Listeners should register their resource packs
+     * using the provided resource pack definition.</p>
+     *
+     * @param registrar the resource pack registrar
+     */
+    public record ResourcePackRegistration(ResourcePackRegistrar registrar) {}
 }
