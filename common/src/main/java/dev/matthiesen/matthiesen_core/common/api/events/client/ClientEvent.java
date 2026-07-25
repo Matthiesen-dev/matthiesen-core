@@ -3,7 +3,6 @@ package dev.matthiesen.matthiesen_core.common.api.events.client;
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
 import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
-import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackDef;
 
 /**
  * Typed records for all client-side event types.
