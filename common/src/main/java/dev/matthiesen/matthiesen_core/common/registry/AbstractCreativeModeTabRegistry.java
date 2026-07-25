@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -64,6 +65,11 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
     /**
      * Registers an item to be added to a creative mode tab.
      *
+     * <p>For NeoForge deferred registration, prefer
+     * {@link #registerTabItemAugmentation(ResourceKey, Supplier)} or
+     * {@link #registerTabAugmentation(ResourceKey, Supplier)} so item resolution
+     * happens when tab contents are built.</p>
+     *
      * @param tab the target creative mode tab
      * @param item the item to add to the tab
      */
@@ -72,13 +78,50 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
     }
 
     /**
+     * Registers an item supplier to be added to a creative mode tab.
+     *
+     * <p>Use this overload when the item depends on deferred registry values,
+     * especially on NeoForge.</p>
+     *
+     * @param tab the target creative mode tab
+     * @param itemSupplier supplier that creates the item to add to the tab
+     */
+    protected final void registerTabAugmentation(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> itemSupplier) {
+        MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabAugmentation(tab, itemSupplier);
+    }
+
+    /**
+     * Registers an item supplier to be added to a creative mode tab.
+     *
+     * @param tab the target creative mode tab
+     * @param itemSupplier supplier that creates the item to add to the tab
+     */
+    protected final void registerTabItemAugmentation(ResourceKey<CreativeModeTab> tab, Supplier<? extends Item> itemSupplier) {
+        MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabItemAugmentation(tab, itemSupplier);
+    }
+
+    /**
      * Registers multiple items to be added to a creative mode tab.
+     *
+     * <p>For NeoForge deferred registration, prefer
+     * {@link #registerTabItemAugmentations(ResourceKey, Iterable)} when items
+     * are defined as suppliers.</p>
      *
      * @param tab the target creative mode tab
      * @param items the items to add to the tab
      */
     protected final void registerTabAugmentations(ResourceKey<CreativeModeTab> tab, List<ItemStack> items) {
         MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabAugmentations(tab, items);
+    }
+
+    /**
+     * Registers multiple item suppliers to be added to a creative mode tab.
+     *
+     * @param tab the target creative mode tab
+     * @param itemSuppliers suppliers that create items to add to the tab
+     */
+    protected final void registerTabItemAugmentations(ResourceKey<CreativeModeTab> tab, Iterable<? extends Supplier<? extends Item>> itemSuppliers) {
+        MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager().registerTabItemAugmentations(tab, itemSuppliers);
     }
 
     /**
