@@ -5,6 +5,9 @@ It provides a set of core functionalities and utilities that can be used across 
 Instead of maintaining separate implementations for each platform, you can write your mod logic once in common code and let Matthiesen core 
 handle the platform-specific details.
 
+Matthiesen Core does not have to be installed on the client if the mod depending on it is server-side only. However, if the mod(s) that depend 
+on Matthiesen Core have client-side components, then Matthiesen Core must be installed on the client as well.
+
 > Note: For regular users, This library does nothing on its own aside from setting up the core functionality for other mods to utilize. 
 > If you are not a mod developer, simply drop the mod in your `mods/` folder alongside the other mods that depend on it, and you are good to go.
  
