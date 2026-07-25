@@ -5,7 +5,7 @@ import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
 import net.minecraft.network.chat.Component;
 
 /**
- * A simple text parser that replaces '&' with '§' and returns a literal component compatible with Vanilla MC formatting.
+ * A simple text parser for Vanilla Minecraft text formatting. This parser replaces '&amp;' with '§' to allow for color and formatting codes in text.
  */
 public final class VanillaTextParser implements TextParser {
     @Override

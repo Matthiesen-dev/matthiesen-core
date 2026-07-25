@@ -85,7 +85,7 @@ public interface CommonLoaderRegistry {
      * <pre>
      * registerItemRegistryCallback(item -> {
      *     if (item instanceof MyCustomItem customItem) {
-     *         AccessoriesAPI.registerAccessory(item, new MyCustomItemAccessory<>(item));
+     *         AccessoriesAPI.registerAccessory(item, new MyCustomItemAccessory(item));
      *     }
      * })
      * </pre>
