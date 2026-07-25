@@ -73,9 +73,9 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
 
     @Override
     public void applyBlockHighlightOverrides(Function<ClientEvent.BlockHighlight, InteractionResult> blockHighlightEventHandler) {
-        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldContext, hitResult) -> {
+        WorldRenderEvents.BLOCK_OUTLINE.register((worldContext, hitResult) -> {
             if (!(hitResult instanceof BlockHitResult blockHitResult)) {
-                return false;
+                return true;
             }
 
             BlockOutlineContext context = new BlockOutlineContext(
@@ -87,8 +87,8 @@ public final class FabricLoaderClientEventsListeners implements CommonLoaderClie
             );
 
             InteractionResult result = blockHighlightEventHandler.apply(new ClientEvent.BlockHighlight(context));
-            // Fabric callback uses true to cancel outline rendering.
-            return result == InteractionResult.FAIL;
+            // Fabric callback uses false to cancel outline rendering.
+            return result != InteractionResult.FAIL;
         });
     }
 
