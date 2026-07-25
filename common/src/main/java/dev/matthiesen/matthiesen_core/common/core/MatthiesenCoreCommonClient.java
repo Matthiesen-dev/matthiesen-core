@@ -65,7 +65,6 @@ public final class MatthiesenCoreCommonClient {
      * @param message the message to log
      */
     public void createInfoLog(String message) {
-        if (!MatthiesenCoreCommon.INSTANCE.getConfig().logging.enableDebugLogging) return;
         LOGGER.info(message);
     }
 

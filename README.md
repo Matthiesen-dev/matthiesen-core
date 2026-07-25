@@ -31,24 +31,6 @@ Matthiesen Core provides a unified API for:
 - [Ember's Text API](https://modrinth.com/mod/embers-text-api)
 - [Fabric Permissions API](https://modrinth.com/mod/fabric-permissions-api) (Fabric only)
 
-## Configuration
-
-Currently Matthiesen Core has a very simple configuration system that allows you to configure the mod's behavior and settings. 
-The configuration file is located at `<game_directory>/config/matthiesen_core/config.json`.
-
-```json
-{
-  "logging": {
-    "enableDebugLogging": true
-  }
-}
-```
-
-### Options Breakdown
-
-- **logging**: This section contains options related to logging behavior.
-    - **enableDebugLogging**: A boolean value that determines whether debug logging is enabled. Set to `true` to enable debug logging, or `false` to disable it.
-
 ## Version Compatibility
 
 | Minecraft Version | Mod Version |
