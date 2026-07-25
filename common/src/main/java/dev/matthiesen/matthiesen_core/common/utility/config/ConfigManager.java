@@ -115,7 +115,7 @@ public final class ConfigManager<T> {
      * @return The merged config as a JsonElement
      */
     private JsonElement mergeConfigs(JsonObject defaultConfig, JsonObject fileConfig) {
-        MatthiesenCoreCommon.INSTANCE.createDebugLog("Checking for config merge.");
+        LOGGER.debug("Checking for config merge.");
         boolean merged = false;
 
         for (String key : defaultConfig.keySet()) {
