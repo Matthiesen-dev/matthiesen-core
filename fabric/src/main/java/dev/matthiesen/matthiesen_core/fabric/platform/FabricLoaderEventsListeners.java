@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;

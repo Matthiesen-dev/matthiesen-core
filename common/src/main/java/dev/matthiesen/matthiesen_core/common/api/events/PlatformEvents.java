@@ -127,6 +127,20 @@ public final class PlatformEvents {
     public static final EventObservable<PlayerEvent.Leave> PLAYER_LEAVE = new EventObservable<>();
 
     // =========================================================================
+    // Player ticking
+    // =========================================================================
+
+    /**
+     * Fired at the start of each server tick for each player, before game logic is processed.
+     */
+    public static final EventObservable<PlayerEvent.PreTick> PLAYER_PRE_TICK = new EventObservable<>();
+
+    /**
+     * Fired at the end of each server tick for each player, after all game logic has been processed.
+     */
+    public static final EventObservable<PlayerEvent.EndTick> PLAYER_END_TICK = new EventObservable<>();
+
+    // =========================================================================
     // Player interaction — result-based, cancellable
     // =========================================================================
 
@@ -170,6 +184,9 @@ public final class PlatformEvents {
                 PLAYER_USE_ITEM.emit(new PlayerEvent.UseItem(player, level, hand)));
         loader.onPlayerUseBlockResult((player, level, hand, pos) ->
                 PLAYER_USE_BLOCK.emit(new PlayerEvent.UseBlock(player, level, hand, pos)));
+
+        // PLAYER_PRE_TICK - Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
+        // PLAYER_END_TICK - Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
     }
 }
 

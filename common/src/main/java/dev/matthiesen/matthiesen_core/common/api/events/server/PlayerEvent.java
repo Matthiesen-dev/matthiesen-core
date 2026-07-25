@@ -40,6 +40,18 @@ public final class PlayerEvent {
     public record Leave(ServerPlayer player) {}
 
     /**
+     * Fired at the start of a server tick for each player.
+     * @param player the {@link ServerPlayer} being ticked
+     */
+    public record PreTick(ServerPlayer player) {}
+
+    /**
+     * Fired at the end of a server tick for each player.
+     * @param player the {@link ServerPlayer} being ticked
+     */
+    public record EndTick(ServerPlayer player) {}
+
+    /**
      * Fired when a server-side player uses an item. Subscribed via
      * {@link PlatformEvents#PLAYER_USE_ITEM} ({@link ResultEventObservable}).
      *
