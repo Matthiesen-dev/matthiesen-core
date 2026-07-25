@@ -41,4 +41,10 @@ tasks {
     shadowJar {
         configurations = listOf(shadowBundle)
     }
+
+    // Force the published remapped jar to be generated from the shaded jar.
+    remapJar {
+        dependsOn(shadowJar)
+        inputFile.set(shadowJar.flatMap { it.archiveFile })
+    }
 }
