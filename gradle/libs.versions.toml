@@ -13,7 +13,7 @@ publish = "0.35.0"
 sponge-mixin = "0.8.5"
 faststats = "0.28.0"
 emberstextapi = "3.0.0"
-modmenu = "11.0.4"
+modmenu = "v6Xx3fbU"
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
@@ -38,7 +38,7 @@ sponge-mixin = { group = "org.spongepowered", name = "mixin", version.ref = "spo
 faststats = { group = "dev.matthiesen.libs", name = "faststats", version.ref = "faststats" }
 emberstextapiFabric = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-fabric-1.21.1", version.ref = "emberstextapi" }
 emberstextapiNeoForge = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-neoforge-1.21.1", version.ref = "emberstextapi" }
-modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
+modmenu = { group = "maven.modrinth", name = "mOgUt4GM", version.ref = "modmenu" }
 
 [bundles]
 commonCompileOnly = ["sponge-mixin"]
