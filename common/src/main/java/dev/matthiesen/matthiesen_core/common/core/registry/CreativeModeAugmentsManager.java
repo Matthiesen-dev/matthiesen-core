@@ -3,12 +3,14 @@ package dev.matthiesen.matthiesen_core.common.core.registry;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Manages augmentations (item additions) to creative mode tabs in common code.
@@ -58,7 +60,33 @@ public final class CreativeModeAugmentsManager {
 	 * @param item the item to add to the tab
 	 */
 	public void registerTabAugmentation(ResourceKey<CreativeModeTab> tab, ItemStack item) {
-		registerTabAugmentationInternal(new TabAugmentation(tab, item));
+		registerTabAugmentation(tab, () -> item);
+	}
+
+	/**
+	 * Registers an item supplier to be added to a creative mode tab.
+	 *
+	 * <p>The supplier is evaluated when the tab contents are built, which avoids
+	 * early access to unbound deferred registry entries on NeoForge.</p>
+	 *
+	 * @param tab the target creative mode tab
+	 * @param itemSupplier supplier that creates the item stack to add
+	 */
+	public void registerTabAugmentation(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> itemSupplier) {
+		registerTabAugmentationInternal(new TabAugmentation(tab, itemSupplier));
+	}
+
+	/**
+	 * Registers an item supplier to be added to a creative mode tab.
+	 *
+	 * <p>This is a convenience overload for deferred item registrations where
+	 * calling {@code get()} too early would fail (e.g., NeoForge DeferredHolder).</p>
+	 *
+	 * @param tab the target creative mode tab
+	 * @param itemSupplier supplier that creates the item to add
+	 */
+	public void registerTabItemAugmentation(ResourceKey<CreativeModeTab> tab, Supplier<? extends Item> itemSupplier) {
+		registerTabAugmentation(tab, () -> new ItemStack(itemSupplier.get()));
 	}
 
 	/**
@@ -69,7 +97,19 @@ public final class CreativeModeAugmentsManager {
 	 */
 	public void registerTabAugmentations(ResourceKey<CreativeModeTab> tab, List<ItemStack> items) {
 		for (ItemStack item : items) {
-			registerTabAugmentationInternal(new TabAugmentation(tab, item));
+			registerTabAugmentation(tab, item);
+		}
+	}
+
+	/**
+	 * Registers multiple item suppliers to be added to a creative mode tab.
+	 *
+	 * @param tab the target creative mode tab
+	 * @param itemSuppliers suppliers that create items to add to the tab
+	 */
+	public void registerTabItemAugmentations(ResourceKey<CreativeModeTab> tab, Iterable<? extends Supplier<? extends Item>> itemSuppliers) {
+		for (Supplier<? extends Item> itemSupplier : itemSuppliers) {
+			registerTabItemAugmentation(tab, itemSupplier);
 		}
 	}
 
@@ -83,7 +123,7 @@ public final class CreativeModeAugmentsManager {
 		List<ItemStack> result = new ArrayList<>();
 		for (TabAugmentation augmentation : REGISTERED_AUGMENTATIONS) {
 			if (augmentation.tab().equals(tab)) {
-				result.add(augmentation.item().copy());
+				result.add(augmentation.itemSupplier().get().copy());
 			}
 		}
 		return result;
@@ -110,12 +150,44 @@ public final class CreativeModeAugmentsManager {
 	@FunctionalInterface
 	public interface TabAugmentationRegistrar {
 		/**
+		 * Registers an item supplier to be added to a creative mode tab.
+		 *
+		 * @param tab the target creative mode tab
+		 * @param itemSupplier supplier that creates the item to add
+		 */
+		void register(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> itemSupplier);
+
+		/**
+		 * Registers an item supplier to be added to a creative mode tab.
+		 *
+		 * @param tab the target creative mode tab
+		 * @param itemSupplier supplier that creates the item to add
+		 */
+		default void registerItem(ResourceKey<CreativeModeTab> tab, Supplier<? extends Item> itemSupplier) {
+			register(tab, () -> new ItemStack(itemSupplier.get()));
+		}
+
+		/**
+		 * Registers multiple item suppliers to be added to a creative mode tab.
+		 *
+		 * @param tab the target creative mode tab
+		 * @param itemSuppliers suppliers that create items to add
+		 */
+		default void registerItems(ResourceKey<CreativeModeTab> tab, Iterable<? extends Supplier<? extends Item>> itemSuppliers) {
+			for (Supplier<? extends Item> itemSupplier : itemSuppliers) {
+				registerItem(tab, itemSupplier);
+			}
+		}
+
+		/**
 		 * Registers an item to be added to a creative mode tab.
 		 *
 		 * @param tab the target creative mode tab
 		 * @param item the item to add to the tab
 		 */
-		void register(ResourceKey<CreativeModeTab> tab, ItemStack item);
+		default void register(ResourceKey<CreativeModeTab> tab, ItemStack item) {
+			register(tab, () -> item);
+		}
 	}
 
 	private synchronized void registerTabAugmentationInternal(TabAugmentation augmentation) {
@@ -125,5 +197,5 @@ public final class CreativeModeAugmentsManager {
 	/**
 	 * Represents a single item augmentation to a creative mode tab.
 	 */
-	private record TabAugmentation(ResourceKey<CreativeModeTab> tab, ItemStack item) {}
+	private record TabAugmentation(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> itemSupplier) {}
 }
