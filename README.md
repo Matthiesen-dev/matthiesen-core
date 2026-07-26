@@ -29,6 +29,7 @@ Matthiesen Core provides a unified API for:
 ## Optional Dependencies
 
 - [Ember's Text API](https://modrinth.com/mod/embers-text-api)
+- [Impactor](https://modrinth.com/mod/impactor) (Optional)
 - [Fabric Permissions API](https://modrinth.com/mod/fabric-permissions-api) (Fabric only)
 
 ## Version Compatibility
