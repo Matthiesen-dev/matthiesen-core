@@ -53,7 +53,7 @@ public abstract class AbstractUniversalMetric extends SimpleMetrics {
      * @param serverType the type of server (e.g., "client" or "dedicated") that is submitting the metrics. This value is added to the metrics JSON object to provide context about the environment in which the metrics are being collected.
      */
     protected void appendUniversalData(final JsonObject metrics, final String serverType) {
-        metrics.addProperty("minecraft_version", minecraftVersion());
+        metrics.addProperty("game_version", minecraftVersion());
         metrics.addProperty("platform_version", getPlatformVersion());
         metrics.addProperty("plugin_version", modContainer.getModVersion());
         metrics.addProperty("server_type", serverType);
