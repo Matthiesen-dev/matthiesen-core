@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.economy;
 
+import dev.matthiesen.matthiesen_core.common.api.economy.BuiltInEconomyProviders;
 import dev.matthiesen.matthiesen_core.common.api.economy.EconomyProvider;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.economy.providers.ImpactorEconomyProvider;
@@ -43,7 +44,7 @@ public final class EconomyManager {
 
         registerEconomyProvider(ItemEconomyProvider.INSTANCE);
 
-        if (modInstance.getCommonUtils().isModLoaded("impactor")) {
+        if (modInstance.getCommonUtils().isModLoaded(BuiltInEconomyProviders.IMPACTOR.getId())) {
             registerEconomyProvider(ImpactorEconomyProvider.INSTANCE);
         }
     }
@@ -74,11 +75,29 @@ public final class EconomyManager {
     }
 
     /**
+     * Retrieves the registered economy provider by its built-in provider enum.
+     * @param provider The built-in economy provider enum to retrieve.
+     * @return The registered economy provider associated with the given built-in provider enum, or null if no provider is registered with that ID.
+     */
+    public EconomyProvider getEconomyProvider(BuiltInEconomyProviders provider) {
+        return getEconomyProvider(provider.getId());
+    }
+
+    /**
      * Checks if an economy provider is registered with the given ID.
      * @param id The unique identifier of the economy provider to check.
      * @return true if the provider is registered, false otherwise.
      */
     public boolean isEconomyProviderRegistered(String id) {
         return providers.containsKey(id);
+    }
+
+    /**
+     * Checks if an economy provider is registered with the given built-in provider enum.
+     * @param provider The built-in economy provider enum to check.
+     * @return true if the provider is registered, false otherwise.
+     */
+    public boolean isEconomyProviderRegistered(BuiltInEconomyProviders provider) {
+        return isEconomyProviderRegistered(provider.getId());
     }
 }

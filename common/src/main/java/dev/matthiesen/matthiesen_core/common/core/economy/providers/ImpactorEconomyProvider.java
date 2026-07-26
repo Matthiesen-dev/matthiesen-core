@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.economy.providers;
 
+import dev.matthiesen.matthiesen_core.common.api.economy.BuiltInEconomyProviders;
 import dev.matthiesen.matthiesen_core.common.api.economy.EconomyProvider;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.utility.player_data.ServerUser;
@@ -23,7 +24,7 @@ public final class ImpactorEconomyProvider implements EconomyProvider {
 
     @Override
     public String providerId() {
-        return "impactor";
+        return BuiltInEconomyProviders.IMPACTOR.getId();
     }
 
     @Override
