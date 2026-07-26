@@ -40,3 +40,11 @@ mandatory = false
 versionRange = "[3.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "impactor"
+type = "optional"
+mandatory = false
+versionRange = "[5.3.5+1.21.1,)"
+ordering = "AFTER"
+side = "SERVER"

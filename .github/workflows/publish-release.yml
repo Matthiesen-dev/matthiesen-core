@@ -10,6 +10,7 @@ on:
 
 # The dependencies below correspond to:
 # - Embers Text API (OVSg4uGN) - Optional
+# - Impactor (LdBYVaPS) - Optional
 ## Fabric Only:
 # - Fabric Permissions API (lzVo0Dll) - Optional
 
@@ -29,7 +30,8 @@ jobs:
       modrinth_id: "sqEZOmQo"
       modrinth_dependencies: |-
         [
-          {"project_id":"OVSg4uGN","dependency_type":"optional"}
+          {"project_id":"OVSg4uGN","dependency_type":"optional"},
+          {"project_id":"LdBYVaPS","dependency_type":"optional"}
         ]
       modrinth_fabric_dependencies: |-
         [

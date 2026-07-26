@@ -6,6 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderE
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
+import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CorePlayerEvents;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
@@ -75,6 +76,7 @@ public final class MatthiesenCoreCommon {
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
         CreativeModeAugmentsManager.INSTANCE.initialize(INSTANCE);
+        EconomyManager.INSTANCE.initialize(INSTANCE);
 
         CorePlayerEvents.register();
 
@@ -239,5 +241,15 @@ public final class MatthiesenCoreCommon {
      */
     public CreativeModeAugmentsManager getCreativeModeAugmentsManager() {
         return CreativeModeAugmentsManager.INSTANCE;
+    }
+
+    /**
+     * Retrieves the Economy Manager instance. This instance is responsible for managing the in-game economy, including currency providers, balance management,
+     * deposits, withdrawals, and checking if a player has sufficient funds.
+     *
+     * @return The singleton instance of the EconomyManager, which can be used to register and retrieve economy providers and manage in-game currency.
+     */
+    public EconomyManager getEconomyManager() {
+        return EconomyManager.INSTANCE;
     }
 }

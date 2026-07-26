@@ -42,6 +42,7 @@
     "fabric-permissions-api-v0": "*"
   },
   "suggests": {
-    "emberstextapi": ">=3.0.0 <4.0.0"
+    "emberstextapi": ">=3.0.0 <4.0.0",
+    "impactor": ">=5.3.5+1.21.1"
   }
 }
