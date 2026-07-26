@@ -15,6 +15,10 @@ faststats = "0.28.0"
 emberstextapi = "3.0.0"
 modmenu = "v6Xx3fbU"
 
+impactor-fabric = "5.3.5+1.21.1-Fabric-fabric,1.21.1"
+impactor-neoforge = "5.3.5+1.21.1-Neoforge-neoforge,1.21.1"
+adventure-key = "4.13.0"
+
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 architectury-loom = { id = "dev.architectury.loom", version.ref = "architectury-loom" }
@@ -40,23 +44,27 @@ emberstextapiFabric = { group = "net.tysontheember.emberstextapi", name = "ember
 emberstextapiNeoForge = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-neoforge-1.21.1", version.ref = "emberstextapi" }
 modmenu = { group = "maven.modrinth", name = "mOgUt4GM", version.ref = "modmenu" }
 
+impactor-fabric = { group = "maven.modrinth", name = "impactor", version.ref = "impactor-fabric" }
+impactor-neoforge = { group = "maven.modrinth", name = "impactor", version.ref = "impactor-neoforge" }
+adventure-key = { group = "net.kyori", name = "adventure-key", version.ref = "adventure-key" }
+
 [bundles]
 commonCompileOnly = ["sponge-mixin"]
-commonImplementation = ["faststats"]
-commonModCompileOnly = ["emberstextapiFabric"]
+commonImplementation = ["faststats", "adventure-key"]
+commonModCompileOnly = ["emberstextapiFabric", "impactor-fabric"]
 commonModImplementation = []
 commonModImplementationNoTransitive = []
 
 fabricCompileOnly = []
 fabricImplementation = ["faststats"]
-fabricModCompileOnly = ["fabric-permissions-api", "emberstextapiFabric"]
+fabricModCompileOnly = ["fabric-permissions-api", "emberstextapiFabric", "impactor-fabric"]
 fabricModRuntimeOnly = ["emberstextapiFabric", "modmenu"]
 fabricModImplementation = ["fabric-loader", "fabric-api"]
 fabricModImplementationNoTransitive = []
 
 neoforgeCompileOnly = []
 neoforgeImplementation = ["faststats"]
-neoforgeModCompileOnly = ["emberstextapiNeoForge"]
+neoforgeModCompileOnly = ["emberstextapiNeoForge", "impactor-neoforge"]
 neoforgeModRuntimeOnly = ["emberstextapiNeoForge"]
 neoforgeModImplementation = []
 neoforgeModImplementationNoTransitive = []
