@@ -168,20 +168,12 @@ public final class PlatformEvents {
      */
     public static void initialize() {
         // Handled Externally by EventBusSubscriber (Fabric/NeoForge)
-        // - SERVER_STARTING
-        // - SERVER_STARTED
-        // - SERVER_STOPPING
-        // - SERVER_STOPPED
-        // - SERVER_START_TICK
-        // - SERVER_END_TICK
-        // - SERVER_RELOAD
-        // - PLAYER_JOIN
-        // - PLAYER_LEAVE
-        // - PLAYER_USE_ITEM
-        // - PLAYER_USE_BLOCK
+        // - SERVER_STARTING, SERVER_STARTED, SERVER_STOPPING, SERVER_STOPPED
+        // - SERVER_START_TICK, SERVER_END_TICK, SERVER_RELOAD
+        // - PLAYER_JOIN, PLAYER_LEAVE
+        // - PLAYER_USE_ITEM, PLAYER_USE_BLOCK
         // Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
-        // - PLAYER_PRE_TICK
-        // - PLAYER_END_TICK
+        // - PLAYER_PRE_TICK, PLAYER_END_TICK
     }
 }
 
