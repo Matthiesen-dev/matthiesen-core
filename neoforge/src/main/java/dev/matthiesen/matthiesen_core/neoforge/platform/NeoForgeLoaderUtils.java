@@ -4,7 +4,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
-import dev.matthiesen.matthiesen_core.neoforge.MatthiesenCoreNeoForge;
+import dev.matthiesen.matthiesen_core.neoforge.events.PlatformEventsBusListener;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -22,7 +22,7 @@ import java.nio.file.Path;
 public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
     @Override
     public MinecraftServer getServer() {
-        return MatthiesenCoreNeoForge.SERVER_INSTANCE;
+        return PlatformEventsBusListener.SERVER_INSTANCE;
     }
 
     @Override

@@ -4,7 +4,6 @@ import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackDef;
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackActivationBehaviour;
-import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.NeoForgeVanillaGuiLayers;
@@ -20,6 +19,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Central registry of all client-side platform events provided by Matthiesen Core.
+ */
+@SuppressWarnings("unused")
 public final class PlatformClientEvents {
     private static final List<HudLayerRegistration> REGISTERED_HUD_LAYERS = new CopyOnWriteArrayList<>();
     private static final List<ResourceLocation> VANILLA_LAYER_ORDER = List.of(
@@ -98,15 +101,8 @@ public final class PlatformClientEvents {
      * Initializes the client-side event system by wiring platform-specific event callbacks to the observables.
      *
      * <p>Called once during client setup by {@link dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient#initialize()}.</p>
-     *
-     * @param loader the platform-specific client event listener bridge
      */
-    public static void initialize(CommonLoaderClientEventsListeners loader) {
-        loader.onClientStopping(() -> CLIENT_STOPPING.emit(new ClientEvent.Stopping()));
-        loader.endClientTick(() -> CLIENT_END_TICK.emit(new ClientEvent.EndTick()));
-        loader.applyHudRegistrations(PlatformClientEvents::applyHudLayerRegistrations);
-        loader.applyBlockHighlightOverrides(PlatformClientEvents::emitBlockHighlight);
-        loader.applyResourcePackRegistrations(PlatformClientEvents::applyResourcePackRegistrations);
+    public static void initialize() {
     }
 
     /**
@@ -168,7 +164,15 @@ public final class PlatformClientEvents {
         registerResourcePackInternal(new ResourcePackDef(modId, id, displayName, activationBehaviour));
     }
 
-    private static synchronized void applyHudLayerRegistrations(HudRegistrar registrar) {
+    /**
+     * Applies all registered HUD layers to the provided registrar. If the registrar is already active, all previously
+     * registered HUD layers are applied immediately. If the registrar is not yet active, the HUD layers will be applied
+     * when the registrar becomes active. This method is typically called during the HUD registration phase of the client
+     * lifecycle to ensure that all registered HUD layers are properly integrated into the game.
+     * @param registrar The HudRegistrar used to register the HUD layers. This registrar allows the mod to define and manage
+     *                  HUD layers, enabling players to customize their game experience by adding or removing visual elements on the screen.
+     */
+    public static synchronized void applyHudLayerRegistrations(HudRegistrar registrar) {
         activeRegistrar = registrar;
 
         for (HudLayerRegistration registration : REGISTERED_HUD_LAYERS) {
@@ -181,7 +185,16 @@ public final class PlatformClientEvents {
         }
     }
 
-    private static synchronized void applyResourcePackRegistrations(ResourcePackRegistrar registrar) {
+    /**
+     * Applies all registered resource packs to the provided registrar. If the registrar is already active, all previously
+     * registered resource packs are applied immediately.
+     * If the registrar is not yet active, the resource packs will be applied when the registrar becomes active. This method
+     * is typically called during the resource pack registration phase of the client lifecycle to ensure that all registered
+     * resource packs are properly integrated into the game.
+     * @param registrar The ResourcePackRegistrar used to register the resource packs. This registrar allows the mod to define
+     *                  and manage resource packs, enabling players to customize their game experience by adding or removing content packs.
+     */
+    public static synchronized void applyResourcePackRegistrations(ResourcePackRegistrar registrar) {
         activeResourcePackRegistrar = registrar;
 
         for (ResourcePackDef resourcePackDef : REGISTERED_RESOURCE_PACKS) {
@@ -208,7 +221,12 @@ public final class PlatformClientEvents {
         }
     }
 
-    private static InteractionResult emitBlockHighlight(ClientEvent.BlockHighlight event) {
+    /**
+     * Emits a block highlight event to all registered listeners, allowing them to modify or cancel the rendering of the block outline.
+     * @param event The BlockHighlight event containing the context for the block outline rendering.
+     * @return The InteractionResult returned by the listeners, indicating whether to continue rendering (PASS) or cancel rendering (FAIL).
+     */
+    public static InteractionResult emitBlockHighlight(ClientEvent.BlockHighlight event) {
         return BLOCK_HIGHLIGHT.emit(event);
     }
 
