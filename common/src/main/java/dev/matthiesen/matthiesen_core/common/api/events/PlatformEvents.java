@@ -2,7 +2,6 @@ package dev.matthiesen.matthiesen_core.common.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
-import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 
 /**
  * Central registry of all server-side platform events provided by Matthiesen Core.
@@ -166,27 +165,23 @@ public final class PlatformEvents {
 
     /**
      * Wires platform-specific loader callbacks into the common event observables.
-     * Called once during {@link dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon#initialize()}.
-     *
-     * @param loader the platform event bridge provided by the active loader
      */
-    public static void initialize(CommonLoaderEventsListeners loader) {
-        loader.onServerStarting(server -> SERVER_STARTING.emit(new ServerEvent.Starting(server)));
-        loader.onServerStarted(server -> SERVER_STARTED.emit(new ServerEvent.Started(server)));
-        loader.onServerStopping(server -> SERVER_STOPPING.emit(new ServerEvent.Stopping(server)));
-        loader.onServerStopped(server -> SERVER_STOPPED.emit(new ServerEvent.Stopped(server)));
-        loader.onServerStartTick(server -> SERVER_START_TICK.emit(new ServerEvent.StartTick(server)));
-        loader.onServerEndTick(server -> SERVER_END_TICK.emit(new ServerEvent.EndTick(server)));
-        loader.onServerReload(() -> SERVER_RELOAD.emit(new ServerEvent.Reload()));
-        loader.onPlayerJoin(player -> PLAYER_JOIN.emit(new PlayerEvent.Join(player)));
-        loader.onPlayerLeave(player -> PLAYER_LEAVE.emit(new PlayerEvent.Leave(player)));
-        loader.onPlayerUseItemResult((player, level, hand) ->
-                PLAYER_USE_ITEM.emit(new PlayerEvent.UseItem(player, level, hand)));
-        loader.onPlayerUseBlockResult((player, level, hand, pos) ->
-                PLAYER_USE_BLOCK.emit(new PlayerEvent.UseBlock(player, level, hand, pos)));
-
-        // PLAYER_PRE_TICK - Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
-        // PLAYER_END_TICK - Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
+    public static void initialize() {
+        // Handled Externally by EventBusSubscriber (Fabric/NeoForge)
+        // - SERVER_STARTING
+        // - SERVER_STARTED
+        // - SERVER_STOPPING
+        // - SERVER_STOPPED
+        // - SERVER_START_TICK
+        // - SERVER_END_TICK
+        // - SERVER_RELOAD
+        // - PLAYER_JOIN
+        // - PLAYER_LEAVE
+        // - PLAYER_USE_ITEM
+        // - PLAYER_USE_BLOCK
+        // Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
+        // - PLAYER_PRE_TICK
+        // - PLAYER_END_TICK
     }
 }
 

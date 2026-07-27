@@ -1,22 +1,14 @@
 package dev.matthiesen.matthiesen_core.neoforge;
 
-import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
-import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
 import dev.matthiesen.matthiesen_core.neoforge.platform.NeoForgeLoaderNetworking;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -33,12 +25,6 @@ public final class MatthiesenCoreNeoForge {
      * is used to perform common initialization tasks and logging.
      */
     public static MatthiesenCoreCommon INSTANCE;
-
-    /**
-     * A volatile reference to the MinecraftServer instance, which is set when the server starts and cleared when the server stops.
-     * This allows other parts of the mod to access the server instance safely across different threads.
-     */
-    public static volatile MinecraftServer SERVER_INSTANCE;
 
     /**
      * Constructs a new instance of the MatthiesenCoreNeoForge class. This constructor initializes the MatthiesenCoreCommon instance,
@@ -59,69 +45,6 @@ public final class MatthiesenCoreNeoForge {
      */
     @EventBusSubscriber(modid = MatthiesenCoreCommon.MOD_ID)
     public static class ServerEventsSubscriber {
-
-        /**
-         * Handles the player pre-tick event in the NeoForge mod loader environment. This method is called at the beginning of each
-         * server tick for each player, before any game logic is processed. It emits a PLAYER_PRE_TICK event to the PlatformEvents
-         * system, allowing other parts of the mod to respond to the start of the player's tick. The method checks if the entity
-         * associated with the event is an instance of ServerPlayer before emitting the event, ensuring that only server-side player
-         * entities trigger the event emission.
-         * @param event The PlayerTickEvent.Pre event object, which provides context and information about the player's tick event,
-         *              including the player entity and the current tick phase.
-         */
-        @SubscribeEvent
-        public static void onPlayerPreTick(PlayerTickEvent.Pre event) {
-            if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-                PlatformEvents.PLAYER_PRE_TICK.emit(new PlayerEvent.PreTick(serverPlayer));
-            }
-        }
-
-        /**
-         * Handles the player end tick event in the NeoForge mod loader environment. This method is called at the end of each
-         * server tick for each player, after all game logic has been processed. It emits a PLAYER_END_TICK event to the PlatformEvents
-         * system, allowing other parts of the mod to respond to the end of the player's tick. The method checks if the entity associated
-         * with the event is an instance of ServerPlayer before emitting the event, ensuring that only server-side player entities trigger the event emission.
-         * @param event The PlayerTickEvent.Post event object, which provides context and information about the player's tick event, including
-         *              the player entity and the current tick phase.
-         */
-        @SubscribeEvent
-        public static void onPlayerEndTick(PlayerTickEvent.Post event) {
-            if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-                PlatformEvents.PLAYER_END_TICK.emit(new PlayerEvent.EndTick(serverPlayer));
-            }
-        }
-
-        /**
-         * Handles the common setup event for the mod. This method is called during the common setup phase of the mod loading
-         * process and is used to perform any necessary initialization tasks that need to be executed on both the client and server sides.
-         * @param event The FMLCommonSetupEvent event object, which provides context and information about the common setup phase of the mod loading process.
-         */
-        @SubscribeEvent
-        public static void onCommonSetup(FMLCommonSetupEvent event) {
-            event.enqueueWork(INSTANCE::onCommonServerSetup);
-        }
-
-        /**
-         * Handles the server starting event for the mod. This method is called when the Minecraft server is starting, and it sets
-         * the SERVER_INSTANCE reference to the current server instance. This allows other parts of the mod to access the server
-         * instance safely across different threads.
-         * @param event The ServerStartingEvent event object, which provides context and information about the server starting phase of the mod loading process.
-         */
-        @SubscribeEvent
-        public static void onServerStarting(ServerStartingEvent event) {
-            SERVER_INSTANCE = event.getServer();
-        }
-
-        /**
-         * Handles the server stopped event for the mod. This method is called when the Minecraft server has stopped, and it
-         * clears the SERVER_INSTANCE reference to null. This ensures that other parts of the mod do not hold onto a reference
-         * to a server instance that is no longer valid.
-         * @param event The ServerStoppedEvent event object, which provides context and information about the server stopped phase of the mod loading process.
-         */
-        @SubscribeEvent
-        public static void onServerStopped(ServerStoppedEvent event) {
-            SERVER_INSTANCE = null;
-        }
 
         /**
          * Handles the payload registration event for the mod. This method is called when the mod loader is registering custom packet payloads,

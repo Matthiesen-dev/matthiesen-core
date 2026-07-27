@@ -5,6 +5,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
+import dev.matthiesen.matthiesen_core.fabric.events.PlatformEventsBusListener;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 
@@ -16,7 +17,7 @@ import java.nio.file.Path;
 public final class FabricLoaderUtils implements CommonLoaderUtils {
     @Override
     public MinecraftServer getServer() {
-        return MatthiesenCoreFabric.SERVER_INSTANCE;
+        return PlatformEventsBusListener.SERVER_INSTANCE;
     }
 
     @Override

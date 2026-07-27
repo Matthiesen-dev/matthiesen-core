@@ -2,7 +2,6 @@ package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
-import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderEventsListeners;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
@@ -44,8 +43,6 @@ public final class MatthiesenCoreCommon {
             ServiceLoader.load(CommonLoaderUtils.class).findFirst().orElseThrow();
     private static final CommonLoaderRegistry COMMON_REGISTRY =
             ServiceLoader.load(CommonLoaderRegistry.class).findFirst().orElseThrow();
-    private static final CommonLoaderEventsListeners COMMON_EVENTS_LISTENERS =
-            ServiceLoader.load(CommonLoaderEventsListeners.class).findFirst().orElseThrow();
 
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
             ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
@@ -71,7 +68,7 @@ public final class MatthiesenCoreCommon {
 
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
-        PlatformEvents.initialize(COMMON_EVENTS_LISTENERS);
+        PlatformEvents.initialize();
         NetworkingManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
