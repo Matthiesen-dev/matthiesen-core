@@ -2,6 +2,8 @@ package dev.matthiesen.matthiesen_core.common;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.core.client.*;
+import dev.matthiesen.matthiesen_core.common.utility.config.ConfigFolderManager;
+import dev.matthiesen.matthiesen_core.common.utility.config.ConfigManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -113,5 +115,27 @@ public abstract class AbstractCommonClientMod {
      */
     public KeybindingsManager getKeybindingsManager() {
         return MatthiesenCoreCommonClient.INSTANCE.getKeybindingsManager();
+    }
+
+    /**
+     * Creates a new ConfigManager instance for managing configuration files. The ConfigManager is responsible for loading, saving, and managing configuration data for the mod.
+     * @param configClass The class type of the configuration data. This class should represent the structure of the configuration file and contain fields corresponding to the configuration options.
+     * @param configName The name of the configuration file (without the file extension). The ConfigManager will use this name to create and manage the configuration file.
+     * @return A new instance of ConfigManager for managing the specified configuration class and file name. The ConfigManager will handle loading, saving, and managing the configuration data for the mod.
+     * @param <T> The type of the configuration class. This type should represent the structure of the configuration file and contain fields corresponding to the configuration options.
+     */
+    public <T> ConfigManager<T> createConfigManager(Class<T> configClass, String configName) {
+        return new ConfigManager<>(configClass, configName, MOD_ID);
+    }
+
+    /**
+     * Creates a new ConfigFolderManager instance for managing configuration files within a specified folder. The ConfigFolderManager is responsible for loading, saving, and managing multiple configuration files within the specified folder.
+     * @param configClass The class type of the configuration data. This class should represent the structure of the configuration files and contain fields corresponding to the configuration options.
+     * @param folderName The name of the folder where the configuration files will be stored. The ConfigFolderManager will use this folder to create and manage multiple configuration files.
+     * @return A new instance of ConfigFolderManager for managing the specified configuration class and folder name. The ConfigFolderManager will handle loading, saving, and managing multiple configuration files within the specified folder.
+     * @param <T> The type of the configuration class. This type should represent the structure of the configuration files and contain fields corresponding to the configuration options.
+     */
+    public <T> ConfigFolderManager<T> createConfigFolderManager(Class<T> configClass, String folderName) {
+        return new ConfigFolderManager<>(configClass, folderName, MOD_ID);
     }
 }
