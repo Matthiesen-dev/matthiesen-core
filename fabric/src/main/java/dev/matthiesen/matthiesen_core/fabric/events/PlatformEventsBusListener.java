@@ -3,7 +3,7 @@ package dev.matthiesen.matthiesen_core.fabric.events;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
-import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -33,7 +33,7 @@ public final class PlatformEventsBusListener {
     public static void initialize() {
 
         // Run Common Setup first
-        MatthiesenCoreCommon.INSTANCE.onCommonServerSetup();
+        MatthiesenCoreFabric.INSTANCE.onCommonServerSetup();
 
         // ================================================
         // Server Events

@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.fabric;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
+import dev.matthiesen.matthiesen_core.fabric.events.PlatformClientEventsBusListener;
 import net.fabricmc.api.ClientModInitializer;
 
 /**
@@ -9,6 +10,7 @@ import net.fabricmc.api.ClientModInitializer;
  * initialization tasks during the mod loading process.
  */
 public final class MatthiesenCoreFabricClient implements ClientModInitializer {
+    public static final MatthiesenCoreCommonClient INSTANCE = MatthiesenCoreCommonClient.INSTANCE;
 
     /**
      * Invoked during the client-side initialization phase of the mod loading process. This method initializes the Matthiesen Core client-side components,
@@ -16,9 +18,9 @@ public final class MatthiesenCoreFabricClient implements ClientModInitializer {
      */
     @Override
     public void onInitializeClient() {
-        var instance = MatthiesenCoreCommonClient.INSTANCE;
-        instance.createInfoLog("Loading for Fabric Mod Loader (Client)");
-        instance.initialize();
-        instance.onClientSetup();
+        INSTANCE.createInfoLog("Loading for Fabric Mod Loader (Client)");
+        INSTANCE.initialize();
+
+        PlatformClientEventsBusListener.initialize();
     }
 }

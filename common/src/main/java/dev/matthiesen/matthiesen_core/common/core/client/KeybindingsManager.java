@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.client;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeybindMapping;
@@ -45,7 +46,7 @@ public final class KeybindingsManager {
 
 		initialized = true;
 		clientEventsListeners.applyKeyBindingRegistrations(this::applyKeybindRegistrations);
-		clientEventsListeners.endClientTick(this::tickKeybinds);
+		PlatformClientEvents.CLIENT_END_TICK.subscribe(event -> tickKeybinds());
 		MatthiesenCoreCommonClient.INSTANCE.createInfoLog("Initialized KeybindingsManager");
 	}
 

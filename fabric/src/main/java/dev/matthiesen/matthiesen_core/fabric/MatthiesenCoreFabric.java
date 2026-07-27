@@ -3,14 +3,13 @@ package dev.matthiesen.matthiesen_core.fabric;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.fabric.events.PlatformEventsBusListener;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.server.MinecraftServer;
 
 /**
  * The MatthiesenCoreFabric class serves as the main entry point for the Matthiesen Core mod when running on the Fabric mod loader.
  * It implements the ModInitializer interface, which allows it to perform initialization tasks during the mod loading process.
  */
 public final class MatthiesenCoreFabric implements ModInitializer {
+    public static final MatthiesenCoreCommon INSTANCE = MatthiesenCoreCommon.INSTANCE;
 
     /**
      * Called when the mod is initialized. This method performs the following tasks:
@@ -32,9 +31,8 @@ public final class MatthiesenCoreFabric implements ModInitializer {
      */
     @Override
     public void onInitialize() {
-        var instance = MatthiesenCoreCommon.INSTANCE;
-        instance.createInfoLog("Loading for Fabric Mod Loader");
-        instance.initialize();
+        INSTANCE.createInfoLog("Loading for Fabric Mod Loader");
+        INSTANCE.initialize();
 
         PlatformEventsBusListener.initialize();
     }

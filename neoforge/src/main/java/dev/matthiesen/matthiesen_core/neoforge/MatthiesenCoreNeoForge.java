@@ -24,7 +24,7 @@ public final class MatthiesenCoreNeoForge {
      * A reference to the MatthiesenCoreCommon instance, which is initialized during the construction of this class. This instance
      * is used to perform common initialization tasks and logging.
      */
-    public static MatthiesenCoreCommon INSTANCE;
+    public static MatthiesenCoreCommon INSTANCE = MatthiesenCoreCommon.INSTANCE;
 
     /**
      * Constructs a new instance of the MatthiesenCoreNeoForge class. This constructor initializes the MatthiesenCoreCommon instance,
@@ -33,7 +33,6 @@ public final class MatthiesenCoreNeoForge {
      *               is used to register various components and event handlers for the mod.
      */
     public MatthiesenCoreNeoForge(IEventBus modBus) {
-        INSTANCE = MatthiesenCoreCommon.INSTANCE;
         INSTANCE.createInfoLog("Loading for NeoForge Mod Loader");
         NeoForgeRegistryHelper.init(modBus);
         INSTANCE.initialize();

@@ -50,7 +50,7 @@ public final class MatthiesenCoreCommonClient {
         ScreenManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         EntityRendererManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
         KeybindingsManager.INSTANCE.initialize(CLIENT_EVENTS_LISTENERS);
-        PlatformClientEvents.initialize(CLIENT_EVENTS_LISTENERS);
+        PlatformClientEvents.initialize();
 
         LOGGER.info("Initialized Common Client");
     }
