@@ -40,9 +40,11 @@ public final class MatthiesenCoreCommon {
     private static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
     private static final CommonLoaderUtils COMMON_UTILS =
-            ServiceLoader.load(CommonLoaderUtils.class).findFirst().orElseThrow();
+            ServiceLoader.load(CommonLoaderUtils.class).findFirst()
+                    .orElseThrow(() -> new IllegalStateException("No CommonLoaderUtils implementation found"));
     private static final CommonLoaderRegistry COMMON_REGISTRY =
-            ServiceLoader.load(CommonLoaderRegistry.class).findFirst().orElseThrow();
+            ServiceLoader.load(CommonLoaderRegistry.class).findFirst()
+                    .orElseThrow(() -> new IllegalStateException("No CommonLoaderRegistry implementation found"));
 
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
             ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
