@@ -47,6 +47,19 @@ public final class PlatformClientEventsBusListener {
     }
 
     /**
+     * This method is called at the start of each client tick. It checks if the player instance is not null and then emits
+     * a PreTick event to notify any registered listeners that a new client tick has begun.
+     * @param event The ClientTickEvent.Pre event that triggers this method.
+     */
+    @SubscribeEvent
+    public static void onClientStartTick(ClientTickEvent.Pre event) {
+        Minecraft client = Minecraft.getInstance();
+        if (client.player != null) {
+            PlatformClientEvents.CLIENT_PRE_TICK.emit(new ClientEvent.PreTick(client));
+        }
+    }
+
+    /**
      * This method is called at the end of each client tick. It checks if the player instance is not null and then executes
      * all the Runnables that have been registered to run at the end of the client tick. This allows for scheduling tasks
      * that need to be performed after the main client tick processing is complete.
@@ -54,8 +67,9 @@ public final class PlatformClientEventsBusListener {
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onClientEndTick(ClientTickEvent.Post event) {
-        if (Minecraft.getInstance().player != null) {
-            PlatformClientEvents.CLIENT_END_TICK.emit(new ClientEvent.EndTick());
+        Minecraft client = Minecraft.getInstance();
+        if (client.player != null) {
+            PlatformClientEvents.CLIENT_END_TICK.emit(new ClientEvent.EndTick(client));
         }
     }
 

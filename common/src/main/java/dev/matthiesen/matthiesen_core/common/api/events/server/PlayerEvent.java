@@ -2,6 +2,7 @@ package dev.matthiesen.matthiesen_core.common.api.events.server;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.ResultEventObservable;
+import dev.matthiesen.matthiesen_core.common.api.events.definitions.PlayerEventHandlerDef;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -30,26 +31,26 @@ public final class PlayerEvent {
      *
      * @param player the {@link ServerPlayer} who joined
      */
-    public record Join(ServerPlayer player) {}
+    public record Join(ServerPlayer player) implements PlayerEventHandlerDef {}
 
     /**
      * Fired when a player disconnects from the server for any reason.
      *
      * @param player the {@link ServerPlayer} who left
      */
-    public record Leave(ServerPlayer player) {}
+    public record Leave(ServerPlayer player) implements PlayerEventHandlerDef {}
 
     /**
      * Fired at the start of a server tick for each player.
      * @param player the {@link ServerPlayer} being ticked
      */
-    public record PreTick(ServerPlayer player) {}
+    public record PreTick(ServerPlayer player) implements PlayerEventHandlerDef {}
 
     /**
      * Fired at the end of a server tick for each player.
      * @param player the {@link ServerPlayer} being ticked
      */
-    public record EndTick(ServerPlayer player) {}
+    public record EndTick(ServerPlayer player) implements PlayerEventHandlerDef {}
 
     /**
      * Fired when a server-side player uses an item. Subscribed via
