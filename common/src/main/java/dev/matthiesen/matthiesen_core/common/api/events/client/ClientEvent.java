@@ -3,6 +3,7 @@ package dev.matthiesen.matthiesen_core.common.api.events.client;
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
 import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudRegistrar;
+import net.minecraft.client.Minecraft;
 
 /**
  * Typed records for all client-side event types.
@@ -18,14 +19,21 @@ public final class ClientEvent {
      *
      * <p>Emitted once during client shutdown, allowing mods to perform cleanup tasks.</p>
      */
-    public record Stopping() {}
+    public record Stopping(Minecraft client) {}
+
+    /**
+     * Fired at the start of each client tick.
+     *
+     * <p>Emitted before any client-side processing for the current tick has begun.</p>
+     */
+    public record PreTick(Minecraft client) {}
 
     /**
      * Fired at the end of each client tick.
      *
      * <p>Emitted after all client-side processing for the current tick has completed.</p>
      */
-    public record EndTick() {}
+    public record EndTick(Minecraft client) {}
 
     /**
      * Fired when HUD layers should be registered.

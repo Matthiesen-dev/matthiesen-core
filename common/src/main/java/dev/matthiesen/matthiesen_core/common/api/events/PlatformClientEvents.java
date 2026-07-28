@@ -71,6 +71,13 @@ public final class PlatformClientEvents {
     public static final EventObservable<ClientEvent.Stopping> CLIENT_STOPPING = new EventObservable<>();
 
     /**
+     * Fired at the start of each client tick.
+     *
+     * <p>Void event. Listeners are dispatched in priority order; exceptions are logged and suppressed.</p>
+     */
+    public static final EventObservable<ClientEvent.PreTick> CLIENT_PRE_TICK = new EventObservable<>();
+
+    /**
      * Fired at the end of each client tick.
      *
      * <p>Void event. Listeners are dispatched in priority order; exceptions are logged and suppressed.</p>

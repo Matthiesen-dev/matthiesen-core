@@ -31,15 +31,21 @@ public final class PlatformClientEventsBusListener {
         // ========================================================
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(client ->
-                PlatformClientEvents.CLIENT_STOPPING.emit(new ClientEvent.Stopping()));
+                PlatformClientEvents.CLIENT_STOPPING.emit(new ClientEvent.Stopping(client)));
 
         // ========================================================
         // Tick events
         // ========================================================
 
+        ClientTickEvents.START_CLIENT_TICK.register(client -> {
+            if (client.player != null) {
+                PlatformClientEvents.CLIENT_PRE_TICK.emit(new ClientEvent.PreTick(client));
+            }
+        });
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player != null) {
-                PlatformClientEvents.CLIENT_END_TICK.emit(new ClientEvent.EndTick());
+                PlatformClientEvents.CLIENT_END_TICK.emit(new ClientEvent.EndTick(client));
             }
         });
 

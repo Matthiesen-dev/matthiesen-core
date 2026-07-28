@@ -23,6 +23,7 @@ public class MinecraftClientShutdownMixin {
      */
     @Inject(method = "stop", at = @At("HEAD"))
     private void onClientShutdown(CallbackInfo ci) {
-        PlatformClientEvents.CLIENT_STOPPING.emit(new ClientEvent.Stopping());
+        Minecraft client = Minecraft.getInstance();
+        PlatformClientEvents.CLIENT_STOPPING.emit(new ClientEvent.Stopping(client));
     }
 }
