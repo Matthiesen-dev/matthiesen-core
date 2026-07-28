@@ -3,6 +3,7 @@ package dev.matthiesen.matthiesen_core.neoforge.events;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeReloadListener;
 import net.minecraft.server.MinecraftServer;
@@ -17,6 +18,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
@@ -133,6 +135,30 @@ public final class PlatformEventsBusListener {
     @SubscribeEvent
     public static void onServerReload(AddReloadListenerEvent event) {
         event.addListener(new NeoForgeReloadListener(() -> PlatformEvents.SERVER_RELOAD.emit(new ServerEvent.Reload())));
+    }
+
+    /**
+     * Handles the world tick pre event in the NeoForge mod loader environment. This method is called at the beginning of each
+     * world tick, before any game logic is processed. It emits a WORLD_START_TICK event to the PlatformEvents system, allowing
+     * other parts of the mod to respond to the start of the world tick. The method takes a LevelTickEvent.Pre event object as
+     * a parameter, which provides context and information about the world tick event, including the level (world) instance.
+     * @param event The LevelTickEvent.Pre event object, which provides context and information about the world tick event, including the level (world) instance.
+     */
+    @SubscribeEvent
+    public static void onWorldTickPre(LevelTickEvent.Pre event) {
+        PlatformEvents.WORLD_START_TICK.emit(new WorldEvent.StartTick(event.getLevel()));
+    }
+
+    /**
+     * Handles the world tick post event in the NeoForge mod loader environment. This method is called at the end of each
+     * world tick, after all game logic has been processed. It emits a WORLD_END_TICK event to the PlatformEvents system,
+     * allowing other parts of the mod to respond to the end of the world tick. The method takes a LevelTickEvent.Post event
+     * object as a parameter, which provides context and information about the world tick event, including the level (world) instance.
+     * @param event The LevelTickEvent.Post event object, which provides context and information about the world tick event, including the level (world) instance.
+     */
+    @SubscribeEvent
+    public static void onWorldTickPost(LevelTickEvent.Post event) {
+        PlatformEvents.WORLD_END_TICK.emit(new WorldEvent.EndTick(event.getLevel()));
     }
 
     // ================================================

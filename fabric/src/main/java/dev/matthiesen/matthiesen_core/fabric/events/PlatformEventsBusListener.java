@@ -3,6 +3,7 @@ package dev.matthiesen.matthiesen_core.fabric.events;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
 import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -63,6 +64,11 @@ public final class PlatformEventsBusListener {
 
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, serverResources, success) ->
                 PlatformEvents.SERVER_RELOAD.emit(new ServerEvent.Reload()));
+
+        ServerTickEvents.START_WORLD_TICK.register((serverLevel) ->
+                PlatformEvents.WORLD_START_TICK.emit(new WorldEvent.StartTick(serverLevel)));
+        ServerTickEvents.END_WORLD_TICK.register((serverLevel) ->
+                PlatformEvents.WORLD_END_TICK.emit(new WorldEvent.EndTick(serverLevel)));
 
         // ================================================
         // Player Events

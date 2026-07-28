@@ -2,6 +2,7 @@ package dev.matthiesen.matthiesen_core.common.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
 
 /**
  * Central registry of all server-side platform events provided by Matthiesen Core.
@@ -97,6 +98,22 @@ public final class PlatformEvents {
      * Keep handlers lightweight.</p>
      */
     public static final EventObservable<ServerEvent.EndTick> SERVER_END_TICK = new EventObservable<>();
+
+    /**
+     * Fired at the beginning of each world tick, before game logic is processed.
+     *
+     * <p><strong>Warning:</strong> this event fires every tick (~20 times per second).
+     * Keep handlers lightweight.</p>
+     */
+    public static final EventObservable<WorldEvent.StartTick> WORLD_START_TICK = new EventObservable<>();
+
+    /**
+     * Fired at the end of each world tick, after all game logic has been processed.
+     *
+     * <p><strong>Warning:</strong> this event fires every tick (~20 times per second).
+     * Keep handlers lightweight.</p>
+     */
+    public static final EventObservable<WorldEvent.EndTick> WORLD_END_TICK = new EventObservable<>();
 
     // =========================================================================
     // Server reload
