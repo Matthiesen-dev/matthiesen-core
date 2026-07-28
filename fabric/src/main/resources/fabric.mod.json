@@ -43,6 +43,7 @@
   },
   "suggests": {
     "emberstextapi": ">=3.0.0 <4.0.0",
-    "impactor": ">=5.3.5+1.21.1"
+    "impactor": ">=5.3.5+1.21.1",
+    "luckperms": ">=5.4 <6.0.0"
   }
 }

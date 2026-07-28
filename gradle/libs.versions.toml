@@ -14,6 +14,9 @@ sponge-mixin = "0.8.5"
 faststats = "0.29.1"
 emberstextapi = "3.0.0"
 modmenu = "v6Xx3fbU"
+luckperms = "5.4"
+luckperms-fabric = "6h9SnsZu" # v5.4.150 Fabric (https://modrinth.com/plugin/luckperms/version/v5.4.150-fabric)
+luckperms-neoforge = "dKAPoPGd" # v5.4.150 NeoForge (https://modrinth.com/plugin/luckperms/version/v5.4.150-neoforge)
 
 impactor-fabric = "5.3.5+1.21.1-Fabric-fabric,1.21.1"
 impactor-neoforge = "5.3.5+1.21.1-Neoforge-neoforge,1.21.1"
@@ -43,13 +46,15 @@ faststats = { group = "dev.matthiesen.libs", name = "faststats", version.ref = "
 emberstextapiFabric = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-fabric-1.21.1", version.ref = "emberstextapi" }
 emberstextapiNeoForge = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-neoforge-1.21.1", version.ref = "emberstextapi" }
 modmenu = { group = "maven.modrinth", name = "mOgUt4GM", version.ref = "modmenu" }
-
 impactor-fabric = { group = "maven.modrinth", name = "impactor", version.ref = "impactor-fabric" }
 impactor-neoforge = { group = "maven.modrinth", name = "impactor", version.ref = "impactor-neoforge" }
 adventure-key = { group = "net.kyori", name = "adventure-key", version.ref = "adventure-key" }
+luckperms-api = { group = "net.luckperms", name = "api", version.ref = "luckperms" }
+luckperms-fabric = { group = "maven.modrinth", name = "luckperms", version.ref = "luckperms-fabric" }
+luckperms-neoforge = { group = "maven.modrinth", name = "luckperms", version.ref = "luckperms-neoforge" }
 
 [bundles]
-commonCompileOnly = ["sponge-mixin"]
+commonCompileOnly = ["sponge-mixin", "luckperms-api"]
 commonImplementation = ["faststats", "adventure-key"]
 commonModCompileOnly = ["emberstextapiFabric", "impactor-fabric"]
 commonModImplementation = []
@@ -57,14 +62,14 @@ commonModImplementationNoTransitive = []
 
 fabricCompileOnly = []
 fabricImplementation = ["faststats"]
-fabricModCompileOnly = ["fabric-permissions-api", "emberstextapiFabric", "impactor-fabric"]
+fabricModCompileOnly = ["fabric-permissions-api", "emberstextapiFabric", "impactor-fabric", "luckperms-fabric"]
 fabricModRuntimeOnly = ["emberstextapiFabric", "modmenu"]
 fabricModImplementation = ["fabric-loader", "fabric-api"]
 fabricModImplementationNoTransitive = []
 
 neoforgeCompileOnly = []
 neoforgeImplementation = ["faststats"]
-neoforgeModCompileOnly = ["emberstextapiNeoForge", "impactor-neoforge"]
+neoforgeModCompileOnly = ["emberstextapiNeoForge", "impactor-neoforge", "luckperms-neoforge"]
 neoforgeModRuntimeOnly = ["emberstextapiNeoForge"]
 neoforgeModImplementation = []
 neoforgeModImplementationNoTransitive = []
