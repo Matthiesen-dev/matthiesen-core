@@ -30,6 +30,7 @@ Matthiesen Core provides a unified API for:
 
 - [Ember's Text API](https://modrinth.com/mod/embers-text-api)
 - [Impactor](https://modrinth.com/mod/impactor)
+- [LuckPerms](https://modrinth.com/mod/luckperms)
 - [Fabric Permissions API](https://modrinth.com/mod/fabric-permissions-api) (Fabric only)
 
 ## Version Compatibility

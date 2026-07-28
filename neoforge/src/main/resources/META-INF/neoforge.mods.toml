@@ -48,3 +48,11 @@ mandatory = false
 versionRange = "[5.3.5+1.21.1,)"
 ordering = "AFTER"
 side = "SERVER"
+
+[[dependencies.${mod_id}]]
+modId = "luckperms"
+type = "optional"
+mandatory = false
+versionRange = "[5.4,)"
+ordering = "AFTER"
+side = "SERVER"
