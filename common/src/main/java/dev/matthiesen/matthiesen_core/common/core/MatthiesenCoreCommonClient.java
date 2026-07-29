@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
+import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.client.EntityRendererManager;
 import dev.matthiesen.matthiesen_core.common.core.client.KeybindingsManager;
@@ -19,7 +20,7 @@ import java.util.ServiceLoader;
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to client-side functionalities and services.
  */
 @SuppressWarnings("unused")
-public final class MatthiesenCoreCommonClient {
+public final class MatthiesenCoreCommonClient implements LoggerMethods {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
 
     private static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =
@@ -61,28 +62,21 @@ public final class MatthiesenCoreCommonClient {
     public void onClientSetup() {}
 
     /**
-     * Creates an info log message using the common mod's logger.
-     * @param message the message to log
+     * Get the mod's logger
+     * @return The mod's logger
      */
-    public void createInfoLog(String message) {
-        LOGGER.info(message);
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
     }
 
     /**
-     * Creates an error log message using the common mod's logger.
-     * @param message the message to log
+     * Tracks an error using the mod's error tracker. If the error tracker is not initialized, this method does nothing.
+     * @param throwable The error to be tracked. This should be a Throwable object representing the error that occurred. If the error tracker is not initialized, this method does nothing.
      */
-    public void createErrorLog(String message) {
-        LOGGER.error(message);
-    }
-
-    /**
-     * Creates an error log message using the common mod's logger, including an associated throwable for debugging purposes.
-     * @param message the message to log
-     * @param throwable the throwable associated with the error, providing additional context for debugging
-     */
-    public void createErrorLog(String message, Throwable throwable) {
-        LOGGER.error(message, throwable);
+    @Override
+    public void trackError(Throwable throwable) {
+        MatthiesenCoreCommon.INSTANCE.trackError(throwable);
     }
 
     /**

@@ -3,6 +3,7 @@ package dev.matthiesen.matthiesen_core.common;
 import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
+import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
  * tracking errors, and managing metrics. Mods should extend this class to leverage the common functionality.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractCommonMod {
+public abstract class AbstractCommonMod implements LoggerMethods {
     private final String MOD_ID;
     private final String MOD_NAME;
     private final Logger LOGGER;
@@ -77,16 +78,6 @@ public abstract class AbstractCommonMod {
     }
 
     /**
-     * Tracks an error using the mod's error tracker. If the error tracker is not initialized, this method does nothing.
-     * @param throwable The error to be tracked. This should be a Throwable object representing the error that occurred. If the error tracker is not initialized, this method does nothing.
-     */
-    public void trackError(Throwable throwable) {
-        if (errorTracker != null) {
-            errorTracker.trackError(throwable);
-        }
-    }
-
-    /**
      * Get the mod's metric context. This is used to send metrics to FastStats.dev. If the metric context is not initialized, this method returns null.
      * @return The mod's metric context, or null if the metric context is not initialized. The metric context is used to send metrics to FastStats.dev, and
      * is initialized if the mod has a valid metrics token. If the mod does not have a valid metrics token, this method returns null.
@@ -115,42 +106,20 @@ public abstract class AbstractCommonMod {
      * Get the mod's logger
      * @return The mod's logger
      */
+    @Override
     public Logger getLogger() {
         return LOGGER;
     }
 
     /**
-     * Send an info log message using the mod's logger.
-     * @param message The message to log
+     * Tracks an error using the mod's error tracker. If the error tracker is not initialized, this method does nothing.
+     * @param throwable The error to be tracked. This should be a Throwable object representing the error that occurred. If the error tracker is not initialized, this method does nothing.
      */
-    public void createInfoLog(String message) {
-        getLogger().info(message);
-    }
-
-    /**
-     * Send a warning log message using the mod's logger.
-     * @param message The message to log
-     */
-    public void createWarnLog(String message) {
-        getLogger().warn(message);
-    }
-
-    /**
-     * Send an error log message using the mod's logger.
-     * @param message The message to log
-     */
-    public void createErrorLog(String message) {
-        getLogger().error(message);
-    }
-
-    /**
-     * Send an error log message with a throwable using the mod's logger.
-     * @param message The message to log
-     * @param throwable The throwable to log
-     */
-    public void createErrorLog(String message, Throwable throwable) {
-        getLogger().error(message, throwable);
-        trackError(throwable);
+    @Override
+    public void trackError(Throwable throwable) {
+        if (errorTracker != null) {
+            errorTracker.trackError(throwable);
+        }
     }
 
     /**

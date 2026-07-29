@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common;
 
+import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.core.client.*;
 import dev.matthiesen.matthiesen_core.common.utility.config.ConfigFolderManager;
@@ -12,7 +13,7 @@ import org.apache.logging.log4j.Logger;
  * tracking errors, and managing client-specific services. Mods should extend this class to leverage the common client functionality.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractCommonClientMod {
+public abstract class AbstractCommonClientMod implements LoggerMethods {
     private final String MOD_ID;
     private final String MOD_NAME;
     private final Logger LOGGER;
@@ -55,41 +56,17 @@ public abstract class AbstractCommonClientMod {
      * Get the mod's logger
      * @return The mod's logger
      */
+    @Override
     public Logger getLogger() {
         return LOGGER;
     }
 
     /**
-     * Send an info log message using the mod's logger.
-     * @param message The message to log
+     * Track an error using the mod's error tracking system.
+     * @param throwable The throwable to track
      */
-    public void createInfoLog(String message) {
-        getLogger().info(message);
-    }
-
-    /**
-     * Send a warning log message using the mod's logger.
-     * @param message The message to log
-     */
-    public void createWarnLog(String message) {
-        getLogger().warn(message);
-    }
-
-    /**
-     * Send an error log message using the mod's logger.
-     * @param message The message to log
-     */
-    public void createErrorLog(String message) {
-        getLogger().error(message);
-    }
-
-    /**
-     * Send an error log message with a throwable using the mod's logger.
-     * @param message The message to log
-     * @param throwable The throwable to log
-     */
-    public void createErrorLog(String message, Throwable throwable) {
-        getLogger().error(message, throwable);
+    @Override
+    public void trackError(Throwable throwable) {
         COMMON_MOD.trackError(throwable);
     }
 
