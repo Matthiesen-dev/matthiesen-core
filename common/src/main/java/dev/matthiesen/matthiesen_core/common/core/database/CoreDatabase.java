@@ -1,10 +1,13 @@
 package dev.matthiesen.matthiesen_core.common.core.database;
 
+import dev.matthiesen.matthiesen_core.common.AbstractCommonMod;
 import dev.matthiesen.matthiesen_core.common.api.database.IDatabase;
 import dev.matthiesen.matthiesen_core.common.api.database.config.DatabaseConfig;
 import dev.matthiesen.matthiesen_core.common.api.database.dialect.IDatabaseDialect;
 import dev.matthiesen.matthiesen_core.common.api.database.queue.IQueue;
 import dev.matthiesen.matthiesen_core.common.api.database.queue.SqlTask;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
+import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.database.dialect.MySQLDialect;
 import dev.matthiesen.matthiesen_core.common.core.database.dialect.SQLiteDialect;
@@ -31,6 +34,7 @@ public final class CoreDatabase implements IDatabase {
     private final Object lock = new Object();
     private final DatabaseConfig config;
     private final String MOD_ID;
+    private final LoggerMethods logger;
 
     /**
      * The queue is a thread-safe queue that allows for the execution of SQL tasks in individual mode. It is used to manage and
@@ -59,6 +63,38 @@ public final class CoreDatabase implements IDatabase {
     public CoreDatabase(String MOD_ID, DatabaseConfig config) {
         this.MOD_ID = MOD_ID;
         this.config = config;
+        this.logger = MatthiesenCoreCommon.INSTANCE;
+        queue = new Queue(this, false);
+        batchQueue = new Queue(this, true);
+    }
+
+    /**
+     * Constructs a new instance of the CoreDatabase class with the specified mod ID, logger, and database configuration. This constructor
+     * initializes the database queues for both individual and batch execution modes, allowing for custom logging behavior.
+     * @param MOD_ID The mod ID associated with this database instance. This is typically used for logging and configuration purposes.
+     * @param logger The logger instance used for logging database-related messages and errors. This allows for custom logging behavior.
+     * @param config The database configuration object containing settings for connecting to the database, such as connection
+     *               details and options for MySQL or SQLite.
+     */
+    public CoreDatabase(String MOD_ID, LoggerMethods logger, DatabaseConfig config) {
+        this.MOD_ID = MOD_ID;
+        this.logger = logger;
+        this.config = config;
+        queue = new Queue(this, false);
+        batchQueue = new Queue(this, true);
+    }
+
+    /**
+     * Constructs a new instance of the CoreDatabase class with the specified mod instance and database configuration. This constructor
+     * initializes the database queues for both individual and batch execution modes, allowing for logging and configuration to be derived from the provided mod instance.
+     * @param modInstance The mod instance associated with this database. This is typically used for logging and configuration purposes.
+     * @param config The database configuration object containing settings for connecting to the database, such as connection
+     *               details and options for MySQL or SQLite.
+     */
+    public CoreDatabase(CommonMod modInstance, DatabaseConfig config) {
+        this.MOD_ID = modInstance.getModId();
+        this.logger = modInstance;
+        this.config = config;
         queue = new Queue(this, false);
         batchQueue = new Queue(this, true);
     }
@@ -74,11 +110,11 @@ public final class CoreDatabase implements IDatabase {
             dialect = new SQLiteDialect();
         }
         if (connection != null) {
-            MatthiesenCoreCommon.INSTANCE.createInfoLog("Database connection established");
+            logger.createInfoLog("Database connection established");
             try {
                 connection.setAutoCommit(false);
             } catch (SQLException e) {
-                MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to set auto commit to false", e);
+                logger.createErrorLog("Failed to set auto commit to false", e);
                 return false;
             }
         }
@@ -103,7 +139,7 @@ public final class CoreDatabase implements IDatabase {
         try {
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to create MySQL connection", e);
+            logger.createErrorLog("Failed to create MySQL connection", e);
             return false;
         }
 
@@ -129,7 +165,7 @@ public final class CoreDatabase implements IDatabase {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:" + dbLocation);
         } catch (SQLException e) {
-            MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to create SQLite connection", e);
+            logger.createErrorLog("Failed to create SQLite connection", e);
             return false;
         }
 
@@ -147,7 +183,7 @@ public final class CoreDatabase implements IDatabase {
                 lastException = e;
             }
         }
-        MatthiesenCoreCommon.INSTANCE.createErrorLog(dbType + " JDBC Driver not found. Tried: " + String.join(", ", classNames), lastException);
+        logger.createErrorLog(dbType + " JDBC Driver not found. Tried: " + String.join(", ", classNames), lastException);
         return false;
     }
 
@@ -166,12 +202,12 @@ public final class CoreDatabase implements IDatabase {
                 connection.commit();
             } catch (SQLException e) {
                 if (logError) {
-                    MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to execute statement", e);
+                    logger.createErrorLog("Failed to execute statement", e);
                 }
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {
-                    MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to rollback", ex);
+                    logger.createErrorLog("Failed to rollback", ex);
                 }
             }
         }
@@ -214,13 +250,13 @@ public final class CoreDatabase implements IDatabase {
                     }
                 }
             } catch (SQLException e) {
-                MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to execute database queue", e);
+                logger.createErrorLog("Failed to execute database queue", e);
                 try {
                     if (connection != null && !connection.isClosed()) {
                         connection.rollback();
                     }
                 } catch (SQLException ex) {
-                    MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to rollback transaction", ex);
+                    logger.createErrorLog("Failed to rollback transaction", ex);
                 }
             }
         }

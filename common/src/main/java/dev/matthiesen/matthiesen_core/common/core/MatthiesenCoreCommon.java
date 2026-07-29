@@ -2,6 +2,7 @@ package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
@@ -25,7 +26,7 @@ import java.util.ServiceLoader;
  * of various managers responsible for permissions, commands, events, networking, and text parsing. The class is intended to be used
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to core functionalities and services.
  */
-public final class MatthiesenCoreCommon {
+public final class MatthiesenCoreCommon implements CommonMod {
     /**
      * The unique identifier for the mod, used for registration and identification purposes. This constant is used throughout
      * the application to refer to the mod in a consistent manner.
@@ -58,11 +59,12 @@ public final class MatthiesenCoreCommon {
 
     private boolean initialized;
 
-    private MatthiesenCoreCommon() {}
+    public MatthiesenCoreCommon() {}
 
     /**
      * Initializes the MatthiesenLibCommon instance. This method sets up the PermissionsManager and marks the instance as initialized.
      */
+    @Override
     public void initialize() {
         if (initialized) return;
 
@@ -106,54 +108,38 @@ public final class MatthiesenCoreCommon {
     }
 
     /**
-     * Creates an informational log message using the internal logger. This method is used to log messages that are intended
-     * informational purposes, such as status updates or general information about the application's state.
-     * @param message The message to be logged. This should be a concise and clear description of the information being conveyed.
+     * Get the mod's ID
+     * @return The mod's ID
      */
-    public void createInfoLog(String message) {
-        LOGGER.info(message);
+    @Override
+    public String getModId() {
+        return MOD_ID;
     }
 
     /**
-     * Creates a warning log message using the internal logger. This method is used to log messages that indicate potential
-     * issues or situations that may require attention, but do not necessarily indicate an error.
-     * @param message The message to be logged. This should describe the warning or potential issue in a clear and concise manner.
+     * Get the mod's name
+     * @return The mod's name
      */
-    public void createWarnLog(String message) {
-        LOGGER.warn(message);
+    @Override
+    public String getModName() {
+        return MOD_NAME;
     }
 
     /**
-     * Creates a debug log message using the internal logger. This method is used to log messages that are intended for
-     * debugging purposes, providing detailed information about the application's state and behavior for developers.
-     * @param message The message to be logged. This should provide detailed information that can help in diagnosing issues
-     *                or understanding the application's flow during development and debugging.
+     * Get the mod's logger
+     * @return The mod's logger
      */
-    public void createDebugLog(String message) {
-        LOGGER.debug(message);
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
     }
 
     /**
-     * Creates an error log message using the internal logger. This method is used to log messages that indicate errors or
-     * exceptions that have occurred within the application, providing information about the nature of the error and any relevant context.
-     * @param message The message to be logged. This should describe the error or exception in a clear and concise manner,
-     *                providing enough context to understand the issue.
+     * Tracks an error using the mod's error tracker. If the error tracker is not initialized, this method does nothing.
+     * @param throwable The error to be tracked. This should be a Throwable object representing the error that occurred. If the error tracker is not initialized, this method does nothing.
      */
-    public void createErrorLog(String message) {
-        LOGGER.error(message);
-    }
-
-    /**
-     * Creates an error log message with an associated throwable using the internal logger. This method is used to log messages
-     * that indicate errors or exceptions that have occurred within the application, along with the stack trace of the throwable for debugging purposes.
-     * @param message The message to be logged. This should describe the error or exception in a clear and concise manner,
-     *                providing enough context to understand the issue.
-     * @param throwable The throwable associated with the error, which provides the stack trace and additional context for
-     *                  debugging. This allows developers to trace the source of the error and understand
-     *                  the circumstances under which the error occurred.
-     */
-    public void createErrorLog(String message, Throwable throwable) {
-        LOGGER.error(message, throwable);
+    @Override
+    public void trackError(Throwable throwable) {
         getCoreMetrics().trackError(throwable);
     }
 
