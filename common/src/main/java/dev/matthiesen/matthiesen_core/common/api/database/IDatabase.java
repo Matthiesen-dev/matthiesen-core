@@ -128,4 +128,13 @@ public interface IDatabase {
      *         operations and queries to be executed correctly according to the rules of the specific database system.
      */
     IDatabaseDialect getDialect();
+
+    /**
+     * Closes the database connection and releases any associated resources. This method should be called when the database operations
+     * are complete and the connection is no longer needed. It is important to ensure that all pending transactions are committed or rolled
+     * back before closing the connection to avoid data loss or corruption. Additionally, proper error handling should be implemented to catch
+     * any exceptions that may occur during the closing process, such as issues with the underlying database driver or network problems. Closing
+     * the connection properly helps to free up resources and maintain the stability and performance of the application.
+     */
+    void close();
 }

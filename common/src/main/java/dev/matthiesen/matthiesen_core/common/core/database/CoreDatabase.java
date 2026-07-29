@@ -270,4 +270,15 @@ public final class CoreDatabase implements IDatabase {
     public IDatabaseDialect getDialect() {
         return dialect;
     }
+
+    @Override
+    public void close() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.createErrorLog("Failed to close connection", e);
+            }
+        }
+    }
 }
