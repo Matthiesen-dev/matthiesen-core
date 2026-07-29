@@ -2,7 +2,7 @@ package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
-import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
@@ -26,7 +26,7 @@ import java.util.ServiceLoader;
  * of various managers responsible for permissions, commands, events, networking, and text parsing. The class is intended to be used
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to core functionalities and services.
  */
-public final class MatthiesenCoreCommon implements LoggerMethods {
+public final class MatthiesenCoreCommon implements CommonMod {
     /**
      * The unique identifier for the mod, used for registration and identification purposes. This constant is used throughout
      * the application to refer to the mod in a consistent manner.
@@ -64,6 +64,7 @@ public final class MatthiesenCoreCommon implements LoggerMethods {
     /**
      * Initializes the MatthiesenLibCommon instance. This method sets up the PermissionsManager and marks the instance as initialized.
      */
+    @Override
     public void initialize() {
         if (initialized) return;
 
@@ -104,6 +105,24 @@ public final class MatthiesenCoreCommon implements LoggerMethods {
      */
     public void onCommonServerSetup() {
         CreativeModeTabSectionsManager.INSTANCE.runAutoRegistrations();
+    }
+
+    /**
+     * Get the mod's ID
+     * @return The mod's ID
+     */
+    @Override
+    public String getModId() {
+        return MOD_ID;
+    }
+
+    /**
+     * Get the mod's name
+     * @return The mod's name
+     */
+    @Override
+    public String getModName() {
+        return MOD_NAME;
     }
 
     /**

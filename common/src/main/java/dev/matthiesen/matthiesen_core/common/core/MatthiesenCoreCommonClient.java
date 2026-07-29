@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
-import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.client.EntityRendererManager;
 import dev.matthiesen.matthiesen_core.common.core.client.KeybindingsManager;
@@ -19,8 +19,7 @@ import java.util.ServiceLoader;
  * managers responsible for screens, entity renderers, block outlines, HUD layers, and keybindings. The class is intended to be used
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to client-side functionalities and services.
  */
-@SuppressWarnings("unused")
-public final class MatthiesenCoreCommonClient implements LoggerMethods {
+public final class MatthiesenCoreCommonClient implements CommonMod {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
 
     private static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =
@@ -36,8 +35,7 @@ public final class MatthiesenCoreCommonClient implements LoggerMethods {
     /**
      * Initializes the MatthiesenCoreCommonClient instance.
      */
-    public MatthiesenCoreCommonClient() {
-    }
+    private MatthiesenCoreCommonClient() {}
 
     /**
      * Initializes the client-side components of the mod, including managers for screens, entity renderers,
@@ -60,6 +58,24 @@ public final class MatthiesenCoreCommonClient implements LoggerMethods {
      * Called during the client setup phase to perform any necessary client-side initialization.
      */
     public void onClientSetup() {}
+
+    /**
+     * Get the mod's ID
+     * @return The mod's ID
+     */
+    @Override
+    public String getModId() {
+        return MatthiesenCoreCommon.MOD_ID;
+    }
+
+    /**
+     * Get the mod's name
+     * @return The mod's name
+     */
+    @Override
+    public String getModName() {
+        return MatthiesenCoreCommon.MOD_NAME;
+    }
 
     /**
      * Get the mod's logger
