@@ -17,6 +17,8 @@ modmenu = "v6Xx3fbU"
 luckperms = "5.4"
 luckperms-fabric = "6h9SnsZu" # v5.4.150 Fabric (https://modrinth.com/plugin/luckperms/version/v5.4.150-fabric)
 luckperms-neoforge = "dKAPoPGd" # v5.4.150 NeoForge (https://modrinth.com/plugin/luckperms/version/v5.4.150-neoforge)
+sqlite-jdbc = "3.53.2.0"
+mysql-connector-j = "9.7.0"
 
 impactor-fabric = "5.3.5+1.21.1-Fabric-fabric,1.21.1"
 impactor-neoforge = "5.3.5+1.21.1-Neoforge-neoforge,1.21.1"
@@ -52,6 +54,8 @@ adventure-key = { group = "net.kyori", name = "adventure-key", version.ref = "ad
 luckperms-api = { group = "net.luckperms", name = "api", version.ref = "luckperms" }
 luckperms-fabric = { group = "maven.modrinth", name = "luckperms", version.ref = "luckperms-fabric" }
 luckperms-neoforge = { group = "maven.modrinth", name = "luckperms", version.ref = "luckperms-neoforge" }
+sqlite-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqlite-jdbc" }
+mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql-connector-j" }
 
 [bundles]
 commonCompileOnly = ["sponge-mixin", "luckperms-api"]
