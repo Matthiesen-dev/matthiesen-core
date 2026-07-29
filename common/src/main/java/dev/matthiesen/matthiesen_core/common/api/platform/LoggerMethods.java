@@ -28,6 +28,14 @@ public interface LoggerMethods {
     }
 
     /**
+     * Send a debug log message using the mod's logger.
+     * @param message The message to log
+     */
+    default void createDebugLog(String message) {
+        getLogger().debug(message);
+    }
+
+    /**
      * Send a warning log message using the mod's logger.
      * @param message The message to log
      */

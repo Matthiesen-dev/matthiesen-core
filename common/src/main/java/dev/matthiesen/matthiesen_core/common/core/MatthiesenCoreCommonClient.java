@@ -2,7 +2,6 @@ package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
-import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.client.EntityRendererManager;
 import dev.matthiesen.matthiesen_core.common.core.client.KeybindingsManager;
@@ -20,7 +19,7 @@ import java.util.ServiceLoader;
  * managers responsible for screens, entity renderers, block outlines, HUD layers, and keybindings. The class is intended to be used
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to client-side functionalities and services.
  */
-public final class MatthiesenCoreCommonClient implements CommonMod, LoggerMethods {
+public final class MatthiesenCoreCommonClient implements CommonMod {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
 
     private static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =

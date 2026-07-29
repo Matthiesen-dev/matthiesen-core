@@ -1,7 +1,6 @@
 package dev.matthiesen.matthiesen_core.common;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
-import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
 import dev.matthiesen.matthiesen_core.common.core.client.*;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  * tracking errors, and managing client-specific services. Mods should extend this class to leverage the common client functionality.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractCommonClientMod implements CommonMod, LoggerMethods {
+public abstract class AbstractCommonClientMod implements CommonMod {
     private final String MOD_ID;
     private final String MOD_NAME;
     private final Logger LOGGER;
