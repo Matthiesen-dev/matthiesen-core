@@ -113,7 +113,7 @@ public final class CoreDatabase implements IDatabase {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public boolean createSqliteConnection() {
-        if (!loadJdbcDriver("SQLite", "dev.matthiesen.matthiesen_core.shadow.org.sqlite.JDBC", "org.sqlite.JDBC")) {
+        if (!loadJdbcDriver("SQLite", "org.sqlite.JDBC")) {
             return false;
         }
 
