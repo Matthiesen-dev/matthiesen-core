@@ -6,6 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.database.config.DatabaseConfig;
 import dev.matthiesen.matthiesen_core.common.api.database.dialect.IDatabaseDialect;
 import dev.matthiesen.matthiesen_core.common.api.database.queue.IQueue;
 import dev.matthiesen.matthiesen_core.common.api.database.queue.SqlTask;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.database.dialect.MySQLDialect;
@@ -90,7 +91,7 @@ public final class CoreDatabase implements IDatabase {
      * @param config The database configuration object containing settings for connecting to the database, such as connection
      *               details and options for MySQL or SQLite.
      */
-    public CoreDatabase(AbstractCommonMod modInstance, DatabaseConfig config) {
+    public CoreDatabase(CommonMod modInstance, DatabaseConfig config) {
         this.MOD_ID = modInstance.getModId();
         this.logger = modInstance;
         this.config = config;

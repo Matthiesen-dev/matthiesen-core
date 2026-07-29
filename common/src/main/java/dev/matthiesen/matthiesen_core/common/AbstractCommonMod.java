@@ -4,6 +4,7 @@ import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
+import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * tracking errors, and managing metrics. Mods should extend this class to leverage the common functionality.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractCommonMod implements CommonMod {
+public abstract class AbstractCommonMod implements CommonMod, LoggerMethods {
     private final String MOD_ID;
     private final String MOD_NAME;
     private final Logger LOGGER;
