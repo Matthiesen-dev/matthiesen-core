@@ -3,7 +3,6 @@ package dev.matthiesen.matthiesen_core.common.core.database.queue;
 import dev.matthiesen.matthiesen_core.common.api.database.IDatabase;
 import dev.matthiesen.matthiesen_core.common.api.database.queue.IQueue;
 import dev.matthiesen.matthiesen_core.common.api.database.queue.SqlTask;
-import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public final class Queue implements IQueue {
             try (PreparedStatement statement = connection.prepareStatement("SELECT 1")) {
                 statement.execute();
             } catch (Exception e) {
-                MatthiesenCoreCommon.INSTANCE.createErrorLog("Failed to send hello packet", e);
+                this.database.getLogger().createErrorLog("Failed to send hello packet", e);
             }
         });
     }

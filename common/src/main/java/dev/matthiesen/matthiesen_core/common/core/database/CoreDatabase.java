@@ -1,6 +1,5 @@
 package dev.matthiesen.matthiesen_core.common.core.database;
 
-import dev.matthiesen.matthiesen_core.common.AbstractCommonMod;
 import dev.matthiesen.matthiesen_core.common.api.database.IDatabase;
 import dev.matthiesen.matthiesen_core.common.api.database.config.DatabaseConfig;
 import dev.matthiesen.matthiesen_core.common.api.database.dialect.IDatabaseDialect;
@@ -97,6 +96,11 @@ public final class CoreDatabase implements IDatabase {
         this.config = config;
         queue = new Queue(this, false);
         batchQueue = new Queue(this, true);
+    }
+
+    @Override
+    public LoggerMethods getLogger() {
+        return logger;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.database;
 
 import dev.matthiesen.matthiesen_core.common.api.database.dialect.IDatabaseDialect;
+import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,6 +15,16 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public interface IDatabase {
+
+    /**
+     * Returns the logger associated with this database instance. The logger is used for logging messages, errors, and warnings
+     * related to database operations. It provides a standardized way to capture and report issues that may arise during the execution of
+     * SQL statements, connection management, and other database-related activities. Implementations of this interface should ensure that the
+     * logger is properly initialized and configured to capture relevant information for debugging and maintenance purposes.
+     * @return The LoggerMethods instance associated with this database, which can be used to log messages, errors, and warnings related to
+     * database operations.
+     */
+    LoggerMethods getLogger();
 
     /**
      * Creates a connection to the database. This method is responsible for establishing a connection to the database using
