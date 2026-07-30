@@ -14,6 +14,7 @@ on:
 # - LuckPerms (Vebnzrzj) - Optional
 # - Adventure Platform Mod (O5VsIpQY) - Optional
 ## Fabric Only:
+# - Fabric API (P7dR8mSH) - Required
 # - Fabric Permissions API (lzVo0Dll) - Optional
 
 jobs:
@@ -39,6 +40,7 @@ jobs:
         ]
       modrinth_fabric_dependencies: |-
         [
+          {"project_id":"P7dR8mSH","dependency_type":"required"},
           {"project_id":"lzVo0Dll","dependency_type":"optional"}
         ]
       discord_icon_url: "https://raw.githubusercontent.com/Matthiesen-dev/.github/refs/heads/main/logo-transparent.png"
