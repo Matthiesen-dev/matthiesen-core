@@ -8,6 +8,12 @@ import net.minecraft.network.chat.Component;
  * A simple text parser for Vanilla Minecraft text formatting. This parser replaces '&amp;' with '§' to allow for color and formatting codes in text.
  */
 public final class VanillaTextParser implements TextParser {
+
+    /**
+     * Constructs a new VanillaTextParser instance. This parser does not require any initialization or configuration.
+     */
+    public VanillaTextParser() {}
+
     @Override
     public String type() {
         return BuiltInTextParsers.VANILLA.getId();

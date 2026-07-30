@@ -41,6 +41,11 @@ public final class ResultEventObservable<T> {
     private final CopyOnWriteArrayList<Entry<T>> entries = new CopyOnWriteArrayList<>();
     private final AtomicLong sequenceCounter = new AtomicLong();
 
+    /**
+     * Creates a new {@code ResultEventObservable} instance.
+     */
+    public ResultEventObservable() {}
+
     // -------------------------------------------------------------------------
     // Listener type
     // -------------------------------------------------------------------------

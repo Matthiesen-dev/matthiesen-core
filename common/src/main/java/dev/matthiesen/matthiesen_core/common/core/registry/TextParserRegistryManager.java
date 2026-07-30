@@ -36,6 +36,8 @@ public final class TextParserRegistryManager {
 
     private static final Map<String, TextParser> REGISTERED_PARSERS = new ConcurrentHashMap<>();
 
+    private TextParserRegistryManager() {}
+
     private boolean initialized;
     private MatthiesenCoreCommon modInstance;
 

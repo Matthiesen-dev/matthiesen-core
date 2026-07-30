@@ -18,6 +18,12 @@ import java.util.List;
  * It converts text with markup into Minecraft components, applying styles such as bold, italic, and color.
  */
 public final class EmbersTextParser implements TextParser {
+
+    /**
+     * Constructs a new EmbersTextParser instance. This parser does not require any initialization or configuration.
+     */
+    public EmbersTextParser() {}
+
     @Override
     public String type() {
         return BuiltInTextParsers.EMBERS.getId();

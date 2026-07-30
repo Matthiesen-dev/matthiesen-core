@@ -20,6 +20,8 @@ public final class ItemEconomyProvider implements EconomyProvider {
      */
     public static final ItemEconomyProvider INSTANCE = new ItemEconomyProvider();
 
+    private ItemEconomyProvider() {}
+
     @Override
     public String providerId() {
         return BuiltInEconomyProviders.ITEM.getId();

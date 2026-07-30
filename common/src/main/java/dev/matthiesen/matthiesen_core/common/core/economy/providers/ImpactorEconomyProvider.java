@@ -22,6 +22,8 @@ public final class ImpactorEconomyProvider implements EconomyProvider {
     public static final ImpactorEconomyProvider INSTANCE = new ImpactorEconomyProvider();
     private static final EconomyService SERVICE = EconomyService.instance();
 
+    private ImpactorEconomyProvider() {}
+
     @Override
     public String providerId() {
         return BuiltInEconomyProviders.IMPACTOR.getId();
