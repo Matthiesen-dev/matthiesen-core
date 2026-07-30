@@ -23,6 +23,8 @@ mysql-connector-j = "9.7.0"
 impactor-fabric = "5.3.5+1.21.1-Fabric-fabric,1.21.1"
 impactor-neoforge = "5.3.5+1.21.1-Neoforge-neoforge,1.21.1"
 adventure-key = "4.13.0"
+adventure-mod = "6.0.0"
+adventure-api = "4.17.0"
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
@@ -57,10 +59,14 @@ luckperms-neoforge = { group = "maven.modrinth", name = "luckperms", version.ref
 sqlite-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqlite-jdbc" }
 mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql-connector-j" }
 
+adventure-mod-shared = { group = "net.kyori", name = "adventure-platform-mod-shared", version.ref = "adventure-mod" }
+minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure-api" }
+text-serializer = { group = "net.kyori", name = "adventure-text-serializer-json", version.ref = "adventure-api" }
+
 [bundles]
-commonCompileOnly = ["sponge-mixin", "luckperms-api"]
+commonCompileOnly = ["sponge-mixin", "luckperms-api", "minimessage", "text-serializer"]
 commonImplementation = ["faststats", "adventure-key"]
-commonModCompileOnly = ["emberstextapiFabric", "impactor-fabric"]
+commonModCompileOnly = ["emberstextapiFabric", "impactor-fabric", "adventure-mod-shared"]
 commonModImplementation = []
 commonModImplementationNoTransitive = []
 
