@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.database;
 
+import dev.matthiesen.matthiesen_core.common.api.database.config.DatabaseConfig;
 import dev.matthiesen.matthiesen_core.common.api.database.dialect.IDatabaseDialect;
 import dev.matthiesen.matthiesen_core.common.api.platform.LoggerMethods;
 
@@ -137,4 +138,27 @@ public interface IDatabase {
      * the connection properly helps to free up resources and maintain the stability and performance of the application.
      */
     void close();
+
+    /**
+     * Attempts to re-establish a connection to the database using the provided configuration. This method is useful in scenarios where
+     * the database connection has been lost or needs to be refreshed due to changes in the configuration. It takes a DatabaseConfig object
+     * as a parameter, which contains the necessary parameters (e.g., host, port, username, password) to establish a new connection to the
+     * database. The method should handle any exceptions that may occur during the reconnection process, such as authentication failures or
+     * network issues, and provide appropriate logging or error handling mechanisms to aid in debugging and maintenance. It is important to
+     * ensure that the new configuration is valid and that the database server is accessible before attempting to reconnect. The method should
+     * return true if the reconnection is successful, and false if there are any errors. This allows the calling code to determine whether the
+     * reconnection was successful and take appropriate action based on the result.
+     * @param config The DatabaseConfig object containing the necessary parameters (e.g., host, port, username, password) to establish a new connection to the database.
+     * @return true if the reconnection to the database is successful, false otherwise. This return value allows the calling code to determine
+     * whether the reconnection was successful and take appropriate action based on the result.
+     */
+    boolean reConnect(DatabaseConfig config);
+
+    /**
+     * Attempts to re-establish a connection to the database using the existing configuration. This method is useful in scenarios where
+     * the database connection has been lost or needs to be refreshed without changing the configuration parameters.
+     * @return true if the reconnection to the database is successful, false otherwise. This return value allows the calling code to determine
+     * whether the reconnection was successful and take appropriate action based on the result.
+     */
+    boolean reConnect();
 }

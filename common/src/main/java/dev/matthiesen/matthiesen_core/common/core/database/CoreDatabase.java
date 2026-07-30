@@ -281,4 +281,19 @@ public final class CoreDatabase implements IDatabase {
             }
         }
     }
+
+    @Override
+    public boolean reConnect(DatabaseConfig config) {
+        close();
+        this.config.useMySQL = config.useMySQL;
+        this.config.mySQLConfig = config.mySQLConfig;
+        this.config.sqLiteConfig = config.sqLiteConfig;
+        return createConnection();
+    }
+
+    @Override
+    public boolean reConnect() {
+        close();
+        return createConnection();
+    }
 }
