@@ -4,25 +4,19 @@ import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Represents the saved player data for the server, including player names and aliases. This class provides methods to load, save, and manage player records, allowing for persistent storage of player information across server restarts. Each player's data is stored in a PlayerRecord, which contains the player's name and a list of aliases. The class also includes utility methods to verify and update player data based on their UUID and name.
  */
 public final class SavedPlayerData extends SavedData {
-    public static String PLAYER_DATA_STORE_ID = MatthiesenCoreCommon.MOD_ID + "_player_data";
+    public static final String PLAYER_DATA_STORE_ID = MatthiesenCoreCommon.MOD_ID + "_player_data";
     private static final String PLAYER_RECORDS_NBT_KEY = "playerRecords";
-    private static final String RECORD_NAME_KEY = "name";
-    private static final String RECORD_ALIASES_KEY = "aliases";
 
     private final Map<String, PlayerRecord> playerRecords = new HashMap<>();
 
@@ -40,9 +34,8 @@ public final class SavedPlayerData extends SavedData {
         CompoundTag playerRecordsNBT = nbt.getCompound(PLAYER_RECORDS_NBT_KEY);
         for (String key : playerRecordsNBT.getAllKeys()) {
             CompoundTag recordNBT = playerRecordsNBT.getCompound(key);
-            String name = recordNBT.getString(RECORD_NAME_KEY);
-            List<String> aliases = recordNBT.getList(RECORD_ALIASES_KEY, 8).stream().map(Tag::getAsString).toList();
-            data.playerRecords.put(key, new PlayerRecord(name, aliases));
+            PlayerRecord entryData = PlayerRecord.fromNBT(recordNBT);
+            data.playerRecords.put(key, entryData);
         }
         return data;
     }
@@ -57,11 +50,7 @@ public final class SavedPlayerData extends SavedData {
     public @NotNull CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
         CompoundTag playerRecordsNBT = new CompoundTag();
         for (Map.Entry<String, PlayerRecord> entry : playerRecords.entrySet()) {
-            PlayerRecord record = entry.getValue();
-            CompoundTag recordNBT = new CompoundTag();
-            recordNBT.putString(RECORD_NAME_KEY, record.name());
-            recordNBT.put(RECORD_ALIASES_KEY, record.aliases().stream().map(StringTag::valueOf).collect(Collectors.toCollection(ListTag::new)));
-            playerRecordsNBT.put(entry.getKey(), recordNBT);
+            playerRecordsNBT.put(entry.getKey(), entry.getValue().toNBT());
         }
         compoundTag.put(PLAYER_RECORDS_NBT_KEY, playerRecordsNBT);
         return compoundTag;
@@ -179,11 +168,4 @@ public final class SavedPlayerData extends SavedData {
         PlayerRecord record = dataStore.playerRecords.get(uuid.toString());
         return record != null ? record.aliases() : Collections.emptyList();
     }
-
-    /**
-     * A record representing a player's data, including their name and aliases.
-     * @param name The UUID of the player.
-     * @param aliases The list of aliases for the player.
-     */
-    public record PlayerRecord(String name, List<String> aliases) {}
 }
