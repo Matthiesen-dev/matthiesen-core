@@ -3,7 +3,7 @@ package dev.matthiesen.matthiesen_core.common;
 import dev.matthiesen.libs.faststats.ErrorTracker;
 import dev.matthiesen.libs.faststats.Token;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
-import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonServerMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  * tracking errors, and managing metrics. Mods should extend this class to leverage the common functionality.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractCommonMod implements CommonMod {
+public abstract class AbstractCommonMod implements CommonServerMod {
     private final String MOD_ID;
     private final String MOD_NAME;
     private final Logger LOGGER;
@@ -68,9 +68,6 @@ public abstract class AbstractCommonMod implements CommonMod {
         this(MOD_ID, MOD_ID);
     }
 
-    /**
-     * Initializes the mod. This should be called in the mod's main class during initialization.
-     */
     @Override
     public void initialize() {
         MatthiesenCoreCommon.INSTANCE.registerModToMetrics(MOD_ID);
@@ -85,37 +82,21 @@ public abstract class AbstractCommonMod implements CommonMod {
         return metricContext;
     }
 
-    /**
-     * Get the mod's ID
-     * @return The mod's ID
-     */
     @Override
     public String getModId() {
         return MOD_ID;
     }
 
-    /**
-     * Get the mod's name
-     * @return The mod's name
-     */
     @Override
     public String getModName() {
         return MOD_NAME;
     }
 
-    /**
-     * Get the mod's logger
-     * @return The mod's logger
-     */
     @Override
     public Logger getLogger() {
         return LOGGER;
     }
 
-    /**
-     * Tracks an error using the mod's error tracker. If the error tracker is not initialized, this method does nothing.
-     * @param throwable The error to be tracked. This should be a Throwable object representing the error that occurred. If the error tracker is not initialized, this method does nothing.
-     */
     @Override
     public void trackError(Throwable throwable) {
         if (errorTracker != null) {
@@ -123,110 +104,57 @@ public abstract class AbstractCommonMod implements CommonMod {
         }
     }
 
-    /**
-     * Gets the registry builder for this mod. This is used to register various components to the API.
-     * @return The registry builder for this mod.
-     */
+    @Override
     public RegistryBuilder getRegistryBuilder() {
         return registryBuilder;
     }
 
-    /**
-     * Retrieves the PermissionsManager instance. The PermissionsManager is responsible for managing permissions within the application,
-     * including checking and validating permissions for various actions and commands.
-     * @return The singleton instance of the PermissionsManager, which can be used to manage and validate permissions throughout the application.
-     */
+    @Override
     public PermissionsManager getPermissionsManager() {
         return MatthiesenCoreCommon.INSTANCE.getPermissionsManager();
     }
 
-    /**
-     * Retrieves the CommandsRegistryManager instance. The CommandsRegistryManager is responsible for managing the registration of commands
-     * within the application, ensuring that commands are properly registered and available for use.
-     * @return The singleton instance of the CommandsRegistryManager, which can be used to register and manage commands throughout the application.
-     */
+    @Override
     public CommandsRegistryManager getCommandsRegistryManager() {
         return MatthiesenCoreCommon.INSTANCE.getCommandsRegistryManager();
     }
 
-    /**
-     * Retrieves the loaded Webhook notifier service. This service is responsible for sending notifications to Discord webhooks.
-     * If no implementation is found, a no-op implementation is returned, which does not perform any actions.
-     * @return The loaded Webhook notifier service, or a no-op implementation if none is found. This service can be used to send
-     * notifications to Discord webhooks, or to perform other actions related to webhook notifications. The no-op implementation
-     * is provided to ensure that the application can function without a webhook notifier service, and will not throw any exceptions
-     * or errors if the service is not available.
-     */
+    @Override
     public WebhookNotifierService getWebhookService() {
         return MatthiesenCoreCommon.INSTANCE.getWebhookService();
     }
 
-    /**
-     * Retrieves the common utilities instance. This instance provides access to various utility methods and services that are used throughout
-     * the application, such as server access, configuration management, and other common tasks.
-     * @return The common utilities instance, which provides access to various utility methods and services that are used throughout the application.
-     */
+    @Override
     public CommonLoaderUtils getCommonUtils() {
         return MatthiesenCoreCommon.INSTANCE.getCommonUtils();
     }
 
-    /**
-     * Retrieves the common registry instance. This instance provides access to various registries that are used throughout
-     * the application, such as command registries, event registries, and other common registries. The common registry is
-     * responsible for managing the registration and retrieval of various components and services within the application,
-     * ensuring that they are properly initialized and available for use.
-     * @return The common registry instance, which provides access to various registries that are used throughout the application.
-     * This instance can be used to register and retrieve various components and services, ensuring that they are properly initialized and available for use.
-     */
+    @Override
     public CommonLoaderRegistry getCommonRegistry() {
         return MatthiesenCoreCommon.INSTANCE.getCommonRegistry();
     }
 
-    /**
-     * Retrieves the text parser manager instance. This instance is responsible for managing text parsers within the application,
-     * allowing for the registration and retrieval of text parsers based on their type.
-     * @return The singleton instance of the TextParserRegistryManager, which can be used to register and manage text parsers throughout the application.
-     */
+    @Override
     public TextParserRegistryManager getTextParserManager() {
         return MatthiesenCoreCommon.INSTANCE.getTextParserManager();
     }
 
-    /**
-     * Retrieves the core metrics instance. This instance is responsible for collecting and reporting metrics related to
-     * the application's performance,
-     * usage, and other relevant data. It provides methods for tracking errors, logging events, and sending metrics to
-     * external services for analysis and monitoring.
-     * @return The singleton instance of the MatthiesenCoreMetrics, which can be used to collect and report metrics related
-     * to the application's performance, usage, and other relevant data.
-     */
+    @Override
     public MatthiesenCoreMetrics getCoreMetrics() {
         return MatthiesenCoreCommon.INSTANCE.getCoreMetrics();
     }
 
-    /**
-     * Retrieves the NetworkingManager instance. This instance is responsible for managing network communications within the application,
-     * allowing for the registration of packet types, sending and receiving packets, and handling network events.
-     * @return The singleton instance of the NetworkingManager, which can be used to register and manage network communications throughout the application.
-     */
+    @Override
     public NetworkingManager getNetworkingManager() {
         return MatthiesenCoreCommon.INSTANCE.getNetworkingManager();
     }
 
-    /**
-     * Retrieves the CreativeModeAugmentsManager instance. This instance is responsible for managing augmentations (item additions) to creative mode tabs.
-     *
-     * @return The singleton instance of the CreativeModeAugmentsManager, which can be used to register and retrieve creative tab item augmentations.
-     */
+    @Override
     public CreativeModeAugmentsManager getCreativeModeAugmentsManager() {
         return MatthiesenCoreCommon.INSTANCE.getCreativeModeAugmentsManager();
     }
 
-    /**
-     * Retrieves the Economy Manager instance. This instance is responsible for managing the in-game economy, including currency providers, balance management,
-     * deposits, withdrawals, and checking if a player has sufficient funds.
-     *
-     * @return The singleton instance of the EconomyManager, which can be used to register and retrieve economy providers and manage in-game currency.
-     */
+    @Override
     public EconomyManager getEconomyManager() {
         return MatthiesenCoreCommon.INSTANCE.getEconomyManager();
     }

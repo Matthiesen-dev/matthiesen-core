@@ -9,6 +9,11 @@ import com.google.gson.annotations.SerializedName;
 public final class DatabaseConfig {
 
     /**
+     * Default constructor for the DatabaseConfig class. Initializes the configuration with default values.
+     */
+    public DatabaseConfig() {}
+
+    /**
      * If true, the mod will use a MySQL database instead of SQLite. This requires a MySQL server to be running and accessible.
      */
     @SerializedName("useMySQL")
@@ -30,6 +35,11 @@ public final class DatabaseConfig {
      * Config options for MySQL database. These options will be ignored if useMySQL is false.
      */
     public static class MySQLConfig {
+
+        /**
+         * Default constructor for the MySQLConfig class. Initializes the configuration with default values.
+         */
+        public MySQLConfig() {}
 
         /**
          * The hostname or IP address of the MySQL server. This value is used to establish a connection to the MySQL server.
@@ -79,6 +89,11 @@ public final class DatabaseConfig {
      * Config options for SQLite database. These options will be ignored if useMySQL is true.
      */
     public static class SQLiteConfig {
+
+        /**
+         * Default constructor for the SQLiteConfig class. Initializes the configuration with default values.
+         */
+        public SQLiteConfig() {}
 
         /**
          * The name of the SQLite database file. This file will be created in the mod's configuration directory.

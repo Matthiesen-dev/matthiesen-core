@@ -32,9 +32,6 @@ public interface ModContainer {
      * @return A unique metric ID for the mod.
      */
     default String getModMetricId() {
-        LoaderPlatformMeta platform = getPlatformData();
-        String platformName = platform.getLabel();
-        String modName = getModName().toLowerCase().replaceAll("\\s+", "_");
-        return platformName + ":" + modName;
+        return getModName().toLowerCase().replaceAll("\\s+", "_");
     }
 }

@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
-import dev.matthiesen.matthiesen_core.common.api.platform.CommonMod;
+import dev.matthiesen.matthiesen_core.common.api.platform.CommonClientMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
 import dev.matthiesen.matthiesen_core.common.core.client.EntityRendererManager;
 import dev.matthiesen.matthiesen_core.common.core.client.KeybindingsManager;
@@ -19,7 +19,7 @@ import java.util.ServiceLoader;
  * managers responsible for screens, entity renderers, block outlines, HUD layers, and keybindings. The class is intended to be used
  * by mods that depend on the Matthiesen Lib framework, providing a centralized point of access to client-side functionalities and services.
  */
-public final class MatthiesenCoreCommonClient implements CommonMod {
+public final class MatthiesenCoreCommonClient implements CommonClientMod {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME + " (Client)");
 
     private static final CommonLoaderClientEventsListeners CLIENT_EVENTS_LISTENERS =
@@ -41,6 +41,7 @@ public final class MatthiesenCoreCommonClient implements CommonMod {
      * Initializes the client-side components of the mod, including managers for screens, entity renderers,
      * block outlines, HUD layers, and keybindings. This method should be called during the client setup phase of the mod lifecycle.
      */
+    @Override
     public void initialize() {
         if (initialized) return;
 
@@ -59,62 +60,37 @@ public final class MatthiesenCoreCommonClient implements CommonMod {
      */
     public void onClientSetup() {}
 
-    /**
-     * Get the mod's ID
-     * @return The mod's ID
-     */
     @Override
     public String getModId() {
         return MatthiesenCoreCommon.MOD_ID;
     }
 
-    /**
-     * Get the mod's name
-     * @return The mod's name
-     */
     @Override
     public String getModName() {
         return MatthiesenCoreCommon.MOD_NAME;
     }
 
-    /**
-     * Get the mod's logger
-     * @return The mod's logger
-     */
     @Override
     public Logger getLogger() {
         return LOGGER;
     }
 
-    /**
-     * Tracks an error using the mod's error tracker. If the error tracker is not initialized, this method does nothing.
-     * @param throwable The error to be tracked. This should be a Throwable object representing the error that occurred. If the error tracker is not initialized, this method does nothing.
-     */
     @Override
     public void trackError(Throwable throwable) {
         MatthiesenCoreCommon.INSTANCE.trackError(throwable);
     }
 
-    /**
-     * Returns the ScreenManager instance for managing menu screen registrations and platform callbacks.
-     * @return the ScreenManager instance
-     */
+    @Override
     public ScreenManager getScreenManager() {
         return ScreenManager.INSTANCE;
     }
 
-    /**
-     * Returns the EntityRendererManager instance for managing entity and block entity renderer registrations.
-     * @return the EntityRendererManager instance
-     */
+    @Override
     public EntityRendererManager getEntityRendererManager() {
         return EntityRendererManager.INSTANCE;
     }
 
-    /**
-     * Returns the KeybindingsManager instance for managing keybinding registrations and tick callbacks.
-     * @return the KeybindingsManager instance
-     */
+    @Override
     public KeybindingsManager getKeybindingsManager() {
         return KeybindingsManager.INSTANCE;
     }

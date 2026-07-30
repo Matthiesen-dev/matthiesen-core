@@ -38,6 +38,11 @@ public final class EventObservable<T> {
     private final CopyOnWriteArrayList<Entry<T>> entries = new CopyOnWriteArrayList<>();
     private final AtomicLong sequenceCounter = new AtomicLong();
 
+    /**
+     * Creates a new {@code EventObservable} instance.
+     */
+    public EventObservable() {}
+
     // -------------------------------------------------------------------------
     // Subscription
     // -------------------------------------------------------------------------
