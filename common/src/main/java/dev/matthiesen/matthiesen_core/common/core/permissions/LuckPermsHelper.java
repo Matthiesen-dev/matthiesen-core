@@ -39,6 +39,10 @@ public final class LuckPermsHelper {
 
     private LuckPermsHelper() {}
 
+    public static void loadCompat() {
+        INSTANCE.initialize();
+    }
+
     /**
      * Initializes the LuckPermsHelper instance. This method sets up the necessary event subscriptions and prepares the helper for use.
      * It ensures that the LuckPerms API is loaded when the server starts, allowing for seamless integration with the LuckPerms permission system.
