@@ -3,6 +3,7 @@ package dev.matthiesen.matthiesen_core.common.core.registry;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
+import dev.matthiesen.matthiesen_core.common.core.text_parsers.AdventureTextParser;
 import dev.matthiesen.matthiesen_core.common.core.text_parsers.EmbersTextParser;
 import dev.matthiesen.matthiesen_core.common.core.text_parsers.VanillaTextParser;
 
@@ -26,14 +27,6 @@ public final class TextParserRegistryManager {
      */
     public static final TextParser VANILLA_PARSER = new VanillaTextParser();
 
-    /**
-     * The Embers text parser, which is conditionally registered based on the presence of the Embers mod. This parser is
-     * used for advanced text formatting and features provided by the Embers mod. If the Embers mod is not loaded, this parser
-     * will not be registered and will remain null. The presence of this parser can be checked using the isTextParserRegistered
-     * method with the BuiltInTextParsers.EMBERS type.
-     */
-    public static volatile TextParser EMBERS_PARSER;
-
     private static final Map<String, TextParser> REGISTERED_PARSERS = new ConcurrentHashMap<>();
 
     private TextParserRegistryManager() {}
@@ -52,8 +45,11 @@ public final class TextParserRegistryManager {
         registerTextParser(VANILLA_PARSER);
 
         if (modInstance.getCommonUtils().isModLoaded(BuiltInTextParsers.EMBERS.getId())) {
-            EMBERS_PARSER = new EmbersTextParser();
-            registerTextParser(EMBERS_PARSER);
+            EmbersTextParser.register();
+        }
+
+        if (modInstance.getCommonUtils().isModLoaded(BuiltInTextParsers.ADVENTURE.getId())) {
+            AdventureTextParser.register();
         }
     }
 

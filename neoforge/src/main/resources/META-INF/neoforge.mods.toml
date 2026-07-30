@@ -56,3 +56,11 @@ mandatory = false
 versionRange = "[5.4,)"
 ordering = "AFTER"
 side = "SERVER"
+
+[[dependencies.${mod_id}]]
+modId = "adventure_platform_neoforge"
+type = "optional"
+mandatory = false
+versionRange = ""
+ordering = "AFTER"
+side = "SERVER"

@@ -12,7 +12,9 @@ on:
 # - Embers Text API (OVSg4uGN) - Optional
 # - Impactor (LdBYVaPS) - Optional
 # - LuckPerms (Vebnzrzj) - Optional
+# - Adventure Platform Mod (O5VsIpQY) - Optional
 ## Fabric Only:
+# - Fabric API (P7dR8mSH) - Required
 # - Fabric Permissions API (lzVo0Dll) - Optional
 
 jobs:
@@ -33,10 +35,12 @@ jobs:
         [
           {"project_id":"OVSg4uGN","dependency_type":"optional"},
           {"project_id":"LdBYVaPS","dependency_type":"optional"},
-          {"project_id":"Vebnzrzj","dependency_type":"optional"}
+          {"project_id":"Vebnzrzj","dependency_type":"optional"},
+          {"project_id":"O5VsIpQY","dependency_type":"optional"}
         ]
       modrinth_fabric_dependencies: |-
         [
+          {"project_id":"P7dR8mSH","dependency_type":"required"},
           {"project_id":"lzVo0Dll","dependency_type":"optional"}
         ]
       discord_icon_url: "https://raw.githubusercontent.com/Matthiesen-dev/.github/refs/heads/main/logo-transparent.png"

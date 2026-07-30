@@ -19,6 +19,10 @@ import java.util.List;
  */
 public final class EmbersTextParser implements TextParser {
 
+    public static void register() {
+        MatthiesenCoreCommon.INSTANCE.getTextParserManager().registerTextParser(new EmbersTextParser());
+    }
+
     /**
      * Constructs a new EmbersTextParser instance. This parser does not require any initialization or configuration.
      */

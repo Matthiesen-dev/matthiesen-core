@@ -14,7 +14,12 @@ public enum BuiltInTextParsers {
      * See The <a href="https://tysontheember.dev/embers-text-api/intro/">Ember's Text API Documentation</a> for more information about this text parser
      * and its capabilities.
      */
-    EMBERS("emberstextapi");
+    EMBERS("emberstextapi"),
+
+    /**
+     * The Adventure text parser, which uses the Adventure library for text formatting and features.
+     */
+    ADVENTURE("adventure");
 
     private final String id;
 

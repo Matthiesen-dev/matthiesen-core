@@ -36,12 +36,14 @@
     ]
   },
   "depends": {
-    "minecraft": "1.21.1"
+    "minecraft": "1.21.1",
+    "fabric-api": "*"
   },
   "recommends": {
     "fabric-permissions-api-v0": "*"
   },
   "suggests": {
+    "adventure-platform-fabric": "*",
     "emberstextapi": ">=3.0.0 <4.0.0",
     "impactor": ">=5.3.5+1.21.1",
     "luckperms": ">=5.4 <6.0.0"
