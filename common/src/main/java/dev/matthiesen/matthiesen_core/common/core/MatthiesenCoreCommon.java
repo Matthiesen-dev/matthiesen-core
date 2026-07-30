@@ -5,10 +5,10 @@ import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.CommonServerMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
+import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
 import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
 import dev.matthiesen.matthiesen_core.common.core.permissions.LuckPermsHelper;
-import dev.matthiesen.matthiesen_core.common.core.registry.CorePlayerEvents;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
@@ -80,10 +80,10 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
         CreativeModeAugmentsManager.INSTANCE.initialize(INSTANCE);
         EconomyManager.INSTANCE.initialize(INSTANCE);
 
-        CorePlayerEvents.register();
+        PlatformEvents.PLAYER_JOIN.subscribe(SavedPlayerData::verifyPlayerData);
 
         if (getCommonUtils().isModLoaded("luckperms")) {
-            LuckPermsHelper.INSTANCE.initialize();
+            LuckPermsHelper.loadCompat();
         }
 
         initialized = true;

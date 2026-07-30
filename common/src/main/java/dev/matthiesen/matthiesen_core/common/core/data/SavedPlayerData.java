@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.data;
 
+import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -80,9 +81,10 @@ public final class SavedPlayerData extends SavedData {
 
     /**
      * Verifies and updates the saved player data for the given player. If the player does not have a record, a new one is created. If the player's name has changed, the record is updated with the new name and the old name is added to the list of aliases.
-     * @param player The ServerPlayer instance representing the player to verify and update in the saved player data. If the player data store is not available, this method will do nothing.
+     * @param event The PlayerEvent.Join event containing the player information to verify and update. This event is triggered when a player joins the server, and it provides access to the player's UUID and current name.
      */
-    public static void verifyPlayerData(ServerPlayer player) {
+    public static void verifyPlayerData(PlayerEvent.Join event) {
+        ServerPlayer player = event.player();
         SavedPlayerData dataStore = getStore();
         if (dataStore == null) return;
 
