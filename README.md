@@ -36,6 +36,8 @@ Matthiesen Core provides a unified API for:
 - [Ember's Text API](https://modrinth.com/mod/embers-text-api)
 - [Impactor](https://modrinth.com/mod/impactor)
 - [LuckPerms](https://modrinth.com/mod/luckperms)
+- [Minecraft SQLite JDBC](https://modrinth.com/plugin/minecraft-sqlite-jdbc)
+- [Minecraft MySQL JDBC](https://modrinth.com/plugin/minecraft-mysql-jdbc)
 - [Fabric Permissions API](https://modrinth.com/mod/fabric-permissions-api) (Fabric only)
 
 ## Version Compatibility
