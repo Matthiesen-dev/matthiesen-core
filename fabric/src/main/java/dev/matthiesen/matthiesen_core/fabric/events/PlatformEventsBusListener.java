@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -69,6 +70,9 @@ public final class PlatformEventsBusListener {
                 PlatformEvents.WORLD_START_TICK.emit(new WorldEvent.StartTick(serverLevel)));
         ServerTickEvents.END_WORLD_TICK.register((serverLevel) ->
                 PlatformEvents.WORLD_END_TICK.emit(new WorldEvent.EndTick(serverLevel)));
+
+        ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(((message, sender, params) ->
+                !PlatformEvents.SERVER_CHAT.emit(new ServerEvent.Chat(sender, message.signedBody().content()))));
 
         // ================================================
         // Player Events

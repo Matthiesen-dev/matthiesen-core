@@ -13,6 +13,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.ServerChatEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -159,6 +160,21 @@ public final class PlatformEventsBusListener {
     @SubscribeEvent
     public static void onWorldTickPost(LevelTickEvent.Post event) {
         PlatformEvents.WORLD_END_TICK.emit(new WorldEvent.EndTick(event.getLevel()));
+    }
+
+    /**
+     * Handles the server chat event in the NeoForge mod loader environment. This method is called when a player sends a
+     * chat message to the server. It emits a SERVER_CHAT event to the PlatformEvents system, allowing other parts of the
+     * mod to respond to the chat message. The method takes a ServerChatEvent event object as a parameter, which provides
+     * context and information about the chat event, including the player who sent the message and the raw text of the message.
+     * If any listener returns true from the SERVER_CHAT event, the chat message is cancelled, preventing it from being processed further.
+     * @param event The ServerChatEvent event object, which provides context and information about the chat event, including
+     *              the player who sent the message and the raw text of the message.
+     */
+    @SubscribeEvent
+    public static void onServerChat(ServerChatEvent event) {
+        if (PlatformEvents.SERVER_CHAT.emit(new ServerEvent.Chat(event.getPlayer(), event.getRawText())))
+            event.setCanceled(true);
     }
 
     // ================================================

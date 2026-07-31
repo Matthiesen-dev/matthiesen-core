@@ -7,8 +7,9 @@ import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
 /**
  * Central registry of all server-side platform events provided by Matthiesen Core.
  *
- * <p>Each public static field is either an {@link EventObservable} (void dispatch) or a
- * {@link ResultEventObservable} ({@link net.minecraft.world.InteractionResult}-returning dispatch).
+ * <p>Each public static field is either an {@link EventObservable} (void dispatch), a
+ * {@link ResultEventObservable} ({@link net.minecraft.world.InteractionResult}-returning dispatch),
+ * or a {@link BooleanResultEventObservable} (boolean-cancellation dispatch).
  * Access them directly to subscribe listeners — no manager or registration step is required.</p>
  *
  * <h2>Dispatch rules</h2>
@@ -17,6 +18,8 @@ import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
  *   <li>Listeners at the same priority fire in the order they were registered.</li>
  *   <li>For {@link ResultEventObservable} fields: returning {@link net.minecraft.world.InteractionResult#FAIL}
  *       from any listener immediately cancels the action and stops further listeners.</li>
+ *   <li>For {@link BooleanResultEventObservable} fields: returning {@code true} cancels immediately
+ *       and stops further listeners.</li>
  *   <li>Exceptions thrown by any listener are logged and dispatch continues.</li>
  *   <li>Calling {@link EventSubscription#unsubscribe()} takes effect on the <em>next</em> emit cycle.</li>
  * </ul>
@@ -129,6 +132,18 @@ public final class PlatformEvents {
     public static final EventObservable<ServerEvent.Reload> SERVER_RELOAD = new EventObservable<>();
 
     // =========================================================================
+    // Server chat
+    // =========================================================================
+
+    /**
+     * Fired when a player sends a chat message to the server.
+     *
+     * <p>Return {@code true} to cancel the chat message immediately.
+     * Returning {@code false} allows the message to continue normally.</p>
+     */
+    public static final BooleanResultEventObservable<ServerEvent.Chat> SERVER_CHAT = new BooleanResultEventObservable<>();
+
+    // =========================================================================
     // Player connection
     // =========================================================================
 
@@ -186,11 +201,10 @@ public final class PlatformEvents {
     public static void initialize() {
         // Handled Externally by EventBusSubscriber (Fabric/NeoForge)
         // - SERVER_STARTING, SERVER_STARTED, SERVER_STOPPING, SERVER_STOPPED
-        // - SERVER_START_TICK, SERVER_END_TICK, SERVER_RELOAD
+        // - SERVER_START_TICK, SERVER_END_TICK, SERVER_RELOAD, SERVER_CHAT
         // - PLAYER_JOIN, PLAYER_LEAVE
         // - PLAYER_USE_ITEM, PLAYER_USE_BLOCK
         // Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
         // - PLAYER_PRE_TICK, PLAYER_END_TICK
     }
 }
-

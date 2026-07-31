@@ -2,6 +2,7 @@ package dev.matthiesen.matthiesen_core.common.api.events.server;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 
 /**
  * Typed event records for server lifecycle events used with {@link PlatformEvents}.
@@ -73,5 +74,14 @@ public final class ServerEvent {
      * {@link PlatformEvents#SERVER_STARTED}.</p>
      */
     public record Reload() {}
-}
 
+    /**
+     * Fired when a player sends a chat message to the server. This event is emitted via
+     * {@link PlatformEvents#SERVER_CHAT} and can be cancelled by returning {@code true} from a
+     * subscribed listener.
+     *
+     * @param player the {@link ServerPlayer} who sent the chat message
+     * @param message the chat message sent by the player
+     */
+    public record Chat(ServerPlayer player, String message) {}
+}
