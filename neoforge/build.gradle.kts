@@ -43,12 +43,6 @@ dependencies {
     }
     shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
 
-    runtimeOnly(libs.sqlite.jdbc)
-    shadowBundle(libs.sqlite.jdbc)
-
-    runtimeOnly(libs.mysql.connector.j)
-    shadowBundle(libs.mysql.connector.j)
-
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }
@@ -74,8 +68,6 @@ tasks {
         exclude("architectury-common.accessWidener")
         exclude("architectury.common.json")
         configurations = listOf(shadowBundle)
-        relocate("com.mysql", "dev.matthiesen.matthiesen_core.shadow.com.mysql")
-        relocate("com.google.protobuf", "dev.matthiesen.matthiesen_core.shadow.com.google.protobuf")
     }
 
     remapJar {
