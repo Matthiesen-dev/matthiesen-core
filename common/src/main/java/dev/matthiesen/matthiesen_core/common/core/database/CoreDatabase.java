@@ -134,9 +134,9 @@ public final class CoreDatabase implements IDatabase {
         String password = config.mySQLConfig.password;
         int timeout = config.mySQLConfig.timeout;
 
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?allowReconnect=true&autoReconnect=true&connectTimeout=" + timeout;
+        String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&allowReconnect=true&autoReconnect=true&connectTimeout=" + timeout;
 
-        if (!loadJdbcDriver("MySQL", "dev.matthiesen.matthiesen_core.shadow.com.mysql.cj.jdbc.Driver", "com.mysql.cj.jdbc.Driver")) {
+        if (!loadJdbcDriver("MySQL", "com.mysql.cj.jdbc.Driver")) {
             return false;
         }
 

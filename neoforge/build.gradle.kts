@@ -43,12 +43,6 @@ dependencies {
     }
     shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
 
-    runtimeOnly(libs.sqlite.jdbc)
-    shadowBundle(libs.sqlite.jdbc)
-
-    runtimeOnly(libs.mysql.connector.j)
-    shadowBundle(libs.mysql.connector.j)
-
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }

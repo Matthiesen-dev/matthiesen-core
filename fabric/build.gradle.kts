@@ -38,12 +38,6 @@ dependencies {
     "developmentFabric"(project(":common", configuration = "transformProductionFabric"))
     shadowBundle(project(":common", configuration = "transformProductionFabric"))
 
-    runtimeOnly(libs.sqlite.jdbc)
-    shadowBundle(libs.sqlite.jdbc)
-
-    runtimeOnly(libs.mysql.connector.j)
-    shadowBundle(libs.mysql.connector.j)
-
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }

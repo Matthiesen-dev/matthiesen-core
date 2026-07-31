@@ -13,6 +13,8 @@ on:
 # - Impactor (LdBYVaPS) - Optional
 # - LuckPerms (Vebnzrzj) - Optional
 # - Adventure Platform Mod (O5VsIpQY) - Optional
+# - MySQL JDBC (2UdFEObs) - Optional
+# - SQLite JDBC (bTTf2DEw) - Optional
 ## Fabric Only:
 # - Fabric API (P7dR8mSH) - Required
 # - Fabric Permissions API (lzVo0Dll) - Optional
@@ -36,7 +38,9 @@ jobs:
           {"project_id":"OVSg4uGN","dependency_type":"optional"},
           {"project_id":"LdBYVaPS","dependency_type":"optional"},
           {"project_id":"Vebnzrzj","dependency_type":"optional"},
-          {"project_id":"O5VsIpQY","dependency_type":"optional"}
+          {"project_id":"O5VsIpQY","dependency_type":"optional"},
+          {"project_id":"2UdFEObs","dependency_type":"optional"},
+          {"project_id":"bTTf2DEw","dependency_type":"optional"}
         ]
       modrinth_fabric_dependencies: |-
         [
