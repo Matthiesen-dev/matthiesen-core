@@ -26,8 +26,13 @@ Matthiesen Core provides a unified API for:
 - **Client-Side Features**: Includes client-specific features like HUD management, keybinding handling, and screen management.
 - **Permission Management**: Provides a permission system for managing access to certain features or commands.
 
+## Required Dependencies
+
+- [Fabric API](https://modrinth.com/mod/fabric-api) (Fabric only)
+
 ## Optional Dependencies
 
+- [Adventure Platform Mod](https://modrinth.com/mod/adventure-platform-mod)
 - [Ember's Text API](https://modrinth.com/mod/embers-text-api)
 - [Impactor](https://modrinth.com/mod/impactor)
 - [LuckPerms](https://modrinth.com/mod/luckperms)
