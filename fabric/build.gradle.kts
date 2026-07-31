@@ -64,7 +64,5 @@ tasks {
 
     shadowJar {
         configurations = listOf(shadowBundle)
-        relocate("com.mysql", "dev.matthiesen.matthiesen_core.shadow.com.mysql")
-        relocate("com.google.protobuf", "dev.matthiesen.matthiesen_core.shadow.com.google.protobuf")
     }
 }
