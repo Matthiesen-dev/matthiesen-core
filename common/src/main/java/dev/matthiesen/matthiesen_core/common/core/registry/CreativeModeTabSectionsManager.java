@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 /**
@@ -33,7 +34,7 @@ import java.util.function.Consumer;
  */
 @SuppressWarnings("unused")
 public final class CreativeModeTabSectionsManager {
-    private final Map<String, Runnable> autoRegistrations = new HashMap<>();
+    private final Map<String, List<Runnable>> autoRegistrations = new HashMap<>();
     private final Map<ResourceLocation, CreativeModeTabSectionRegistration> MOD_TAB_SECTIONS = new HashMap<>();
 
     /**
@@ -68,7 +69,7 @@ public final class CreativeModeTabSectionsManager {
      */
     public void addAutoRegistration(String modId, Runnable task) {
         if (!autoRegistrationStarted) {
-            autoRegistrations.put(modId, task);
+            autoRegistrations.computeIfAbsent(modId, ignored -> new ArrayList<>()).add(task);
             return;
         }
         modInstance.createInfoLog("Running Creative-mode tab sections registration for " + modId);
@@ -79,7 +80,7 @@ public final class CreativeModeTabSectionsManager {
      * Retrieves the map of auto-registration tasks for creative mode tab sections.
      * @return A map where the keys are mod IDs and the values are Runnable tasks to be executed during the creative mode tab sections registration process.
      */
-    public Map<String, Runnable> getAutoRegistrations() {
+    public Map<String, List<Runnable>> getAutoRegistrations() {
         return autoRegistrations;
     }
 
@@ -87,16 +88,26 @@ public final class CreativeModeTabSectionsManager {
      * Executes all registered auto-registration tasks for creative mode tab sections. This method iterates through the registered tasks and runs each one, allowing mods to register their creative mode tab sections automatically.
      */
     public void runAutoRegistrations() {
+        if (autoRegistrationStarted) {
+            return;
+        }
         var tasks = getAutoRegistrations();
         if (!tasks.isEmpty()) {
             for (var entry : tasks.entrySet()) {
                 String modId = entry.getKey();
-                Runnable task = entry.getValue();
                 modInstance.createInfoLog("Running Creative-mode tab sections registration for " + modId);
-                task.run();
+                for (Runnable task : entry.getValue()) {
+                    task.run();
+                }
             }
         }
         autoRegistrationStarted = true;
+    }
+
+    private void ensureAutoRegistrationsStarted() {
+        if (!autoRegistrationStarted) {
+            runAutoRegistrations();
+        }
     }
 
 
@@ -117,6 +128,7 @@ public final class CreativeModeTabSectionsManager {
      * @return A CreativeModeTabSectionRegistration containing the sections and metadata for the specified creative mode tab, or null if no sections are registered.
      */
     public CreativeModeTabSectionRegistration getTabSections(ResourceLocation creativeModeTabID) {
+        ensureAutoRegistrationsStarted();
         return MOD_TAB_SECTIONS.get(creativeModeTabID);
     }
 
@@ -126,6 +138,7 @@ public final class CreativeModeTabSectionsManager {
      * @return true if the creative mode tab has registered sections, false otherwise.
      */
     public boolean hasTabSections(ResourceLocation creativeModeTabId) {
+        ensureAutoRegistrationsStarted();
         return MOD_TAB_SECTIONS.containsKey(creativeModeTabId);
     }
 
@@ -136,6 +149,7 @@ public final class CreativeModeTabSectionsManager {
      * @return The SectionData containing the metadata for the specified section, or null if the section does not exist.
      */
     public SectionData getTabMetaData(ResourceLocation creativeModeTabId, ResourceLocation sectionId) {
+        ensureAutoRegistrationsStarted();
         CreativeModeTabSectionRegistration registration = MOD_TAB_SECTIONS.get(creativeModeTabId);
         if (registration != null) {
             return registration.metadata().get(sectionId);
