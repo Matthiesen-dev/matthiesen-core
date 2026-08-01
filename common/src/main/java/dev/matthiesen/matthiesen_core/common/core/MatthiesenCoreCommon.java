@@ -192,7 +192,7 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     /**
-     * Registers an item to a miscellaneous creative mode tab section. This method delegates to {@link BuiltInCreativeModeSection#registerItemToSection(ResourceLocation, Supplier)} to register the provided item supplier to the specified section ID.
+     * Registers an item to a miscellaneous creative mode tab section.
      * @param registrationKey The unique identifier of the miscellaneous creative mode tab section to which the item should be registered.
      * @param itemSupplier A {@link Supplier} that provides the item to be registered to the specified section.
      */
@@ -201,29 +201,11 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     /**
-     * Registers an item to a miscellaneous creative mode tab section. This method delegates to {@link BuiltInCreativeModeSection#registerItemToSection(ResourceLocation, Supplier)} to register the provided item supplier to the specified section ID.
-     * @param sectionId The ID of the miscellaneous creative mode tab section to which the item should be registered.
-     * @param itemSupplier A {@link Supplier} that provides the item to be registered to the specified section.
-     */
-    public void registerItemToMiscTab(ResourceLocation sectionId, Supplier<Item> itemSupplier) {
-        BuiltInCreativeModeSection.INSTANCE.registerItemToSection(sectionId, itemSupplier);
-    }
-
-    /**
-     * Registers multiple items to a miscellaneous creative mode tab section. This method delegates to {@link BuiltInCreativeModeSection#registerSectionWithItems(ResourceLocation, List)} to register the provided list of item suppliers to the specified section ID.
+     * Registers multiple items to a miscellaneous creative mode tab section.
      * @param registrationKey The unique identifier of the miscellaneous creative mode tab section to which the items should be registered.
      * @param itemSuppliers A list of {@link Supplier} instances that provide the items to be registered to the specified section.
      */
     public void registerItemsToMiscTab(BuiltInCreativeModeSection.RegistrationKey registrationKey, List<Supplier<Item>> itemSuppliers) {
         BuiltInCreativeModeSection.INSTANCE.registerSectionWithItems(registrationKey, itemSuppliers);
-    }
-
-    /**
-     * Registers multiple items to a miscellaneous creative mode tab section. This method delegates to {@link BuiltInCreativeModeSection#registerSectionWithItems(ResourceLocation, List)} to register the provided list of item suppliers to the specified section ID.
-     * @param sectionId The ID of the miscellaneous creative mode tab section to which the items should be registered.
-     * @param itemSuppliers A list of {@link Supplier} instances that provide the items to be registered to the specified section.
-     */
-    public void registerItemsToMiscTab(ResourceLocation sectionId, List<Supplier<Item>> itemSuppliers) {
-        BuiltInCreativeModeSection.INSTANCE.registerSectionWithItems(sectionId, itemSuppliers);
     }
 }
