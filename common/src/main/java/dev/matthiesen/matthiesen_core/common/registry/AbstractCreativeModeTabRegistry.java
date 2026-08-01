@@ -2,6 +2,7 @@ package dev.matthiesen.matthiesen_core.common.registry;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.SupportedRegistries;
+import dev.matthiesen.matthiesen_core.common.core.registry.BuiltInCreativeModeSection;
 import dev.matthiesen.matthiesen_core.common.core.registry.CreativeModeAugmentsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.CreativeModeTabSectionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
@@ -188,6 +189,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      * @param builderConsumer A {@link Consumer} that configures the section builder for creative mode tab sections.
      * @return A {@link Supplier} that provides the registered {@link CreativeModeTab} instance.
      */
+    @SuppressWarnings("SameParameterValue")
     protected final Supplier<CreativeModeTab> registerSectionedCreativeTab(ResourceLocation location, Component title, Supplier<ItemStack> displayIcon, Consumer<CreativeModeTabSectionsManager.SectionBuilder> builderConsumer) {
         var name = location.getPath();
         CreativeModeTabSectionsManager.INSTANCE.addAutoRegistration(modId, () -> registerCreativeModeTabSections(name, builderConsumer));
@@ -220,6 +222,24 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
                 stream()
                 .flatMap(List::stream)
                 .toList();
+    }
+
+    /**
+     * Registers an item to a miscellaneous creative mode tab section. This method delegates to {@link BuiltInCreativeModeSection#registerItemToSection(ResourceLocation, Supplier)} to register the provided item supplier to the specified section ID.
+     * @param sectionId The ID of the miscellaneous creative mode tab section to which the item should be registered.
+     * @param itemSupplier A {@link Supplier} that provides the item to be registered to the specified section.
+     */
+    protected final void registerItemToMiscTab(ResourceLocation sectionId, Supplier<Item> itemSupplier) {
+        MatthiesenCoreCommon.INSTANCE.registerItemToMiscTab(sectionId, itemSupplier);
+    }
+
+    /**
+     * Registers multiple items to a miscellaneous creative mode tab section. This method delegates to {@link BuiltInCreativeModeSection#registerSectionWithItems(ResourceLocation, List)} to register the provided list of item suppliers to the specified section ID.
+     * @param sectionId The ID of the miscellaneous creative mode tab section to which the items should be registered.
+     * @param itemSuppliers A list of {@link Supplier} instances that provide the items to be registered to the specified section.
+     */
+    protected final void registerItemsToMiscTab(ResourceLocation sectionId, List<Supplier<Item>> itemSuppliers) {
+        MatthiesenCoreCommon.INSTANCE.registerItemsToMiscTab(sectionId, itemSuppliers);
     }
 }
 
