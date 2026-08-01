@@ -32,7 +32,7 @@ public final class BuiltInCreativeModeSection {
 
     public static final int MATTHIESEN_CORE_LOGO_MODEL_ID = 2047002;
 
-    private static final Map<ResourceLocation, List<Supplier<Item>>> ITEM_SUPPLIERS = new HashMap<>();
+    private static final Map<RegistrationKey, List<Supplier<Item>>> ITEM_SUPPLIERS = new HashMap<>();
 
     /**
      * The singleton instance of the BuiltInCreativeModeSection class.
@@ -59,14 +59,47 @@ public final class BuiltInCreativeModeSection {
         }
     }
 
+    public record RegistrationKey(ResourceLocation sectionId, Component title, int priority) {}
+
     /**
      * Registers an item to a specific creative mode section.
+     * @param registrationKey the unique identifier of the creative mode section
+     * @param itemSupplier a supplier that provides the item to be registered
+     */
+    public void registerItemToSection(RegistrationKey registrationKey, Supplier<Item> itemSupplier) {
+        setupRegistry();
+        ITEM_SUPPLIERS.computeIfAbsent(registrationKey, k -> new ArrayList<>()).add(itemSupplier);
+    }
+
+    /**
+     * Registers an item to a specific creative mode section using the section ID.
      * @param sectionId the unique identifier of the creative mode section
      * @param itemSupplier a supplier that provides the item to be registered
      */
     public void registerItemToSection(ResourceLocation sectionId, Supplier<Item> itemSupplier) {
         setupRegistry();
-        ITEM_SUPPLIERS.computeIfAbsent(sectionId, k -> new ArrayList<>()).add(itemSupplier);
+        RegistrationKey existingKey = ITEM_SUPPLIERS.keySet().stream()
+                .filter(key -> key.sectionId().equals(sectionId))
+                .findFirst()
+                .orElse(null);
+
+        if (existingKey != null) {
+            ITEM_SUPPLIERS.get(existingKey).add(itemSupplier);
+        } else {
+            // If no existing key is found, create a new one with a default title and priority
+            RegistrationKey newKey = new RegistrationKey(sectionId, Component.literal(sectionId.getPath()), 0);
+            ITEM_SUPPLIERS.put(newKey, new ArrayList<>(List.of(itemSupplier)));
+        }
+    }
+
+    /**
+     * Registers a list of items to a specific creative mode section.
+     * @param registrationKey the unique identifier of the creative mode section
+     * @param itemSuppliers a list of suppliers that provide the items to be registered
+     */
+    public void registerSectionWithItems(RegistrationKey registrationKey, List<Supplier<Item>> itemSuppliers) {
+        setupRegistry();
+        ITEM_SUPPLIERS.put(registrationKey, itemSuppliers);
     }
 
     /**
@@ -76,7 +109,18 @@ public final class BuiltInCreativeModeSection {
      */
     public void registerSectionWithItems(ResourceLocation sectionId, List<Supplier<Item>> itemSuppliers) {
         setupRegistry();
-        ITEM_SUPPLIERS.put(sectionId, itemSuppliers);
+        RegistrationKey existingKey = ITEM_SUPPLIERS.keySet().stream()
+                .filter(key -> key.sectionId().equals(sectionId))
+                .findFirst()
+                .orElse(null);
+
+        if (existingKey != null) {
+            ITEM_SUPPLIERS.put(existingKey, itemSuppliers);
+        } else {
+            // If no existing key is found, create a new one with a default title and priority
+            RegistrationKey newKey = new RegistrationKey(sectionId, Component.literal(sectionId.getPath()), 0);
+            ITEM_SUPPLIERS.put(newKey, itemSuppliers);
+        }
     }
 
     /**
@@ -97,18 +141,18 @@ public final class BuiltInCreativeModeSection {
                     Component.literal("Matthiesen Core Misc"),
                     getCreativeTabIcon(),
                     sectionBuilder -> {
-                        for (Map.Entry<ResourceLocation, List<Supplier<Item>>> entry : ITEM_SUPPLIERS.entrySet()) {
-                            ResourceLocation sectionId = entry.getKey();
+                        for (Map.Entry<RegistrationKey, List<Supplier<Item>>> entry : ITEM_SUPPLIERS.entrySet()) {
+                            RegistrationKey registrationKey = entry.getKey();
                             List<Supplier<Item>> suppliers = entry.getValue();
 
                             sectionBuilder.registerSection(
-                                    sectionId,
-                                    Component.literal(sectionId.getPath()),
-                                    100
+                                    registrationKey.sectionId(),
+                                    registrationKey.title(),
+                                    registrationKey.priority()
                             );
 
                             for (Supplier<Item> supplier : suppliers) {
-                                sectionBuilder.addItemToSection(sectionId, new ItemStack(supplier.get()));
+                                sectionBuilder.addItemToSection(registrationKey.sectionId(), new ItemStack(supplier.get()));
                             }
                         }
                     }
