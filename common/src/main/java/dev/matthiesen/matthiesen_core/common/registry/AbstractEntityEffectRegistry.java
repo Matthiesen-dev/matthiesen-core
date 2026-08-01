@@ -5,6 +5,8 @@ import dev.matthiesen.matthiesen_core.common.api.platform.registry.SupportedRegi
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 
+import java.util.function.Supplier;
+
 /**
  * Convenience base class for registries that register enchantment entity effect codecs.
  *
@@ -29,6 +31,17 @@ public abstract class AbstractEntityEffectRegistry extends AbstractRegistry<MapC
      */
     protected AbstractEntityEffectRegistry(RegistryBuilder registryBuilder) {
         super(registryBuilder, SupportedRegistries.ENTITY_EFFECT);
+    }
+
+    /**
+     * Registers an entity effect codec with the given ID.
+     * @param id the ID used to namespace the registration
+     * @param codec the codec to register
+     * @return a supplier for the registered codec
+     * @param <T> the type of the entity effect
+     */
+    public <T extends EnchantmentEntityEffect> Supplier<MapCodec<T>> register(String id, MapCodec<T> codec) {
+        return register(id, () -> codec);
     }
 }
 
