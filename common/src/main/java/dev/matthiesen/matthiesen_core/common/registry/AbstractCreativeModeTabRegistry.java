@@ -25,7 +25,8 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("unused")
 public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<CreativeModeTab> {
-    private String modId;
+    private final String modId;
+
     /**
      * Creates a creative mode tab registry using the given mod ID.
      *
@@ -43,6 +44,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      */
     protected AbstractCreativeModeTabRegistry(RegistryBuilder registryBuilder) {
         super(registryBuilder, SupportedRegistries.CREATIVE_MODE_TAB);
+        this.modId = registryBuilder.getModId();
     }
 
     /**
