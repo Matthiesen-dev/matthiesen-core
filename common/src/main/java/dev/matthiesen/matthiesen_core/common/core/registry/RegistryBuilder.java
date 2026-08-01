@@ -42,6 +42,14 @@ public final class RegistryBuilder {
     }
 
     /**
+     * Returns the mod ID associated with this RegistryBuilder instance. The mod ID is used to generate unique ResourceLocation identifiers for registered items, blocks, and other game elements.
+     * @return The mod ID associated with this RegistryBuilder instance.
+     */
+    public String getModId() {
+        return modId;
+    }
+
+    /**
      * Creates a new CreativeModeTab.Builder instance using the platform-specific implementation provided by the CommonPlatform service.
      * @return a new CreativeModeTab.Builder instance
      */
