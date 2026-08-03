@@ -191,6 +191,13 @@ public final class PlatformEvents {
      */
     public static final ResultEventObservable<PlayerEvent.UseBlock> PLAYER_USE_BLOCK = new ResultEventObservable<>();
 
+    /**
+     * Fired when a server-side player picks up an item entity.
+     *
+     * <p>Return {@code true} to cancel the pickup immediately. No subsequent listeners at lower priorities will be invoked after a cancellation.</p>
+     */
+    public static final BooleanResultEventObservable<PlayerEvent.PickupItem> PLAYER_PICKUP_ITEM = new BooleanResultEventObservable<>();
+
     // =========================================================================
     // Internal bootstrap — do not call from mod code
     // =========================================================================
