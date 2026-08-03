@@ -12,8 +12,10 @@ import net.minecraft.world.InteractionResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.ServerChatEvent;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -300,6 +302,17 @@ public final class PlatformEventsBusListener {
         if (result == InteractionResult.FAIL) {
             event.setCancellationResult(result);
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerPickup(ItemEntityPickupEvent.Pre event) {
+        var entity = event.getPlayer();
+        if (entity.level().isClientSide) return;
+        if (!(entity instanceof ServerPlayer serverPlayer)) return;
+        boolean result = PlatformEvents.PLAYER_PICKUP_ITEM.emit(new PlayerEvent.PickupItem(serverPlayer, event.getItemEntity()));
+        if (result) {
+            event.setCanPickup(TriState.FALSE);
         }
     }
 }

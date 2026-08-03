@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 
 /**
@@ -78,5 +79,16 @@ public final class PlayerEvent {
      * @param pos    the position of the block being interacted with
      */
     public record UseBlock(ServerPlayer player, Level level, InteractionHand hand, BlockPos pos) {}
+
+    /**
+     * Fired when a server-side player picks up an item entity. Subscribed via
+     * {@link PlatformEvents#PLAYER_PICKUP_ITEM} ({@link ResultEventObservable}).
+     *
+     * <p>Return {@code true} to cancel the pickup action and stop further listeners from being called.</p>
+     *
+     * @param player the {@link ServerPlayer} picking up the item
+     * @param itemEntity the {@link ItemEntity} being picked up
+     */
+    public record PickupItem(ServerPlayer player, ItemEntity itemEntity) {}
 }
 
