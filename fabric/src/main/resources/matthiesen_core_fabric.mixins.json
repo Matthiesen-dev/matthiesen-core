@@ -3,7 +3,7 @@
   "package": "dev.matthiesen.matthiesen_core.fabric.mixins",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "server": [
+  "mixins": [
     "PlayerMixin",
     "ServerItemEntityMixin"
   ],
