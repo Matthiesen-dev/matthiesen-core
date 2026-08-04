@@ -90,6 +90,18 @@ public final class FabricLoaderUtils implements CommonLoaderUtils {
                 }
                 NeoForgeConfigRegistry.INSTANCE.register(getModId(), configType, configSpec);
             }
+
+            @Override
+            public void registerConfig(ModConfigType type, IConfigSpec configSpec, String filename) {
+                ModConfig.Type configType;
+                switch (type) {
+                    case COMMON -> configType = ModConfig.Type.COMMON;
+                    case CLIENT -> configType = ModConfig.Type.CLIENT;
+                    case SERVER -> configType = ModConfig.Type.SERVER;
+                    default -> throw new IllegalArgumentException("Unknown config type: " + type);
+                }
+                NeoForgeConfigRegistry.INSTANCE.register(getModId(), configType, configSpec, filename);
+            }
         };
     }
 }

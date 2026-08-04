@@ -41,6 +41,13 @@ public interface ModContainer {
     void registerConfig(ModConfigType type, IConfigSpec configSpec);
 
     /**
+     * Registers a configuration specification for the mod. This method allows the mod to register its configuration settings with the underlying mod loader.
+     * @param type The type of configuration (e.g., COMMON, CLIENT, SERVER) that specifies how the configuration should be loaded and applied.
+     * @param configSpec The configuration specification that defines the structure and default values of the configuration settings for the mod.
+     */
+    void registerConfig(ModConfigType type, IConfigSpec configSpec, String filename);
+
+    /**
      * Generates a unique metric ID for the mod based on its name and platform. The metric ID is in the format "platform:mod_name",
      * where "platform" is the label of the platform (e.g., "fabric", "forge") and "mod_name" is the name of the mod in lowercase
      * with spaces replaced by underscores.
