@@ -1,6 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.api.events;
 
+import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -136,6 +139,12 @@ public final class ResultEventObservable<T> {
         }
 
         return InteractionResult.PASS;
+    }
+
+    @SuppressWarnings("unchecked")
+    public InteractionResultHolder<ItemStack> emitPlayerUseItem(PlayerEvent.UseItem event) {
+        InteractionResult result = emit((T) event);
+        return new InteractionResultHolder<>(result, event.player().getItemInHand(event.hand()));
     }
 
     // -------------------------------------------------------------------------

@@ -87,8 +87,7 @@ public final class PlatformEventsBusListener {
         UseItemCallback.EVENT.register((player, world, hand) -> {
             if (!(player instanceof ServerPlayer serverPlayer))
                 return new InteractionResultHolder<>(InteractionResult.PASS, player.getItemInHand(hand));
-            InteractionResult result = PlatformEvents.PLAYER_USE_ITEM.emit(new PlayerEvent.UseItem(serverPlayer, world, hand));
-            return new InteractionResultHolder<>(result, player.getItemInHand(hand));
+            return PlatformEvents.PLAYER_USE_ITEM.emitPlayerUseItem(new PlayerEvent.UseItem(serverPlayer, world, hand));
         });
 
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
