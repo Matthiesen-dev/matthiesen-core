@@ -23,6 +23,11 @@ public final class UniversalMetricsClient extends AbstractUniversalMetric {
         this.compatibilityLayer = compatibilityLayer;
     }
 
+    @Override
+    public boolean isClientApplication() {
+        return true;
+    }
+
     /**
      * Appends client-specific data to the metrics JSON object. This method is called by the parent class to add common data fields to the metrics before submission. In addition to the universal data added by the parent class, this implementation adds a client-specific property "client_no_op" with a value of 1. This is a placeholder property that can be used to identify client metrics submissions in the analysis of the collected data. The parent class's appendUniversalData method is also called to ensure that universal data fields are included in the metrics submission.
      * @param metrics the JsonObject representing the metrics data that will be submitted. This object is modified by adding a property "client_no_op" with a value of 1, which serves as an identifier for client metrics submissions. The parent class's appendUniversalData method is also called to ensure that universal data fields such as mod version and platform are included in the metrics submission, providing consistent information across both client and server metrics.
