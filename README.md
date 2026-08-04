@@ -29,6 +29,7 @@ Matthiesen Core provides a unified API for:
 ## Required Dependencies
 
 - [Fabric API](https://modrinth.com/mod/fabric-api) (Fabric only)
+- [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port) (Fabric only)
 
 ## Optional Dependencies
 

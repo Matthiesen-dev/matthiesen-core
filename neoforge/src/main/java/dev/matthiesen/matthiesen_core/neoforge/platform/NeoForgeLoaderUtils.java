@@ -1,12 +1,15 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.neoforge.events.PlatformEventsBusListener;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.config.IConfigSpec;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 
@@ -63,6 +66,11 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
         var loadedNeoForgeModContainer = neoForgeModContainer.get();
         return new ModContainer() {
             @Override
+            public String getModId() {
+                return loadedNeoForgeModContainer.getModInfo().getModId();
+            }
+
+            @Override
             public String getModName() {
                 return loadedNeoForgeModContainer.getModInfo().getDisplayName();
             }
@@ -75,6 +83,18 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
             @Override
             public LoaderPlatformMeta getPlatformData() {
                 return LoaderPlatformMeta.NEOFORGE;
+            }
+
+            @Override
+            public void registerConfig(ModConfigType type, IConfigSpec configSpec) {
+                ModConfig.Type configType;
+                switch (type) {
+                    case COMMON -> configType = ModConfig.Type.COMMON;
+                    case CLIENT -> configType = ModConfig.Type.CLIENT;
+                    case SERVER -> configType = ModConfig.Type.SERVER;
+                    default -> throw new IllegalArgumentException("Unknown config type: " + type);
+                }
+                loadedNeoForgeModContainer.registerConfig(configType, configSpec);
             }
         };
     }

@@ -1,13 +1,16 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
-import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
 import dev.matthiesen.matthiesen_core.fabric.events.PlatformEventsBusListener;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
+import net.neoforged.fml.config.IConfigSpec;
+import net.neoforged.fml.config.ModConfig;
 
 import java.nio.file.Path;
 
@@ -57,6 +60,11 @@ public final class FabricLoaderUtils implements CommonLoaderUtils {
         var loadedFabricModContainer = fabricModContainer.get();
         return new ModContainer() {
             @Override
+            public String getModId() {
+                return loadedFabricModContainer.getMetadata().getId();
+            }
+
+            @Override
             public String getModName() {
                 return loadedFabricModContainer.getMetadata().getName();
             }
@@ -69,6 +77,18 @@ public final class FabricLoaderUtils implements CommonLoaderUtils {
             @Override
             public LoaderPlatformMeta getPlatformData() {
                 return LoaderPlatformMeta.FABRIC;
+            }
+
+            @Override
+            public void registerConfig(ModConfigType type, IConfigSpec configSpec) {
+                ModConfig.Type configType;
+                switch (type) {
+                    case COMMON -> configType = ModConfig.Type.COMMON;
+                    case CLIENT -> configType = ModConfig.Type.CLIENT;
+                    case SERVER -> configType = ModConfig.Type.SERVER;
+                    default -> throw new IllegalArgumentException("Unknown config type: " + type);
+                }
+                NeoForgeConfigRegistry.INSTANCE.register(getModId(), configType, configSpec);
             }
         };
     }
