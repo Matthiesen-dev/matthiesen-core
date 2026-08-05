@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.platform;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
@@ -82,5 +83,32 @@ public interface CommonMod extends LoggerMethods {
             throw new IllegalArgumentException("Mod container not found for mod ID: " + modId);
         }
         modContainer.registerConfig(type, configSpec, filename);
+    }
+
+    /**
+     * Registers a runtime config loading listener for the supplied mod id.
+     *
+     * <p>This is separate from base config registration and is intended for advanced runtime parsing workflows.</p>
+     */
+    default void registerModConfigLoadingListener(String modId) {
+        PlatformEvents.CONFIG_LOADING(modId);
+    }
+
+    /**
+     * Registers a runtime config unloading listener for the supplied mod id.
+     *
+     * <p>This is separate from base config registration and is intended for advanced runtime parsing workflows.</p>
+     */
+    default void registerModConfigUnloadingListener(String modId) {
+        PlatformEvents.CONFIG_UNLOADING(modId);
+    }
+
+    /**
+     * Registers a runtime config reloading listener for the supplied mod id.
+     *
+     * <p>This is separate from base config registration and is intended for advanced runtime parsing workflows.</p>
+     */
+    default void registerModConfigReloadingListener(String modId) {
+        PlatformEvents.CONFIG_RELOADING(modId);
     }
 }

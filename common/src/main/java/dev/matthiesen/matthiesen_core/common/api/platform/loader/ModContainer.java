@@ -48,6 +48,21 @@ public interface ModContainer {
     void registerConfig(ModConfigType type, IConfigSpec configSpec, String filename);
 
     /**
+     * Registers a listener for configuration loading events. This method allows the mod to respond to the loading of its configuration settings, which may occur during mod initialization or when the mod is being enabled.
+     */
+    void registerConfigLoadingListener();
+
+    /**
+     * Registers a listener for configuration unloading events. This method allows the mod to respond to the unloading of its configuration settings, which may occur when the mod is being disabled or removed.
+     */
+    void registerConfigUnloadingListener();
+
+    /**
+     * Registers a listener for configuration reloading events. This method allows the mod to respond to changes in its configuration settings at runtime.
+     */
+    void registerConfigReloadingListener();
+
+    /**
      * Generates a unique metric ID for the mod based on its name and platform. The metric ID is in the format "platform:mod_name",
      * where "platform" is the label of the platform (e.g., "fabric", "forge") and "mod_name" is the name of the mod in lowercase
      * with spaces replaced by underscores.
