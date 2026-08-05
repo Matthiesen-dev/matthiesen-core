@@ -17,18 +17,16 @@ modmenu = "v6Xx3fbU"
 luckperms = "5.4"
 luckperms-fabric = "6h9SnsZu" # v5.4.150 Fabric (https://modrinth.com/plugin/luckperms/version/v5.4.150-fabric)
 luckperms-neoforge = "dKAPoPGd" # v5.4.150 NeoForge (https://modrinth.com/plugin/luckperms/version/v5.4.150-neoforge)
-
 sqlite-jdbc = "3.53.2.0"
 sqlite-mod = "EEE7nXWy" # 3.53.2.0+2026-06-06
-
 mysql-connector-j = "9.7.0"
 mysql-mod = "XiFojYbi" # 9.7.0+2026-05-03
-
 impactor-fabric = "5.3.5+1.21.1-Fabric-fabric,1.21.1"
 impactor-neoforge = "5.3.5+1.21.1-Neoforge-neoforge,1.21.1"
 adventure-key = "4.13.0"
 adventure-mod = "6.0.0"
 adventure-api = "4.17.0"
+forge-config-api-port = "21.1.6"
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
@@ -60,19 +58,18 @@ adventure-key = { group = "net.kyori", name = "adventure-key", version.ref = "ad
 luckperms-api = { group = "net.luckperms", name = "api", version.ref = "luckperms" }
 luckperms-fabric = { group = "maven.modrinth", name = "luckperms", version.ref = "luckperms-fabric" }
 luckperms-neoforge = { group = "maven.modrinth", name = "luckperms", version.ref = "luckperms-neoforge" }
-
 sqlite-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqlite-jdbc" }
 sqlite-mod = { group = "maven.modrinth", name = "bTTf2DEw", version.ref = "sqlite-mod" }
-
 mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql-connector-j" }
 mysql-mod = { group = "maven.modrinth", name = "2UdFEObs", version.ref = "mysql-mod" }
-
 adventure-mod-shared = { group = "net.kyori", name = "adventure-platform-mod-shared", version.ref = "adventure-mod" }
 minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure-api" }
 text-serializer = { group = "net.kyori", name = "adventure-text-serializer-json", version.ref = "adventure-api" }
+forge-config-api-port-common = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-common-neoforgeapi", version.ref = "forge-config-api-port" }
+forge-config-api-port-fabric = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-fabric", version.ref = "forge-config-api-port" }
 
 [bundles]
-commonCompileOnly = ["sponge-mixin", "luckperms-api", "minimessage", "text-serializer", "sqlite-jdbc", "mysql-connector-j"]
+commonCompileOnly = ["sponge-mixin", "luckperms-api", "minimessage", "text-serializer", "sqlite-jdbc", "mysql-connector-j", "forge-config-api-port-common"]
 commonImplementation = ["faststats", "adventure-key"]
 commonModCompileOnly = ["emberstextapiFabric", "impactor-fabric", "adventure-mod-shared"]
 commonModImplementation = []
@@ -81,7 +78,8 @@ commonModImplementationNoTransitive = []
 fabricCompileOnly = []
 fabricImplementation = ["faststats"]
 fabricModCompileOnly = ["fabric-permissions-api", "emberstextapiFabric", "impactor-fabric", "luckperms-fabric"]
-fabricModRuntimeOnly = ["emberstextapiFabric", "modmenu", "sqlite-mod", "mysql-mod"]
+fabricModApi = ["forge-config-api-port-fabric"]
+fabricModRuntimeOnly = ["emberstextapiFabric", "modmenu", "sqlite-mod", "mysql-mod", "forge-config-api-port-fabric"]
 fabricModImplementation = ["fabric-loader", "fabric-api"]
 fabricModImplementationNoTransitive = []
 

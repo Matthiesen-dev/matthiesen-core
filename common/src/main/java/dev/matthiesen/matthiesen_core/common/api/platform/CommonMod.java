@@ -1,7 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.api.platform;
 
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.utility.config.ConfigFolderManager;
 import dev.matthiesen.matthiesen_core.common.utility.config.ConfigManager;
+import net.neoforged.fml.config.IConfigSpec;
 
 /**
  * Interface representing a common mod. This interface provides methods for retrieving the mod's ID and name, as well as
@@ -33,7 +35,9 @@ public interface CommonMod extends LoggerMethods {
      * @param configName The name of the configuration file (without the file extension). The ConfigManager will use this name to create and manage the configuration file.
      * @return A new instance of ConfigManager for managing the specified configuration class and file name. The ConfigManager will handle loading, saving, and managing the configuration data for the mod.
      * @param <T> The type of the configuration class. This type should represent the structure of the configuration file and contain fields corresponding to the configuration options.
+     * @deprecated This method is deprecated and will be removed in future versions. Use the {@link CommonServerMod#registerModConfig(String, ModConfigType, IConfigSpec)} or {@link CommonServerMod#registerModConfig(String, ModConfigType, IConfigSpec, String)} methods instead for registering mod configurations.
      */
+    @Deprecated(forRemoval = true)
     default <T> ConfigManager<T> createConfigManager(Class<T> configClass, String configName) {
         return new ConfigManager<>(configClass, configName, getModId());
     }
