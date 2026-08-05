@@ -1,15 +1,12 @@
 package dev.matthiesen.matthiesen_core.common.api.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
-import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
-import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
 import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
-import net.neoforged.fml.config.IConfigSpec;
 
 /**
  * Represents a common server mod interface that extends the CommonMod interface. This interface provides methods for accessing
@@ -105,33 +102,4 @@ public interface CommonServerMod extends CommonMod {
      * @return The singleton instance of the EconomyManager, which can be used to register and retrieve economy providers and manage in-game currency.
      */
     EconomyManager getEconomyManager();
-
-    /**
-     * Creates a new ModContainer instance for the mod. The ModContainer provides information about the mod, such as its ID, name, version, and platform data. It also allows for registering configuration specifications for the mod.
-     * @param modId The unique identifier (ID) of the mod. This ID is typically a lowercase string that uniquely identifies the mod within the modding ecosystem.
-     * @param type The type of configuration (e.g., COMMON, CLIENT, SERVER) that specifies how the configuration should be loaded and applied.
-     * @param configSpec The configuration specification that defines the structure and default values of the configuration settings for the mod.
-     */
-    default void registerModConfig(String modId, ModConfigType type, IConfigSpec configSpec) {
-        ModContainer modContainer = getCommonUtils().getModContainer(modId);
-        if (modContainer == null) {
-            throw new IllegalArgumentException("Mod container not found for mod ID: " + modId);
-        }
-        modContainer.registerConfig(type, configSpec);
-    }
-
-    /**
-     * Creates a new ModContainer instance for the mod. The ModContainer provides information about the mod, such as its ID, name, version, and platform data. It also allows for registering configuration specifications for the mod.
-     * @param modId The unique identifier (ID) of the mod. This ID is typically a lowercase string that uniquely identifies the mod within the modding ecosystem.
-     * @param type The type of configuration (e.g., COMMON, CLIENT, SERVER) that specifies how the configuration should be loaded and applied.
-     * @param configSpec The configuration specification that defines the structure and default values of the configuration settings for the mod.
-     * @param filename The name of the configuration file (with the file extension, should probably be {@code .toml}). The ModContainer will use this name to create and manage the configuration file.
-     */
-    default void registerModConfig(String modId, ModConfigType type, IConfigSpec configSpec, String filename) {
-        ModContainer modContainer = getCommonUtils().getModContainer(modId);
-        if (modContainer == null) {
-            throw new IllegalArgumentException("Mod container not found for mod ID: " + modId);
-        }
-        modContainer.registerConfig(type, configSpec, filename);
-    }
 }
