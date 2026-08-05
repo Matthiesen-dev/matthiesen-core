@@ -1,5 +1,7 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
+import dev.matthiesen.matthiesen_core.common.api.events.config.ConfigEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
@@ -7,6 +9,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformM
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.fabric.events.PlatformEventsBusListener;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeModConfigEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.config.IConfigSpec;
@@ -91,6 +94,24 @@ public final class FabricLoaderUtils implements CommonLoaderUtils {
                 NeoForgeConfigRegistry.INSTANCE.register(getModId(), configType, configSpec, filename);
             }
 
+            @Override
+            public void registerConfigLoadingListener() {
+                NeoForgeModConfigEvents.loading(getModId()).register(config ->
+                        PlatformEvents.CONFIG_LOADING(getModId()).emit(new ConfigEvent.Loading(toCommonConfig(config))));
+            }
+
+            @Override
+            public void registerConfigUnloadingListener() {
+                NeoForgeModConfigEvents.unloading(getModId()).register(config ->
+                        PlatformEvents.CONFIG_UNLOADING(getModId()).emit(new ConfigEvent.Unloading(toCommonConfig(config))));
+            }
+
+            @Override
+            public void registerConfigReloadingListener() {
+                NeoForgeModConfigEvents.reloading(getModId()).register(config ->
+                        PlatformEvents.CONFIG_RELOADING(getModId()).emit(new ConfigEvent.Reloading(toCommonConfig(config))));
+            }
+
             private ModConfig.Type parseConfigType(ModConfigType configType) {
                 return switch (configType) {
                     case COMMON -> ModConfig.Type.COMMON;
@@ -98,6 +119,25 @@ public final class FabricLoaderUtils implements CommonLoaderUtils {
                     case SERVER -> ModConfig.Type.SERVER;
                     case STARTUP -> ModConfig.Type.STARTUP;
                 };
+            }
+
+            private ModConfigType parseConfigType(ModConfig.Type configType) {
+                return switch (configType) {
+                    case COMMON -> ModConfigType.COMMON;
+                    case CLIENT -> ModConfigType.CLIENT;
+                    case SERVER -> ModConfigType.SERVER;
+                    case STARTUP -> ModConfigType.STARTUP;
+                };
+            }
+
+            private dev.matthiesen.matthiesen_core.common.api.events.config.ModConfig toCommonConfig(ModConfig config) {
+                return new dev.matthiesen.matthiesen_core.common.api.events.config.ModConfig(
+                        parseConfigType(config.getType()),
+                        config.getSpec(),
+                        config.getFileName(),
+                        config.getModId(),
+                        config.getLoadedConfig()
+                );
             }
         };
     }

@@ -1,8 +1,16 @@
 package dev.matthiesen.matthiesen_core.common.api.events;
 
+import dev.matthiesen.matthiesen_core.common.api.events.config.ConfigEvent;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Central registry of all server-side platform events provided by Matthiesen Core.
@@ -199,6 +207,84 @@ public final class PlatformEvents {
     public static final BooleanResultEventObservable<PlayerEvent.PickupItem> PLAYER_PICKUP_ITEM = new BooleanResultEventObservable<>();
 
     // =========================================================================
+    // Config Events
+    // =========================================================================
+
+    private static final Map<String, EventObservable<ConfigEvent.Loading>> CONFIG_LOADING_EVENTS = new ConcurrentHashMap<>();
+    private static final Map<String, EventObservable<ConfigEvent.Unloading>> CONFIG_UNLOADING_EVENTS = new ConcurrentHashMap<>();
+    private static final Map<String, EventObservable<ConfigEvent.Reloading>> CONFIG_RELOADING_EVENTS = new ConcurrentHashMap<>();
+    private static final Set<String> CONFIG_LOADING_AUTO_REGISTERED = ConcurrentHashMap.newKeySet();
+    private static final Set<String> CONFIG_UNLOADING_AUTO_REGISTERED = ConcurrentHashMap.newKeySet();
+    private static final Set<String> CONFIG_RELOADING_AUTO_REGISTERED = ConcurrentHashMap.newKeySet();
+
+    /**
+     * Fired when a mod config is loading for the supplied mod id.
+     *
+     * <p>This event is scoped by mod id because config events are emitted from loader-specific mod containers.
+     * Duplicate subscriptions are allowed and each subscription receives callbacks.</p>
+     */
+    public static EventObservable<ConfigEvent.Loading> CONFIG_LOADING(String modId) {
+        ensureConfigListenerRegistered(modId, ConfigListenerType.LOADING);
+        return CONFIG_LOADING_EVENTS.computeIfAbsent(modId, ignored -> new EventObservable<>());
+    }
+
+    /**
+     * Fired when a mod config is unloading for the supplied mod id.
+     *
+     * <p>This event is scoped by mod id because config events are emitted from loader-specific mod containers.
+     * Duplicate subscriptions are allowed and each subscription receives callbacks.</p>
+     */
+    public static EventObservable<ConfigEvent.Unloading> CONFIG_UNLOADING(String modId) {
+        ensureConfigListenerRegistered(modId, ConfigListenerType.UNLOADING);
+        return CONFIG_UNLOADING_EVENTS.computeIfAbsent(modId, ignored -> new EventObservable<>());
+    }
+
+    /**
+     * Fired when a mod config is reloading for the supplied mod id.
+     *
+     * <p>This event is scoped by mod id because config events are emitted from loader-specific mod containers.
+     * Duplicate subscriptions are allowed and each subscription receives callbacks.</p>
+     */
+    public static EventObservable<ConfigEvent.Reloading> CONFIG_RELOADING(String modId) {
+        ensureConfigListenerRegistered(modId, ConfigListenerType.RELOADING);
+        return CONFIG_RELOADING_EVENTS.computeIfAbsent(modId, ignored -> new EventObservable<>());
+    }
+
+    private static void ensureConfigListenerRegistered(String modId, ConfigListenerType type) {
+        String resolvedModId = Objects.requireNonNull(modId, "modId");
+        Set<String> registeredSet = getRegisteredSet(type);
+        if (!registeredSet.add(resolvedModId)) {
+            return;
+        }
+
+        ModContainer modContainer = MatthiesenCoreCommon.INSTANCE.getCommonUtils().getModContainer(resolvedModId);
+        if (modContainer == null) {
+            registeredSet.remove(resolvedModId);
+            throw new IllegalArgumentException("Mod container not found for mod ID: " + resolvedModId);
+        }
+
+        switch (type) {
+            case LOADING -> modContainer.registerConfigLoadingListener();
+            case UNLOADING -> modContainer.registerConfigUnloadingListener();
+            case RELOADING -> modContainer.registerConfigReloadingListener();
+        }
+    }
+
+    private static Set<String> getRegisteredSet(ConfigListenerType type) {
+        return switch (type) {
+            case LOADING -> CONFIG_LOADING_AUTO_REGISTERED;
+            case UNLOADING -> CONFIG_UNLOADING_AUTO_REGISTERED;
+            case RELOADING -> CONFIG_RELOADING_AUTO_REGISTERED;
+        };
+    }
+
+    private enum ConfigListenerType {
+        LOADING,
+        UNLOADING,
+        RELOADING
+    }
+
+    // =========================================================================
     // Internal bootstrap — do not call from mod code
     // =========================================================================
 
@@ -211,6 +297,7 @@ public final class PlatformEvents {
         // - SERVER_START_TICK, SERVER_END_TICK, SERVER_RELOAD, SERVER_CHAT
         // - PLAYER_JOIN, PLAYER_LEAVE
         // - PLAYER_USE_ITEM, PLAYER_USE_BLOCK
+        // - CONFIG_LOADING(modId), CONFIG_UNLOADING(modId), CONFIG_RELOADING(modId)
         // Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
         // - PLAYER_PRE_TICK, PLAYER_END_TICK
     }

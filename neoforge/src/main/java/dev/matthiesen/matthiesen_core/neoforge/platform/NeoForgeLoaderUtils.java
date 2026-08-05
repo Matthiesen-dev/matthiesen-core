@@ -1,5 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
+import dev.matthiesen.matthiesen_core.common.api.events.config.ConfigEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
@@ -10,12 +12,14 @@ import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.config.IConfigSpec;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * The NeoForgeLoaderUtils class implements the CommonLoaderUtils interface and provides utility methods for interacting with
@@ -109,6 +113,24 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
                 }
             }
 
+            @Override
+            public void registerConfigLoadingListener() {
+                Objects.requireNonNull(loadedNeoForgeModContainer.getEventBus()).addListener((ModConfigEvent.Loading event) ->
+                        PlatformEvents.CONFIG_LOADING(getModId()).emit(new ConfigEvent.Loading(toCommonConfig(event.getConfig()))));
+            }
+
+            @Override
+            public void registerConfigUnloadingListener() {
+                Objects.requireNonNull(loadedNeoForgeModContainer.getEventBus()).addListener((ModConfigEvent.Unloading event) ->
+                        PlatformEvents.CONFIG_UNLOADING(getModId()).emit(new ConfigEvent.Unloading(toCommonConfig(event.getConfig()))));
+            }
+
+            @Override
+            public void registerConfigReloadingListener() {
+                Objects.requireNonNull(loadedNeoForgeModContainer.getEventBus()).addListener((ModConfigEvent.Reloading event) ->
+                        PlatformEvents.CONFIG_RELOADING(getModId()).emit(new ConfigEvent.Reloading(toCommonConfig(event.getConfig()))));
+            }
+
             private ModConfig.Type parseConfigType(ModConfigType configType) {
                 return switch (configType) {
                     case COMMON -> ModConfig.Type.COMMON;
@@ -116,6 +138,25 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
                     case SERVER -> ModConfig.Type.SERVER;
                     case STARTUP -> ModConfig.Type.STARTUP;
                 };
+            }
+
+            private ModConfigType parseConfigType(ModConfig.Type configType) {
+                return switch (configType) {
+                    case COMMON -> ModConfigType.COMMON;
+                    case CLIENT -> ModConfigType.CLIENT;
+                    case SERVER -> ModConfigType.SERVER;
+                    case STARTUP -> ModConfigType.STARTUP;
+                };
+            }
+
+            private dev.matthiesen.matthiesen_core.common.api.events.config.ModConfig toCommonConfig(ModConfig config) {
+                return new dev.matthiesen.matthiesen_core.common.api.events.config.ModConfig(
+                        parseConfigType(config.getType()),
+                        config.getSpec(),
+                        config.getFileName(),
+                        config.getModId(),
+                        config.getLoadedConfig()
+                );
             }
         };
     }

@@ -13,6 +13,9 @@ PlatformEvents           – static entry point, holds all event observables
 ├── EventObservable<T>   – void dispatch (server lifecycle, player join/leave)
 └── ResultEventObservable<T> – InteractionResult dispatch (player interactions)
 
+ConfigEvent              – typed records for mod config loading/unloading/reloading
+ModConfig                – loader-agnostic config payload
+
 EventPriority            – HIGHEST → LOWEST ordering enum
 EventSubscription        – unsubscribe handle returned on every subscribe call
 ServerEvent              – typed records for server lifecycle phases
@@ -66,6 +69,31 @@ sub.unsubscribe();
 // Check whether it is still active
 boolean active = sub.isSubscribed();
 ```
+
+### Explicit runtime config listeners (separate from `registerConfig(...)`)
+
+Config runtime listeners are intentionally separate from basic config registration.
+
+When you first access a config observable (`CONFIG_LOADING/UNLOADING/RELOADING`) for a `modId`, the platform bridge
+automatically registers the corresponding loader listener for that `modId`.
+
+That means subscribing is usually enough:
+
+```java
+PlatformEvents.CONFIG_LOADING(mod.getModId()).subscribe(event -> {
+    ModConfig config = event.config();
+
+    // Consumer-side filtering for multi-config mods
+    if (config.type() == ModConfigType.SERVER && "my_mod-server.toml".equals(config.fileName())) {
+        reloadCustomRuntimeParser(config);
+    }
+});
+```
+
+If needed, you can still call `registerModConfigLoadingListener(...)`, `registerModConfigUnloadingListener(...)`, and
+`registerModConfigReloadingListener(...)` explicitly; they route through the same auto-registration path.
+
+Duplicate listener registrations are allowed; each registration receives callbacks.
 
 ---
 
@@ -128,6 +156,23 @@ PlatformEvents.PLAYER_USE_BLOCK.subscribe(event -> {
 |-------|-----------|---------------|
 | `PlatformEvents.PLAYER_USE_ITEM` | `PlayerEvent.UseItem` | Player uses an item (server-side only) |
 | `PlatformEvents.PLAYER_USE_BLOCK` | `PlayerEvent.UseBlock` | Player right-clicks a block (server-side only) |
+
+### Config Runtime Events — `EventObservable<T>` (mod-scoped)
+
+| Accessor | Event type | When it fires |
+|----------|------------|---------------|
+| `PlatformEvents.CONFIG_LOADING(modId)` | `ConfigEvent.Loading` | A mod config starts loading |
+| `PlatformEvents.CONFIG_UNLOADING(modId)` | `ConfigEvent.Unloading` | A mod config is unloading |
+| `PlatformEvents.CONFIG_RELOADING(modId)` | `ConfigEvent.Reloading` | A mod config is reloading at runtime |
+
+Each event contains a common `ModConfig` payload with:
+- `type()` (`ModConfigType`)
+- `spec()` (`IConfigSpec`)
+- `fileName()`
+- `modId()`
+- `loadedConfig()`
+
+Use consumer-side filtering (`type()` / `fileName()`) for mods with multiple config files.
 
 ---
 
@@ -215,4 +260,6 @@ Call `MyModEvents.register()` from your common mod's `initialize()` method.
 | `EventSubscription` | `dev.matthiesen.matthiesen_core.common.api.events`        |
 | `ServerEvent` | `dev.matthiesen.matthiesen_core.common.api.events.server` |
 | `PlayerEvent` | `dev.matthiesen.matthiesen_core.common.api.events.server` |
+| `ConfigEvent` | `dev.matthiesen.matthiesen_core.common.api.events.config` |
+| `ModConfig` | `dev.matthiesen.matthiesen_core.common.api.events.config` |
 
