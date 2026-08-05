@@ -12,6 +12,8 @@ import net.neoforged.fml.config.IConfigSpec;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import java.nio.file.Path;
 
@@ -85,16 +87,26 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
                 return LoaderPlatformMeta.NEOFORGE;
             }
 
+            private boolean registeredConfigScreen = false;
+
             @Override
             public void registerConfig(ModConfigType type, IConfigSpec configSpec) {
                 ModConfig.Type configType = parseConfigType(type);
                 loadedNeoForgeModContainer.registerConfig(configType, configSpec);
+                if (!registeredConfigScreen && getEnvironment() == Environment.CLIENT) {
+                    loadedNeoForgeModContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+                    registeredConfigScreen = true;
+                }
             }
 
             @Override
             public void registerConfig(ModConfigType type, IConfigSpec configSpec, String filename) {
                 ModConfig.Type configType = parseConfigType(type);
                 loadedNeoForgeModContainer.registerConfig(configType, configSpec, filename);
+                if (!registeredConfigScreen && getEnvironment() == Environment.CLIENT) {
+                    loadedNeoForgeModContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+                    registeredConfigScreen = true;
+                }
             }
 
             private ModConfig.Type parseConfigType(ModConfigType configType) {
