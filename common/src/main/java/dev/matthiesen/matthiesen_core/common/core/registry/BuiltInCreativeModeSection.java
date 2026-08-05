@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
@@ -33,6 +32,7 @@ public final class BuiltInCreativeModeSection {
 
     private static final Map<RegistrationKey, List<Supplier<Item>>> ITEM_SUPPLIERS = new HashMap<>();
     private static final AtomicBoolean TAB_REGISTERED = new AtomicBoolean(false);
+    private static volatile boolean sectionsDirty = false;
 
     /**
      * The singleton instance of the BuiltInCreativeModeSection class.
@@ -57,9 +57,11 @@ public final class BuiltInCreativeModeSection {
      * @param itemSupplier a supplier that provides the item to be registered
      */
     public void registerItemToSection(RegistrationKey registrationKey, Supplier<Item> itemSupplier) {
-        ITEM_SUPPLIERS.computeIfAbsent(registrationKey, k -> new ArrayList<>()).add(itemSupplier);
+        synchronized (ITEM_SUPPLIERS) {
+            ITEM_SUPPLIERS.computeIfAbsent(registrationKey, k -> new ArrayList<>()).add(itemSupplier);
+            sectionsDirty = true;
+        }
         registerTabIfNeeded();
-        syncTabSections();
     }
 
     /**
@@ -68,9 +70,11 @@ public final class BuiltInCreativeModeSection {
      * @param itemSuppliers a list of suppliers that provide the items to be registered
      */
     public void registerSectionWithItems(RegistrationKey registrationKey, List<Supplier<Item>> itemSuppliers) {
-        ITEM_SUPPLIERS.put(registrationKey, new ArrayList<>(itemSuppliers));
+        synchronized (ITEM_SUPPLIERS) {
+            ITEM_SUPPLIERS.put(registrationKey, new ArrayList<>(itemSuppliers));
+            sectionsDirty = true;
+        }
         registerTabIfNeeded();
-        syncTabSections();
     }
 
     private void registerTabIfNeeded() {
@@ -89,12 +93,18 @@ public final class BuiltInCreativeModeSection {
         );
     }
 
-    // Keep the section snapshot in sync if registrations happen after tab contents are first queried.
-    private void syncTabSections() {
+    // Build section snapshots lazily so DeferredHolder-backed suppliers are resolved only when tabs are queried.
+    private void syncTabSectionsIfNeeded() {
+        if (!sectionsDirty) {
+            return;
+        }
+
         CreativeModeTabSectionsManager.INSTANCE.registerCreativeModeTabSections(MATTHIESEN_CORE_TAB_ID, this::populateSections);
+        sectionsDirty = false;
     }
 
     private List<ItemStack> getCreativeModeTabSectionItems() {
+        syncTabSectionsIfNeeded();
         CreativeModeTabSectionsManager.CreativeModeTabSectionRegistration registration =
                 CreativeModeTabSectionsManager.INSTANCE.getTabSections(MATTHIESEN_CORE_TAB_ID);
         if (registration == null) {
@@ -105,19 +115,33 @@ public final class BuiltInCreativeModeSection {
     }
 
     private void populateSections(CreativeModeTabSectionsManager.SectionBuilder sectionBuilder) {
-        for (Map.Entry<RegistrationKey, List<Supplier<Item>>> entry : ITEM_SUPPLIERS.entrySet()) {
-            RegistrationKey registrationKey = entry.getKey();
-            List<Supplier<Item>> suppliers = entry.getValue();
+        synchronized (ITEM_SUPPLIERS) {
+            for (Map.Entry<RegistrationKey, List<Supplier<Item>>> entry : ITEM_SUPPLIERS.entrySet()) {
+                RegistrationKey registrationKey = entry.getKey();
+                List<Supplier<Item>> suppliers = entry.getValue();
 
-            sectionBuilder.registerSection(
-                    registrationKey.sectionId(),
-                    registrationKey.title(),
-                    registrationKey.priority()
-            );
+                sectionBuilder.registerSection(
+                        registrationKey.sectionId(),
+                        registrationKey.title(),
+                        registrationKey.priority()
+                );
 
-            for (Supplier<Item> supplier : suppliers) {
-                Item suppliedItem = Objects.requireNonNull(supplier.get(), "Item supplier for section '" + registrationKey.sectionId() + "' returned null");
-                sectionBuilder.addItemToSection(registrationKey.sectionId(), new ItemStack(suppliedItem));
+                for (Supplier<Item> supplier : suppliers) {
+                    final Item suppliedItem;
+                    try {
+                        suppliedItem = supplier.get();
+                    } catch (RuntimeException exception) {
+                        MatthiesenCoreCommon.INSTANCE.createWarnLog("Skipping unresolved item supplier for section '" + registrationKey.sectionId() + "': " + exception.getMessage());
+                        continue;
+                    }
+
+                    if (suppliedItem == null) {
+                        MatthiesenCoreCommon.INSTANCE.createWarnLog("Skipping null item supplier for section '" + registrationKey.sectionId() + "'");
+                        continue;
+                    }
+
+                    sectionBuilder.addItemToSection(registrationKey.sectionId(), new ItemStack(suppliedItem));
+                }
             }
         }
     }
