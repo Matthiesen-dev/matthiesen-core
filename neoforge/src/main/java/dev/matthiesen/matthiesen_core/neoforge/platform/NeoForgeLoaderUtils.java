@@ -61,6 +61,8 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
         return LoaderPlatformMeta.NEOFORGE;
     }
 
+    private boolean registeredConfigScreen = false;
+
     @Override
     public ModContainer getModContainer(String modId) {
         var neoForgeModContainer = ModList.get().getModContainerById(modId);
@@ -86,8 +88,6 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
             public LoaderPlatformMeta getPlatformData() {
                 return LoaderPlatformMeta.NEOFORGE;
             }
-
-            private boolean registeredConfigScreen = false;
 
             @Override
             public void registerConfig(ModConfigType type, IConfigSpec configSpec) {
