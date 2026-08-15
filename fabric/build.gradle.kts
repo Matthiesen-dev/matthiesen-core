@@ -35,6 +35,8 @@ dependencies {
     modImplementation(libs.bundles.fabricModImplementation)
     modImplementation(libs.bundles.fabricModImplementationNoTransitive) { isTransitive = false }
 
+    include(libs.team.reborn.energy)
+
     implementation(project(":common", configuration = "namedElements"))
     "developmentFabric"(project(":common", configuration = "transformProductionFabric"))
     shadowBundle(project(":common", configuration = "transformProductionFabric"))
