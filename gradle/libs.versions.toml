@@ -27,7 +27,6 @@ adventure-key = "4.13.0"
 adventure-mod = "6.0.0"
 adventure-api = "4.17.0"
 forge-config-api-port = "21.1.6"
-team-reborn-energy = "4.1.0"
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
@@ -68,7 +67,6 @@ minimessage = { group = "net.kyori", name = "adventure-text-minimessage", versio
 text-serializer = { group = "net.kyori", name = "adventure-text-serializer-json", version.ref = "adventure-api" }
 forge-config-api-port-common = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-common-neoforgeapi", version.ref = "forge-config-api-port" }
 forge-config-api-port-fabric = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-fabric", version.ref = "forge-config-api-port" }
-team-reborn-energy = { group = "teamreborn", name = "energy", version.ref = "team-reborn-energy" }
 
 [bundles]
 commonCompileOnly = ["sponge-mixin", "luckperms-api", "minimessage", "text-serializer", "sqlite-jdbc", "mysql-connector-j", "forge-config-api-port-common"]
@@ -80,7 +78,7 @@ commonModImplementationNoTransitive = []
 fabricCompileOnly = []
 fabricImplementation = ["faststats"]
 fabricModCompileOnly = ["fabric-permissions-api", "emberstextapiFabric", "impactor-fabric", "luckperms-fabric"]
-fabricModApi = ["forge-config-api-port-fabric", "team-reborn-energy"]
+fabricModApi = ["forge-config-api-port-fabric"]
 fabricModRuntimeOnly = ["emberstextapiFabric", "modmenu", "sqlite-mod", "mysql-mod", "forge-config-api-port-fabric"]
 fabricModImplementation = ["fabric-loader", "fabric-api"]
 fabricModImplementationNoTransitive = []
