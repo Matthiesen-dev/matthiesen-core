@@ -1,6 +1,8 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import com.mojang.serialization.MapCodec;
+import dev.matthiesen.matthiesen_core.common.core.energy.AbstractEnergyBlockEntity;
+import dev.matthiesen.matthiesen_core.common.core.energy.CommonEnergyStorage;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
@@ -8,6 +10,8 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.neoforge.permissions.NeoForgePermissionValidator;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -16,11 +20,15 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.registries.callback.AddCallback;
 
@@ -114,5 +122,41 @@ public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) ->
                 registrationHandler.accept((CoreCommand command) -> command.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection()))
         );
+    }
+
+    @Override
+    public void registerEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier) {
+        NeoForge.EVENT_BUS.addListener((RegisterCapabilitiesEvent event) -> event.registerBlockEntity(
+                Capabilities.EnergyStorage.BLOCK,
+                blockEntityTypeSupplier.get(),
+                (blockEntity, side) -> {
+                    if (blockEntity instanceof AbstractEnergyBlockEntity energyBlock) {
+                        return new NeoForgeEnergyWrapper(energyBlock.getEnergyStorage());
+                    }
+                    return null;
+                }
+        ));
+    }
+
+    @Override
+    public void distributeEnergy(CommonEnergyStorage storage, Level level, BlockPos pos) {
+        int availableEnergy = (int) storage.getEnergy();
+        int maxTransfer = Math.toIntExact(Math.min(availableEnergy, storage.getMaxExtract()));
+
+        for (Direction direction : Direction.values()) {
+            if (maxTransfer <= 0) break;
+
+            BlockPos neighborPos = pos.relative(direction);
+            IEnergyStorage targetStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, neighborPos, direction.getOpposite());
+
+            if (targetStorage != null && targetStorage.canReceive()) {
+                int accepted = targetStorage.receiveEnergy(maxTransfer, false);
+                if (accepted > 0) {
+                    targetStorage.receiveEnergy(accepted, false);
+                    storage.setEnergy(storage.getEnergy() - accepted);
+                    maxTransfer -= accepted;
+                }
+            }
+        }
     }
 }

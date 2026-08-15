@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.registry;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.SupportedRegistries;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.registry.RegistryBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
@@ -94,6 +95,22 @@ public abstract class AbstractBlockEntityRegistry extends AbstractRegistry<Block
                 entityFactory::apply,
                 blockSuppliers.stream().map(Supplier::get).toArray(Block[]::new)
         ).build(null));
+    }
+
+    /**
+     * Registers an energy capability for the mod. This method allows you to register a new energy capability that can
+     * be used by blocks and entities in your mod.
+     * Energy capabilities are used to define how energy is stored, transferred, and consumed within the game, allowing for
+     * the creation of custom energy systems and mechanics. By registering an energy capability, you can create blocks and
+     * entities that can interact with energy in unique ways, enhancing the gameplay experience and providing new challenges
+     * and opportunities for players. The block entity type supplier is used to specify which block entity types should have
+     * the registered energy capability, allowing you to control which blocks and entities can store or transfer energy.
+     * @param blockEntityTypeSupplier A supplier that provides the block entity type that should have the registered energy
+     *                                capability. This allows you to specify which block entity types should be able to store or transfer
+     *                                energy, enabling you to create custom energy systems that are specific to your mod's content.
+     */
+    public void registerEnergyCapability(Supplier<BlockEntityType<? extends BlockEntity>> blockEntityTypeSupplier) {
+        MatthiesenCoreCommon.INSTANCE.getCommonRegistry().registerEnergyCapability(blockEntityTypeSupplier);
     }
 }
 

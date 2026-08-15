@@ -5,13 +5,18 @@ import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
+import dev.matthiesen.matthiesen_core.common.core.energy.AbstractEnergyBlockEntity;
+import dev.matthiesen.matthiesen_core.common.core.energy.CommonEnergyStorage;
 import dev.matthiesen.matthiesen_core.fabric.permissions.FabricPermissionValidator;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,10 +26,12 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import team.reborn.energy.api.EnergyStorage;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -131,6 +138,41 @@ public final class FabricLoaderRegistry implements CommonLoaderRegistry {
         CommandRegistrationCallback.EVENT.register((dispatcher, registry, context) ->
                 registrationHandler.accept((CoreCommand command) -> command.register(dispatcher, registry, context))
         );
+    }
+
+    @Override
+    public void registerEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier) {
+        EnergyStorage.SIDED.registerForBlockEntities((blockEntity, side) -> {
+            if (blockEntity instanceof AbstractEnergyBlockEntity energyBlock) {
+                return new FabricEnergyWrapper(energyBlock.getEnergyStorage());
+            }
+            return null;
+        }, blockEntityTypeSupplier.get());
+    }
+
+    @Override
+    public void distributeEnergy(CommonEnergyStorage storage, Level level, BlockPos pos) {
+        long availableEnergy = storage.getEnergy();
+        long maxTransfer = Math.min(availableEnergy, storage.getMaxExtract());
+
+        for (Direction direction : Direction.values()) {
+            if (maxTransfer <= 0) break;
+
+            BlockPos neighborPos = pos.relative(direction);
+            EnergyStorage targetStorage = EnergyStorage.SIDED.find(level, neighborPos, direction.getOpposite());
+
+            if (targetStorage != null && targetStorage.supportsInsertion()) {
+                // Open an outer transaction to push energy safely
+                try (Transaction transaction = Transaction.openOuter()) {
+                    long inserted = targetStorage.insert(maxTransfer, transaction);
+                    if (inserted > 0) {
+                        transaction.commit(); // Finalize the transfer on the target
+                        storage.setEnergy(storage.getEnergy() - inserted);
+                        maxTransfer -= inserted;
+                    }
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

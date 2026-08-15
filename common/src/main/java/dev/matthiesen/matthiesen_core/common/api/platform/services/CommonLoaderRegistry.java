@@ -2,7 +2,9 @@ package dev.matthiesen.matthiesen_core.common.api.platform.services;
 
 import com.mojang.serialization.MapCodec;
 import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
+import dev.matthiesen.matthiesen_core.common.core.energy.CommonEnergyStorage;
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -10,6 +12,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -271,4 +274,30 @@ public interface CommonLoaderRegistry {
      *                            that your commands are properly integrated into the game's command system regardless of the platform being used.
      */
     void registerCommands(Consumer<CommandRegistry> registrationHandler);
+
+    /**
+     * Register an energy capability for the mod. This method allows you to register a new energy capability that can be used by blocks and entities in your mod.
+     * Energy capabilities are used to define how energy is stored, transferred, and consumed within the game, allowing for the creation of custom energy systems
+     * and mechanics. By registering an energy capability, you can create blocks and entities that can interact with energy in unique ways, enhancing the gameplay
+     * experience and providing new challenges and opportunities for players. The block entity type supplier is used to specify which block entity types should
+     * have the registered energy capability, allowing you to control which blocks and entities can store or transfer energy.
+     * @param blockEntityTypeSupplier A supplier that provides the block entity type that should have the registered energy capability. This allows you to specify
+     *                                which block entity types should be able to store or transfer energy, enabling you to create custom energy systems that are specific
+     *                                to your mod's content.
+     */
+    void registerEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier);
+
+    /**
+     * Distribute energy from a given energy storage to adjacent blocks or entities in the specified level and position. This method is used to manage the flow of
+     * energy within the game, allowing for the transfer of energy between different blocks and entities that support energy capabilities. By distributing energy,
+     * you can create complex energy networks and systems that enhance gameplay and provide new challenges for players. The method takes a CommonEnergyStorage
+     * instance, which represents the source of the energy to be distributed, as well as the level and position where the distribution should occur.
+     * @param storage The CommonEnergyStorage instance representing the source of the energy to be distributed. This storage contains information about how much
+     *                energy is available and how it can be transferred to adjacent blocks or entities.
+     * @param level The Level instance representing the game world where the energy distribution should take place. This allows you to specify which world or dimension
+     *              the distribution should occur in, enabling you to create energy networks that span multiple areas or dimensions.
+     * @param pos The BlockPos instance representing the position in the level where the energy distribution should occur. This specifies the exact location where
+     *            adjacent blocks or entities will receive energy from the source storage, allowing for precise control over how energy is transferred within your mod's content.
+     */
+    void distributeEnergy(CommonEnergyStorage storage, Level level, BlockPos pos);
 }
