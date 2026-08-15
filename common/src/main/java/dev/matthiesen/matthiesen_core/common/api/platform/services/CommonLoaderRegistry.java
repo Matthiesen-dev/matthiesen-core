@@ -285,6 +285,7 @@ public interface CommonLoaderRegistry {
      *                                which block entity types should be able to store or transfer energy, enabling you to create custom energy systems that are specific
      *                                to your mod's content.
      */
+    @SuppressWarnings("unused")
     void registerEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier);
 
     /**
