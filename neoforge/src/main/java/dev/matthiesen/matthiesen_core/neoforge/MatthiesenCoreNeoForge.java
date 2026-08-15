@@ -58,7 +58,6 @@ public final class MatthiesenCoreNeoForge {
             registerAndClearPending(NeoForgeLoaderNetworking.PENDING_C2S, MatthiesenCoreNeoForge::registerC2S, registrar);
             registerAndClearPending(NeoForgeLoaderNetworking.PENDING_S2C, MatthiesenCoreNeoForge::registerS2C, registrar);
         }
-
     }
 
     private static void registerAndClearPending(
