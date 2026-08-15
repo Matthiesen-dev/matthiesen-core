@@ -125,7 +125,7 @@ public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
     }
 
     @Override
-    public void registerEnergyCapability(Supplier<BlockEntityType<? extends BlockEntity>> blockEntityTypeSupplier) {
+    public void registerEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier) {
         NeoForge.EVENT_BUS.addListener((RegisterCapabilitiesEvent event) -> event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 blockEntityTypeSupplier.get(),
