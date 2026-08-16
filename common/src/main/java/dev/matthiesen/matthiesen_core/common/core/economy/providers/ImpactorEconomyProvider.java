@@ -20,7 +20,15 @@ import java.util.UUID;
  */
 public final class ImpactorEconomyProvider implements EconomyProvider {
     public static final ImpactorEconomyProvider INSTANCE = new ImpactorEconomyProvider();
-    private static final EconomyService SERVICE = EconomyService.instance();
+
+    private static EconomyService getEconomyService() {
+        try {
+            return EconomyService.instance();
+        } catch (RuntimeException e) {
+            MatthiesenCoreCommon.INSTANCE.createErrorLog("Impactor Economy Service is not available. Ensure that the Impactor mod is loaded and the economy service is properly initialized.", e);
+            return null;
+        }
+    }
 
     private ImpactorEconomyProvider() {}
 
@@ -79,16 +87,25 @@ public final class ImpactorEconomyProvider implements EconomyProvider {
     }
 
     private Currency parseCurrency(@Subst("impactor:dollars") String currency) {
-        Optional<Currency> currencyOptional = SERVICE.currencies().currency(Key.key(currency));
+        var economyService = getEconomyService();
+        if (economyService == null) {
+            MatthiesenCoreCommon.INSTANCE.createErrorLog("Impactor Economy Service is not available. Cannot parse currency: " + currency);
+            return null;
+        }
+        Optional<Currency> currencyOptional = economyService.currencies().currency(Key.key(currency));
         if (currencyOptional.isEmpty()) {
             MatthiesenCoreCommon.INSTANCE.createWarnLog("Impactor currency " + currency + " not found, defaulting to primary currency");
-            return SERVICE.currencies().primary();
+            return economyService.currencies().primary();
         }
         return currencyOptional.get();
     }
 
     private Account getAccount(@NotNull UUID playerUUID, String currency) {
+        var economyService = getEconomyService();
+        if (economyService == null) {
+            throw new IllegalStateException("Impactor Economy Service is not available. Cannot retrieve account for player UUID: " + playerUUID);
+        }
         Currency parsedCurrency = parseCurrency(currency);
-        return SERVICE.account(parsedCurrency, playerUUID).join();
+        return economyService.account(parsedCurrency, playerUUID).join();
     }
 }
