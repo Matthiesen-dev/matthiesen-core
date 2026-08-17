@@ -1,6 +1,6 @@
-package dev.matthiesen.matthiesen_core.fabric.platform;
+package dev.matthiesen.matthiesen_core.fabric.api.energy;
 
-import dev.matthiesen.matthiesen_core.common.core.energy.CommonEnergyStorage;
+import dev.matthiesen.matthiesen_core.common.api.energy.AbstractCommonEnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -8,14 +8,15 @@ import team.reborn.energy.api.EnergyStorage;
  * The FabricEnergyWrapper class implements the EnergyStorage interface and serves as a wrapper for the CommonEnergyStorage instance.
  * It provides methods to interact with the energy storage, allowing for energy insertion, extraction, and retrieval of energy information.
  */
+@SuppressWarnings("unused")
 public final class FabricEnergyWrapper implements EnergyStorage {
-    private final CommonEnergyStorage storage;
+    private final AbstractCommonEnergyStorage storage;
 
     /**
      * Constructs a new FabricEnergyWrapper that wraps the provided CommonEnergyStorage instance.
      * @param storage The CommonEnergyStorage instance to be wrapped by this FabricEnergyWrapper.
      */
-    public FabricEnergyWrapper(CommonEnergyStorage storage) {
+    public FabricEnergyWrapper(AbstractCommonEnergyStorage storage) {
         this.storage = storage;
     }
 

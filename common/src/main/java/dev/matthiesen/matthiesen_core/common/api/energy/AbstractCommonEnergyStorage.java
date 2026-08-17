@@ -1,25 +1,25 @@
-package dev.matthiesen.matthiesen_core.common.core.energy;
+package dev.matthiesen.matthiesen_core.common.api.energy;
 
-import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
 /**
- * The CommonEnergyStorage class represents a basic energy storage system that can store, extract, and receive energy.
+ * The AbstractCommonEnergyStorage class represents a basic energy storage system that can store, extract, and receive energy.
  * It provides methods for managing energy levels, saving/loading energy data, and distributing energy to adjacent blocks.
  */
-public class CommonEnergyStorage {
+@SuppressWarnings("unused")
+public abstract class AbstractCommonEnergyStorage {
     private long energy = 0;
     private final long capacity;
     private final long maxExtract;
 
     /**
-     * Constructs a new CommonEnergyStorage with the specified capacity and maximum extraction rate.
+     * Constructs a new AbstractCommonEnergyStorage with the specified capacity and maximum extraction rate.
      * @param capacity The maximum energy capacity of the storage.
      * @param maxExtract The maximum amount of energy that can be extracted from the storage at once.
      */
-    public CommonEnergyStorage(long capacity, long maxExtract) {
+    public AbstractCommonEnergyStorage(long capacity, long maxExtract) {
         this.capacity = capacity;
         this.maxExtract = maxExtract;
     }
@@ -29,9 +29,7 @@ public class CommonEnergyStorage {
      * @param level The level in which the energy storage exists.
      * @param blockPos The position of the energy storage.
      */
-    public void distributeEnergy(Level level, BlockPos blockPos) {
-        MatthiesenCoreCommon.INSTANCE.getCommonRegistry().distributeEnergy(this, level, blockPos);
-    }
+    public abstract void distributeEnergy(Level level, BlockPos blockPos);
 
     /**
      * Returns the current energy value of the storage.

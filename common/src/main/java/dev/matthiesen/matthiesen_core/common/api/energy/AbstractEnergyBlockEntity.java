@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.core.energy;
+package dev.matthiesen.matthiesen_core.common.api.energy;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * It extends the BlockEntity class and provides an abstract method to retrieve the associated CommonEnergyStorage instance.
  * Subclasses must implement this method to provide their specific energy storage implementation.
  */
+@SuppressWarnings("unused")
 public abstract class AbstractEnergyBlockEntity extends BlockEntity {
     public AbstractEnergyBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
@@ -22,7 +23,7 @@ public abstract class AbstractEnergyBlockEntity extends BlockEntity {
      * Returns the CommonEnergyStorage instance associated with this block entity. This method must be implemented by subclasses to provide the specific energy storage for the block entity.
      * @return The CommonEnergyStorage instance for this block entity.
      */
-    public abstract CommonEnergyStorage getEnergyStorage();
+    public abstract AbstractCommonEnergyStorage getEnergyStorage();
 
     /**
      * Distributes energy from this block entity's energy storage to adjacent blocks that can receive energy.
