@@ -1,17 +1,17 @@
-package dev.matthiesen.matthiesen_core.common.core.energy;
+package dev.matthiesen.matthiesen_core.common.api.energy;
 
 /**
- * The CommonEnergyGenerator class extends the CommonEnergyStorage class and represents an energy generator that can generate energy up to a specified capacity.
+ * The AbstractCommonEnergyGenerator class extends the AbstractCommonEnergyStorage class and represents an energy generator that can generate energy up to a specified capacity.
  */
 @SuppressWarnings("unused")
-public class CommonEnergyGenerator extends CommonEnergyStorage {
+public abstract class AbstractCommonEnergyGenerator extends AbstractCommonEnergyStorage {
 
     /**
-     * Constructs a new CommonEnergyGenerator with the specified capacity and maximum extraction rate.
+     * Constructs a new AbstractCommonEnergyGenerator with the specified capacity and maximum extraction rate.
      * @param capacity The maximum energy capacity of the generator.
      * @param maxExtract The maximum amount of energy that can be extracted from the generator at once.
      */
-    public CommonEnergyGenerator(long capacity, long maxExtract) {
+    public AbstractCommonEnergyGenerator(long capacity, long maxExtract) {
         super(capacity, maxExtract);
     }
 
