@@ -13,6 +13,16 @@ import net.minecraft.world.phys.Vec3;
  */
 @SuppressWarnings("unused")
 public final class ParticleApi implements IParticleApi {
+    /**
+     * Singleton instance of the ParticleApi class.
+     */
+    public static final ParticleApi INSTANCE = new ParticleApi();
+
+    /**
+     * Private constructor to prevent instantiation of the ParticleApi class.
+     */
+    private ParticleApi() {}
+
     @Override
     public void spawnLine(ParticleSpawner spawner, Vec3 start, Vec3 end, double step) {
         final double totalDistance = start.distanceTo(end);
