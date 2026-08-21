@@ -35,6 +35,11 @@ public final class FabricLoaderNetworking implements CommonLoaderNetworking {
     }
 
     @Override
+    public <T extends CustomPacketPayload> void registerOptionalC2S(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, BiConsumer<T, PacketContext> handler) {
+        registerC2S(type, codec, handler);
+    }
+
+    @Override
     public <T extends CustomPacketPayload> void registerS2C(
             CustomPacketPayload.Type<T> type,
             StreamCodec<RegistryFriendlyByteBuf, T> codec,
@@ -47,6 +52,11 @@ public final class FabricLoaderNetworking implements CommonLoaderNetworking {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             FabricLoaderClientNetworking.registerS2CReceiver(type, handler);
         }
+    }
+
+    @Override
+    public <T extends CustomPacketPayload> void registerOptionalS2C(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, BiConsumer<T, PacketContext> handler) {
+        registerS2C(type, codec, handler);
     }
 
     @Override

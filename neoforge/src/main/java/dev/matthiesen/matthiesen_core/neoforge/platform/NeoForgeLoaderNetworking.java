@@ -30,11 +30,25 @@ public final class NeoForgeLoaderNetworking implements CommonLoaderNetworking {
     public static final List<PayloadRegistration<?, ?>> PENDING_C2S = new CopyOnWriteArrayList<>();
 
     /**
+     * A thread-safe list of pending optional client-to-server (C2S) payload registrations. Each entry in the list represents a
+     * registration of a custom packet payload type, along with its associated codec and handler. These registrations are
+     * processed during the appropriate lifecycle events to ensure that networking is set up correctly.
+     */
+    public static final List<PayloadRegistration<?, ?>> PENDING_OPTIONAL_C2S = new CopyOnWriteArrayList<>();
+
+    /**
      * A thread-safe list of pending server-to-client (S2C) payload registrations. Each entry in the list represents a
      * registration of a custom packet payload type, along with its associated codec and handler. These registrations are
      * processed during the appropriate lifecycle events to ensure that networking is set up correctly.
      */
     public static final List<PayloadRegistration<?, ?>> PENDING_S2C = new CopyOnWriteArrayList<>();
+
+    /**
+     * A thread-safe list of pending optional server-to-client (S2C) payload registrations. Each entry in the list represents a
+     * registration of a custom packet payload type, along with its associated codec and handler. These registrations are
+     * processed during the appropriate lifecycle events to ensure that networking is set up correctly.
+     */
+    public static final List<PayloadRegistration<?, ?>> PENDING_OPTIONAL_S2C = new CopyOnWriteArrayList<>();
 
     @Override
     public <T extends CustomPacketPayload> void registerC2S(
@@ -46,12 +60,30 @@ public final class NeoForgeLoaderNetworking implements CommonLoaderNetworking {
     }
 
     @Override
+    public <T extends CustomPacketPayload> void registerOptionalC2S(
+            CustomPacketPayload.Type<T> type,
+            StreamCodec<RegistryFriendlyByteBuf, T> codec,
+            BiConsumer<T, PacketContext> handler
+    ) {
+        PENDING_OPTIONAL_C2S.add(new PayloadRegistration<>(type, codec, handler));
+    }
+
+    @Override
     public <T extends CustomPacketPayload> void registerS2C(
             CustomPacketPayload.Type<T> type,
             StreamCodec<RegistryFriendlyByteBuf, T> codec,
             BiConsumer<T, PacketContext> handler
     ) {
         PENDING_S2C.add(new PayloadRegistration<>(type, codec, handler));
+    }
+
+    @Override
+    public <T extends CustomPacketPayload> void registerOptionalS2C(
+            CustomPacketPayload.Type<T> type,
+            StreamCodec<RegistryFriendlyByteBuf, T> codec,
+            BiConsumer<T, PacketContext> handler
+    ) {
+        PENDING_OPTIONAL_S2C.add(new PayloadRegistration<>(type, codec, handler));
     }
 
     @Override
