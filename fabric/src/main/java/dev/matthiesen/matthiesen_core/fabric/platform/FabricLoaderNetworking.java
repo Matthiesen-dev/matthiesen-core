@@ -9,6 +9,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.function.BiConsumer;
@@ -59,5 +60,10 @@ public final class FabricLoaderNetworking implements CommonLoaderNetworking {
     @Override
     public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
         ServerPlayNetworking.send(player, payload);
+    }
+
+    @Override
+    public boolean canSendToPlayer(ServerPlayer player, ResourceLocation payloadId) {
+        return ServerPlayNetworking.canSend(player, payloadId);
     }
 }
