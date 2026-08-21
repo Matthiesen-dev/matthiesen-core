@@ -57,6 +57,10 @@ public final class MatthiesenCoreNeoForge {
             final PayloadRegistrar registrar = event.registrar("1.0.0");
             registerAndClearPending(NeoForgeLoaderNetworking.PENDING_C2S, MatthiesenCoreNeoForge::registerC2S, registrar);
             registerAndClearPending(NeoForgeLoaderNetworking.PENDING_S2C, MatthiesenCoreNeoForge::registerS2C, registrar);
+
+            final PayloadRegistrar optionalRegistrar = event.registrar("1.0.0").optional();
+            registerAndClearPending(NeoForgeLoaderNetworking.PENDING_OPTIONAL_C2S, MatthiesenCoreNeoForge::registerC2S, optionalRegistrar);
+            registerAndClearPending(NeoForgeLoaderNetworking.PENDING_OPTIONAL_S2C, MatthiesenCoreNeoForge::registerS2C, optionalRegistrar);
         }
     }
 
