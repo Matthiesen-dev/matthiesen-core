@@ -5,6 +5,7 @@ import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -61,6 +62,11 @@ public final class NeoForgeLoaderNetworking implements CommonLoaderNetworking {
     @Override
     public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
         PacketDistributor.sendToPlayer(player, payload);
+    }
+
+    @Override
+    public boolean canSendToPlayer(ServerPlayer player, ResourceLocation payloadId) {
+        return player.connection.hasChannel(payloadId);
     }
 
     /**
