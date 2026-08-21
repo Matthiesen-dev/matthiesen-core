@@ -5,6 +5,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderN
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ServiceLoader;
@@ -58,6 +59,21 @@ public final class NetworkingManager {
     }
 
     /**
+     * Registers an optional client-to-server (C2S) packet type with the specified codec and handler.
+     * @param type The custom packet type to register.
+     * @param codec The codec for encoding and decoding the packet.
+     * @param handler The handler to process the packet when received.
+     * @param <T> The type of the custom packet payload.
+     */
+    public <T extends CustomPacketPayload> void registerOptionalC2S(
+            CustomPacketPayload.Type<T> type,
+            StreamCodec<RegistryFriendlyByteBuf, T> codec,
+            BiConsumer<T, PacketContext> handler
+    ) {
+        NETWORKING_SERVICE.registerOptionalC2S(type, codec, handler);
+    }
+
+    /**
      * Registers a server-to-client (S2C) packet type with the specified codec and handler.
      * @param type The custom packet type to register.
      * @param codec The codec for encoding and decoding the packet.
@@ -70,6 +86,21 @@ public final class NetworkingManager {
             BiConsumer<T, PacketContext> handler
     ) {
         NETWORKING_SERVICE.registerS2C(type, codec, handler);
+    }
+
+    /**
+     * Registers an optional server-to-client (S2C) packet type with the specified codec and handler.
+     * @param type The custom packet type to register.
+     * @param codec The codec for encoding and decoding the packet.
+     * @param handler The handler to process the packet when received.
+     * @param <T> The type of the custom packet payload.
+     */
+    public <T extends CustomPacketPayload> void registerOptionalS2C(
+            CustomPacketPayload.Type<T> type,
+            StreamCodec<RegistryFriendlyByteBuf, T> codec,
+            BiConsumer<T, PacketContext> handler
+    ) {
+        NETWORKING_SERVICE.registerOptionalS2C(type, codec, handler);
     }
 
     /**
@@ -87,5 +118,35 @@ public final class NetworkingManager {
      */
     public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
         NETWORKING_SERVICE.sendToPlayer(player, payload);
+    }
+
+    /**
+     * Checks if a custom packet payload can be sent to a specific player on the server.
+     * @param player The player to check.
+     * @param channelId The ID of the custom packet payload to check.
+     * @return True if the packet can be sent to the player, false otherwise.
+     */
+    public boolean canSendToPlayer(ServerPlayer player, ResourceLocation channelId) {
+        return NETWORKING_SERVICE.canSendToPlayer(player, channelId);
+    }
+
+    /**
+     * Checks if a custom packet payload can be sent to a specific player on the server.
+     * @param player The player to check.
+     * @param type The custom packet type to check.
+     * @return True if the packet can be sent to the player, false otherwise.
+     */
+    public boolean canSendToPlayer(ServerPlayer player, CustomPacketPayload.Type<?> type) {
+        return NETWORKING_SERVICE.canSendToPlayer(player, type.id());
+    }
+
+    /**
+     * Checks if a custom packet payload can be sent to a specific player on the server.
+     * @param player The player to check.
+     * @param payload The custom packet payload to check.
+     * @return True if the packet can be sent to the player, false otherwise.
+     */
+    public boolean canSendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
+        return NETWORKING_SERVICE.canSendToPlayer(player, payload.type().id());
     }
 }

@@ -31,6 +31,13 @@ public interface CommonLoaderNetworking {
             BiConsumer<T, PacketContext> handler
     );
 
+    /**
+     * Registers an optional client-to-server (C2S) packet type with the specified codec and handler.
+     * @param type The custom packet type to register.
+     * @param codec The codec for encoding and decoding the packet.
+     * @param handler The handler to process the packet when received.
+     * @param <T> The type of the custom packet payload.
+     */
     <T extends CustomPacketPayload> void registerOptionalC2S(
             CustomPacketPayload.Type<T> type,
             StreamCodec<RegistryFriendlyByteBuf, T> codec,
@@ -52,6 +59,13 @@ public interface CommonLoaderNetworking {
             BiConsumer<T, PacketContext> handler
     );
 
+    /**
+     * Registers an optional server-to-client (S2C) packet type with the specified codec and handler.
+     * @param type The custom packet type to register.
+     * @param codec The codec for encoding and decoding the packet.
+     * @param handler The handler to process the packet when received.
+     * @param <T> The type of the custom packet payload.
+     */
     <T extends CustomPacketPayload> void registerOptionalS2C(
             CustomPacketPayload.Type<T> type,
             StreamCodec<RegistryFriendlyByteBuf, T> codec,
