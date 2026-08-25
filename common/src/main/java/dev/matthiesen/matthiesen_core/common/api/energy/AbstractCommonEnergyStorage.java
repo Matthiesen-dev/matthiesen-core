@@ -47,7 +47,7 @@ public abstract class AbstractCommonEnergyStorage {
      * Sets the current energy value of the storage, ensuring it remains within the valid range of 0 to the storage's capacity.
      * @param energy The new energy value to set for the storage. It will be clamped between 0 and the storage's capacity.
      */
-    public void setEnergy(long energy) { this.energy = Math.clamp(0, capacity, energy); }
+    public void setEnergy(long energy) { this.energy = Math.clamp(energy, 0L, capacity); }
 
     /**
      * Returns the maximum amount of energy that can be extracted from the storage at once.
