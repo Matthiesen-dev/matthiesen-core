@@ -11,8 +11,8 @@ import net.minecraft.world.level.Level;
 @SuppressWarnings("unused")
 public abstract class AbstractCommonEnergyStorage {
     private long energy = 0;
-    private final long capacity;
-    private final long maxExtract;
+    private long capacity;
+    private long maxExtract;
 
     /**
      * Constructs a new AbstractCommonEnergyStorage with the specified capacity and maximum extraction rate.
@@ -21,6 +21,25 @@ public abstract class AbstractCommonEnergyStorage {
      */
     public AbstractCommonEnergyStorage(long capacity, long maxExtract) {
         this.capacity = capacity;
+        this.maxExtract = maxExtract;
+    }
+
+    /**
+     * Sets the maximum energy capacity of the storage.
+     * @param capacity The new maximum energy capacity for the energy storage.
+     */
+    public void setCapacity(long capacity) {
+        this.capacity = capacity;
+        if (this.energy > capacity) {
+            this.energy = capacity; // Ensure energy does not exceed new capacity
+        }
+    }
+
+    /**
+     * Sets the maximum amount of energy that can be extracted from the storage at once.
+     * @param maxExtract The new maximum extraction rate for the energy storage.
+     */
+    public void setMaxExtract(long maxExtract) {
         this.maxExtract = maxExtract;
     }
 
