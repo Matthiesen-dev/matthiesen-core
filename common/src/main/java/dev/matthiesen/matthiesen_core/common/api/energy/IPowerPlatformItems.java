@@ -11,11 +11,11 @@ import net.minecraft.world.level.ItemLike;
 public interface IPowerPlatformItems {
 
     /**
-     * Registers the energy capability for the given block entity type.
+     * Registers the energy capability for the specified items.
      *
-     * @param blockEntityTypeSupplier a supplier that provides the block entity type to register the energy capability for
+     * @param items the items to register the energy capability for
      */
-    void registerEnergyCapability(ItemLike... blockEntityTypeSupplier);
+    void registerItemEnergyCapability(ItemLike... items);
 
     /**
      * Checks whether the given item stack can receive energy.

@@ -18,7 +18,7 @@ public interface IPowerPlatformBase {
      *
      * @param blockEntityTypeSupplier a supplier that provides the block entity type to register the energy capability for
      */
-    void registerEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier);
+    void registerBlockEntityEnergyCapability(Supplier<BlockEntityType<?>> blockEntityTypeSupplier);
 
     /**
      * Distributes energy from the given {@code storage} to adjacent blocks in the {@code level} at the given {@code pos}.
