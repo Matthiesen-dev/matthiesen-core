@@ -10,9 +10,18 @@ import net.minecraft.world.level.Level;
  */
 @SuppressWarnings("unused")
 public abstract class AbstractCommonEnergyStorage {
-    private long energy = 0;
+    private long energy;
     private long capacity;
     private long maxExtract;
+
+    /**
+     * Constructs a new AbstractCommonEnergyStorage with the specified capacity.
+     * The maximum extraction rate is set to the same value as the capacity.
+     * @param capacity The maximum energy capacity of the storage.
+     */
+    public AbstractCommonEnergyStorage(long capacity) {
+        this(capacity, capacity, 0);
+    }
 
     /**
      * Constructs a new AbstractCommonEnergyStorage with the specified capacity and maximum extraction rate.
@@ -20,8 +29,19 @@ public abstract class AbstractCommonEnergyStorage {
      * @param maxExtract The maximum amount of energy that can be extracted from the storage at once.
      */
     public AbstractCommonEnergyStorage(long capacity, long maxExtract) {
+        this(capacity, maxExtract, 0);
+    }
+
+    /**
+     * Constructs a new AbstractCommonEnergyStorage with the specified capacity, maximum extraction rate, and initial energy.
+     * @param capacity The maximum energy capacity of the storage.
+     * @param maxExtract The maximum amount of energy that can be extracted from the storage at once.
+     * @param initialEnergy The initial energy value to set for the storage. It will be clamped between 0 and the storage's capacity.
+     */
+    public AbstractCommonEnergyStorage(long capacity, long maxExtract, long initialEnergy) {
         this.capacity = capacity;
         this.maxExtract = maxExtract;
+        this.energy = Math.clamp(initialEnergy, 0L, capacity);
     }
 
     /**
@@ -89,6 +109,16 @@ public abstract class AbstractCommonEnergyStorage {
     }
 
     /**
+     * Extracts energy from the storage, up to the specified maximum amount and the storage's current energy level.
+     * This method is a convenience overload that defaults to non-simulated extraction.
+     * @param maxExtract The maximum amount of energy to extract.
+     * @return The actual amount of energy extracted from the storage.
+     */
+    public int extract(int maxExtract) {
+        return extract(maxExtract, false);
+    }
+
+    /**
      * Inserts energy into the storage, up to the specified maximum amount and the storage's capacity.
      * @param maxReceive The maximum amount of energy to insert.
      * @param simulate If true, the insertion is only simulated and does not actually modify the energy storage.
@@ -100,6 +130,16 @@ public abstract class AbstractCommonEnergyStorage {
             this.energy += received;
         }
         return (int) received;
+    }
+
+    /**
+     * Inserts energy into the storage, up to the specified maximum amount and the storage's capacity.
+     * This method is a convenience overload that defaults to non-simulated insertion.
+     * @param maxReceive The maximum amount of energy to insert.
+     * @return The actual amount of energy inserted into the storage.
+     */
+    public int insert(int maxReceive) {
+        return insert(maxReceive, false);
     }
 
     /**

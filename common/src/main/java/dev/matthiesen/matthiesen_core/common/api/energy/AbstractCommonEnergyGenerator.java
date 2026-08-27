@@ -7,12 +7,30 @@ package dev.matthiesen.matthiesen_core.common.api.energy;
 public abstract class AbstractCommonEnergyGenerator extends AbstractCommonEnergyStorage {
 
     /**
+     * Constructs a new AbstractCommonEnergyGenerator with the specified capacity.
+     * @param capacity The maximum energy capacity of the generator.
+     */
+    public AbstractCommonEnergyGenerator(long capacity) {
+        super(capacity);
+    }
+
+    /**
      * Constructs a new AbstractCommonEnergyGenerator with the specified capacity and maximum extraction rate.
      * @param capacity The maximum energy capacity of the generator.
      * @param maxExtract The maximum amount of energy that can be extracted from the generator at once.
      */
     public AbstractCommonEnergyGenerator(long capacity, long maxExtract) {
         super(capacity, maxExtract);
+    }
+
+    /**
+     * Constructs a new AbstractCommonEnergyGenerator with the specified capacity, maximum extraction rate, and initial energy.
+     * @param capacity The maximum energy capacity of the generator.
+     * @param maxExtract The maximum amount of energy that can be extracted from the generator at once.
+     * @param initialEnergy The initial amount of energy stored in the generator.
+     */
+    public AbstractCommonEnergyGenerator(long capacity, long maxExtract, long initialEnergy) {
+        super(capacity, maxExtract, initialEnergy);
     }
 
     /**
