@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.energy;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 /**
  * Interface for platform-specific implementations of energy-related item behaviors.
@@ -8,6 +9,13 @@ import net.minecraft.world.item.ItemStack;
  */
 @SuppressWarnings("unused")
 public interface IPowerPlatformItems {
+
+    /**
+     * Registers the energy capability for the given block entity type.
+     *
+     * @param blockEntityTypeSupplier a supplier that provides the block entity type to register the energy capability for
+     */
+    void registerEnergyCapability(ItemLike... blockEntityTypeSupplier);
 
     /**
      * Checks whether the given item stack can receive energy.
