@@ -8,8 +8,18 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The NeoForgeMetricsCompatLayer class implements the CommonMetricsCompatLayer interface and provides metrics compatibility functionalities for the NeoForge mod loader.
+ */
 public final class NeoForgeMetricsCompatLayer implements CommonMetricsCompatLayer {
     private @Nullable MinecraftServer server;
+
+    /**
+     * Constructs a new instance of NeoForgeMetricsCompatLayer.
+     * This class is not intended to be instantiated, as it provides static utility methods for metrics compatibility.
+     */
+    public NeoForgeMetricsCompatLayer() {
+    }
 
     @Override
     public void initServer() {

@@ -29,6 +29,12 @@ import java.util.Objects;
  * bridge between the common utility interface and the specific functionalities provided by NeoForge.
  */
 public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
+    /**
+     * Constructs a new instance of NeoForgeLoaderUtils.
+     * This class is not intended to be instantiated, as it provides static utility methods for interacting with the NeoForge mod loader environment.
+     */
+    public NeoForgeLoaderUtils() {}
+
     @Override
     public MinecraftServer getServer() {
         return PlatformEventsBusListener.SERVER_INSTANCE;

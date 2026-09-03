@@ -15,6 +15,12 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 public final class NeoForgeEnergyHelpers {
 
     /**
+     * Constructs a new instance of NeoForgeEnergyHelpers.
+     * This class is not intended to be instantiated, as it provides static utility methods for energy management.
+     */
+    public NeoForgeEnergyHelpers() {}
+
+    /**
      * Distributes energy from the given {@code storage} to adjacent blocks in the {@code level} at the given {@code pos}.
      *
      * @param storage the energy storage to distribute energy from

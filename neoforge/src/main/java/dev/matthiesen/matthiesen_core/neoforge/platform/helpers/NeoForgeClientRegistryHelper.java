@@ -25,10 +25,21 @@ public final class NeoForgeClientRegistryHelper {
 
     private NeoForgeClientRegistryHelper() {}
 
+    /**
+     * Initializes the NeoForgeClientRegistryHelper with the provided event bus. This method must be called before any client-side registration methods are invoked to ensure that the event bus is available for handling registration events.
+     * @param eventBus The event bus to be used for client-side registrations.
+     */
     public static void init(IEventBus eventBus) {
         modBus = eventBus;
     }
 
+    /**
+     * Applies screen registrations by accepting a consumer that registers screens with the provided ScreenRegistrar.
+     * This method listens for the RegisterMenuScreensEvent and invokes the consumer to perform the screen registrations.
+     *
+     * @param screenRegistrarConsumer A consumer that accepts a ScreenRegistrar for registering screens.
+     * @throws IllegalStateException if the NeoForgeClientRegistryHelper has not been initialized with an event bus.
+     */
     public static void applyScreenRegistrations(Consumer<ScreenRegistrar> screenRegistrarConsumer) {
         IEventBus eventBus = modBus;
         if (eventBus == null) {
@@ -38,6 +49,13 @@ public final class NeoForgeClientRegistryHelper {
                 screenRegistrarConsumer.accept(event::register));
     }
 
+    /**
+     * Applies entity renderer registrations by accepting a bi-consumer that registers entity and block entity renderers.
+     * This method listens for the EntityRenderersEvent.RegisterRenderers event and invokes the bi-consumer to perform the renderer registrations.
+     *
+     * @param entityRendererConsumer A bi-consumer that accepts two consumers: one for registering entity renderers and another for registering block entity renderers.
+     * @throws IllegalStateException if the NeoForgeClientRegistryHelper has not been initialized with an event bus.
+     */
     @SuppressWarnings("rawtypes")
     public static void applyEntityRendererRegistrations(BiConsumer<
             BiConsumer<EntityType<? extends Entity>, EntityRendererProvider>,
@@ -51,6 +69,13 @@ public final class NeoForgeClientRegistryHelper {
                 entityRendererConsumer.accept(event::registerEntityRenderer, event::registerBlockEntityRenderer));
     }
 
+    /**
+     * Applies key binding registrations by accepting a consumer that registers key mappings with the provided KeyMappingRegistrar.
+     * This method listens for the RegisterKeyMappingsEvent and invokes the consumer to perform the key binding registrations.
+     *
+     * @param registrar A consumer that accepts a KeyMappingRegistrar for registering key bindings.
+     * @throws IllegalStateException if the NeoForgeClientRegistryHelper has not been initialized with an event bus.
+     */
     public static void applyKeyBindingRegistrations(Consumer<KeyMappingRegistrar> registrar) {
         IEventBus eventBus = modBus;
         if (eventBus == null) {

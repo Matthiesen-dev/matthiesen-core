@@ -34,6 +34,12 @@ import java.util.function.Supplier;
  * registration interface and the specific registration system provided by NeoForge.
  */
 public final class NeoForgeLoaderRegistry implements CommonLoaderRegistry {
+    /**
+     * Constructs a new instance of NeoForgeLoaderRegistry.
+     * This class is not intended to be instantiated, as it provides static utility methods for registration functionalities.
+     */
+    public NeoForgeLoaderRegistry() {}
+
     @Override
     public <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(ResourceLocation id, Supplier<BlockEntityType<T>> blockEntityType) {
         return NeoForgeRegistryHelper.registerBlockEntity(id, blockEntityType);

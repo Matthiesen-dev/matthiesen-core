@@ -21,7 +21,12 @@ import java.util.function.BiConsumer;
  * up correctly within the NeoForge environment.
  */
 public final class NeoForgeLoaderNetworking implements CommonLoaderNetworking {
-    // Defer processing until the lifecycle event runs
+    /**
+     * Constructs a new instance of NeoForgeLoaderNetworking.
+     * This class is not intended to be instantiated, as it provides static utility methods for networking functionalities.
+     */
+    public NeoForgeLoaderNetworking() {}
+
     /**
      * A thread-safe list of pending client-to-server (C2S) payload registrations. Each entry in the list represents a
      * registration of a custom packet payload type, along with its associated codec and handler. These registrations are
