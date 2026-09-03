@@ -35,6 +35,12 @@ import java.util.function.Supplier;
 public final class FabricLoaderRegistry implements CommonLoaderRegistry {
     private boolean creativeModeAugmentsHookInstalled;
 
+    /**
+     * Constructs a new instance of FabricLoaderRegistry.
+     * This class is not intended to be instantiated, as it provides static utility methods for registration functionalities.
+     */
+    public FabricLoaderRegistry() {}
+
     @Override
     public <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(ResourceLocation id, Supplier<BlockEntityType<T>> blockEntityType) {
         return registerSupplier(BuiltInRegistries.BLOCK_ENTITY_TYPE, id, blockEntityType);

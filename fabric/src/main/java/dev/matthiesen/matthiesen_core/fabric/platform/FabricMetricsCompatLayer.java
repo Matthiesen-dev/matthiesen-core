@@ -7,8 +7,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The FabricMetricsCompatLayer class implements the CommonMetricsCompatLayer interface and provides metrics compatibility functionalities for the Fabric mod loader.
+ */
 public final class FabricMetricsCompatLayer implements CommonMetricsCompatLayer {
     private @Nullable MinecraftServer server;
+
+    /**
+     * Constructs a new instance of FabricMetricsCompatLayer.
+     * This class is not intended to be instantiated, as it provides static utility methods for metrics compatibility.
+     */
+    public FabricMetricsCompatLayer() {
+    }
 
     @Override
     public void initServer() {

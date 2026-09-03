@@ -21,6 +21,13 @@ import java.nio.file.Path;
  * The FabricLoaderUtils class implements the CommonLoaderUtils interface and provides utility methods for interacting with the Fabric mod loader environment.
  */
 public final class FabricLoaderUtils implements CommonLoaderUtils {
+
+    /**
+     * Constructs a new instance of FabricLoaderUtils.
+     * This class is not intended to be instantiated, as it provides static utility methods for interacting with the Fabric mod loader environment.
+     */
+    public FabricLoaderUtils() {}
+
     @Override
     public MinecraftServer getServer() {
         return PlatformEventsBusListener.SERVER_INSTANCE;

@@ -20,6 +20,12 @@ import net.minecraft.world.phys.BlockHitResult;
  */
 public final class PlatformClientEventsBusListener {
     /**
+     * Constructs a new instance of PlatformClientEventsBusListener.
+     * This class is not intended to be instantiated, as it provides static utility methods for wiring Fabric-specific loader callbacks into the common event observables.
+     */
+    public PlatformClientEventsBusListener() {}
+
+    /**
      * Wires Fabric-specific loader callbacks into the common event observables.
      */
     public static void initialize() {

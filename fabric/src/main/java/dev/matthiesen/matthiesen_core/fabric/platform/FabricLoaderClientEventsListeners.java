@@ -21,6 +21,12 @@ import java.util.function.Consumer;
  * The FabricLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides client-side event handling for the Fabric mod loader.
  */
 public final class FabricLoaderClientEventsListeners implements CommonLoaderClientEventsListeners {
+    /**
+     * Constructs a new instance of FabricLoaderClientEventsListeners.
+     * This class is not intended to be instantiated, as it provides static utility methods for client-side event handling.
+     */
+    public FabricLoaderClientEventsListeners() {}
+
     @Override
     public void applyScreenRegistrations(Consumer<ScreenRegistrar> screenRegistrarConsumer) {
         screenRegistrarConsumer.accept(MenuScreens::register);

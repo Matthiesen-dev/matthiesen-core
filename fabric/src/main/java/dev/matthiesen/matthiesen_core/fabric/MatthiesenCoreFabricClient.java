@@ -10,7 +10,17 @@ import net.fabricmc.api.ClientModInitializer;
  * initialization tasks during the mod loading process.
  */
 public final class MatthiesenCoreFabricClient implements ClientModInitializer {
+    /**
+     * A static reference to the MatthiesenCoreCommonClient instance, which provides common client-side functionalities for the mod.
+     */
     public static final MatthiesenCoreCommonClient INSTANCE = MatthiesenCoreCommonClient.INSTANCE;
+
+    /**
+     * Constructs a new instance of MatthiesenCoreFabricClient.
+     * This class is not intended to be instantiated, as it serves as the main entry point for the mod in a client environment.
+     */
+    public MatthiesenCoreFabricClient() {
+    }
 
     /**
      * Invoked during the client-side initialization phase of the mod loading process. This method initializes the Matthiesen Core client-side components,
