@@ -5,6 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
+/**
+ * Represents the different types of mod configurations that can be used in a Minecraft mod.
+ * Each type has specific characteristics regarding where it is loaded, stored, and whether it is synced between client and server.
+ */
 public enum ModConfigType implements StringRepresentable {
     /**
      * Common mod config for configuration that needs to be loaded on both environments.

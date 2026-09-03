@@ -71,6 +71,7 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
      * Creates a ResourceLocation object for the mod using the provided path. This method is used to generate unique identifiers
      * for resources associated with the mod, ensuring that they are properly namespaced and can be accessed consistently throughout the application.
      * @param path The path to the resource, relative to the mod's namespace. This should be a string that uniquely identifies the resource within the mod's context.
+     * @return A ResourceLocation object representing the fully qualified identifier for the resource, including the mod's namespace and the provided path.
      */
     public static ResourceLocation modResource(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
