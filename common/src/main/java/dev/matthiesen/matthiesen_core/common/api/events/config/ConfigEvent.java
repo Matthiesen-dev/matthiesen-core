@@ -7,6 +7,7 @@ package dev.matthiesen.matthiesen_core.common.api.events.config;
  * {@link ModConfig} instance associated with the event.
  */
 public final class ConfigEvent {
+    private ConfigEvent() {}
 
     /**
      * Fired when a mod config is loading for the supplied mod id.

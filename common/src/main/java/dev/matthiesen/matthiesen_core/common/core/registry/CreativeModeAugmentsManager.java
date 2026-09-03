@@ -34,6 +34,7 @@ public final class CreativeModeAugmentsManager {
 
 	/**
 	 * Initializes the creative mode augments manager. This method is idempotent.
+	 * @param modInstance The instance of the MatthiesenCoreCommon mod that is initializing the creative mode augments manager.
 	 */
 	public synchronized void initialize(MatthiesenCoreCommon modInstance) {
 		if (initialized) {

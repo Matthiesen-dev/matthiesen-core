@@ -54,6 +54,13 @@ public final class BooleanResultEventObservable<T> {
      */
     @FunctionalInterface
     public interface ResultListener<T> {
+
+        /**
+         * Handles the event and returns {@code true} to cancel it, or {@code false} to allow it to continue.
+         *
+         * @param event the event to handle
+         * @return {@code true} to cancel the event, {@code false} to allow it to continue
+         */
         boolean handle(T event);
     }
 

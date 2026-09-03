@@ -28,6 +28,10 @@ public final class BuiltInCreativeModeSection {
      */
     public static final ResourceLocation MATTHIESEN_CORE_TAB_ID = MatthiesenCoreCommon.modResource("matthiesen_core_misc");
 
+    /**
+     * The unique identifier for the Matthiesen Core creative mode section.
+     * This ID is used to register the creative mode section within the game.
+     */
     public static final int MATTHIESEN_CORE_LOGO_MODEL_ID = 2047002;
 
     private static final Map<RegistrationKey, List<Supplier<Item>>> ITEM_SUPPLIERS = new HashMap<>();
@@ -42,6 +46,10 @@ public final class BuiltInCreativeModeSection {
 
     private BuiltInCreativeModeSection() {}
 
+    /**
+     * Initializes the built-in creative mode section by registering the creative mode tab and its sections.
+     * This method should be called during the mod initialization phase to ensure that the creative mode tab is properly set up.
+     */
     public static volatile Supplier<CreativeModeTab> MATTHIESEN_CORE_TAB;
 
     /**
@@ -49,6 +57,13 @@ public final class BuiltInCreativeModeSection {
      */
     public void initialize() {}
 
+    /**
+     * Represents a unique key for registering items to a specific creative mode section.
+     * This key consists of a section ID, a title, and a priority value.
+     * @param sectionId The unique identifier for the creative mode section.
+     * @param title The display title for the creative mode section.
+     * @param priority The priority value for the creative mode section, determining its order relative to other sections.
+     */
     public record RegistrationKey(ResourceLocation sectionId, Component title, int priority) {}
 
     /**

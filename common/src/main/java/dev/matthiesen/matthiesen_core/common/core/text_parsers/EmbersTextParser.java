@@ -19,6 +19,10 @@ import java.util.List;
  */
 public final class EmbersTextParser implements TextParser {
 
+    /**
+     * Registers the EmbersTextParser with the MatthiesenCoreCommon text parser manager.
+     * This method should be called during the mod initialization phase to ensure that the parser is available for use.
+     */
     public static void register() {
         MatthiesenCoreCommon.INSTANCE.getTextParserManager().registerTextParser(new EmbersTextParser());
     }
