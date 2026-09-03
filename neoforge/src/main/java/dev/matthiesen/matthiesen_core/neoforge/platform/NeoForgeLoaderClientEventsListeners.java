@@ -20,6 +20,12 @@ import java.util.function.Consumer;
  * components such as screens, entity renderers, HUD elements, and key bindings, as well as handling client tick events and block highlight overrides.
  */
 public final class NeoForgeLoaderClientEventsListeners implements CommonLoaderClientEventsListeners {
+    /**
+     * Constructs a new instance of NeoForgeLoaderClientEventsListeners.
+     * This class is not intended to be instantiated, as it provides static utility methods for client-side event handling.
+     */
+    public NeoForgeLoaderClientEventsListeners() {}
+
     @Override
     public void applyScreenRegistrations(Consumer<ScreenRegistrar> screenRegistrarConsumer) {
         NeoForgeClientRegistryHelper.applyScreenRegistrations(screenRegistrarConsumer);

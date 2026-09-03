@@ -18,6 +18,12 @@ import java.util.function.BiConsumer;
  * The FabricLoaderNetworking class implements the CommonLoaderNetworking interface and provides networking functionalities for the Fabric mod loader.
  */
 public final class FabricLoaderNetworking implements CommonLoaderNetworking {
+    /**
+     * Constructs a new instance of FabricLoaderNetworking.
+     * This class is not intended to be instantiated, as it provides static utility methods for networking functionalities.
+     */
+    public FabricLoaderNetworking() {}
+
     @Override
     public <T extends CustomPacketPayload> void registerC2S(
             CustomPacketPayload.Type<T> type,

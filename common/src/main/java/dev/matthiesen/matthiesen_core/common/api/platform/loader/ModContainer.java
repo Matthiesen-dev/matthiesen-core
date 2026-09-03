@@ -44,6 +44,7 @@ public interface ModContainer {
      * Registers a configuration specification for the mod. This method allows the mod to register its configuration settings with the underlying mod loader.
      * @param type The type of configuration (e.g., COMMON, CLIENT, SERVER) that specifies how the configuration should be loaded and applied.
      * @param configSpec The configuration specification that defines the structure and default values of the configuration settings for the mod.
+     * @param filename The filename for the configuration file. This allows the mod to specify a custom name for its configuration file, which will be used when saving and loading the configuration settings.
      */
     void registerConfig(ModConfigType type, IConfigSpec configSpec, String filename);
 

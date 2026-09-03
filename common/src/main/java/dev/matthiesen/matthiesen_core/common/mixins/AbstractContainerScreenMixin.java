@@ -45,6 +45,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @SuppressWarnings("ConstantConditions")
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenMixin {
+
+    /**
+     * The hoveredSlot field is a shadow of the corresponding field in the AbstractContainerScreen class. It represents the slot that is currently being hovered over by the mouse cursor.
+     * This field is used in the mixin methods to determine if the hovered slot is a section marker stack, allowing for custom rendering behavior for section header slots in the creative inventory screen.
+     */
     @Shadow
     protected Slot hoveredSlot;
 

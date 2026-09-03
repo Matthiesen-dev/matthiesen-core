@@ -114,6 +114,8 @@ public final class PlatformClientEvents {
 
     /**
      * Registers a HUD layer above all others.
+     * @param key Unique resource ID for the layer.
+     * @param layer The HUD layer to register.
      */
     public static void registerHudLayer(ResourceLocation key, LayeredDraw.Layer layer) {
         registerHudLayer(HudOrdering.AFTER, null, key, layer);
@@ -121,6 +123,10 @@ public final class PlatformClientEvents {
 
     /**
      * Registers a HUD layer with explicit ordering metadata.
+     * @param ordering The ordering of the layer relative to another layer.
+     * @param other The resource ID of the other layer to order relative to. Can be null if the layer should be ordered at the start or end of the HUD layer stack.
+     * @param key Unique resource ID for the layer.
+     * @param layer The HUD layer to register.
      */
     public static void registerHudLayer(HudOrdering ordering, ResourceLocation other, ResourceLocation key, LayeredDraw.Layer layer) {
         registerHudLayerInternal(new HudLayerRegistration(ordering, other, key, layer));

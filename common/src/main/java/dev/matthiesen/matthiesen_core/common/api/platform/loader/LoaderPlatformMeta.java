@@ -6,7 +6,14 @@ package dev.matthiesen.matthiesen_core.common.api.platform.loader;
  */
 @SuppressWarnings("unused")
 public enum LoaderPlatformMeta {
+    /**
+     * Represents the Fabric platform. The label for this platform is "fabric" and the mod ID is "fabricloader".
+     */
     FABRIC("fabric", "fabricloader"),
+
+    /**
+     * Represents the NeoForge platform. The label for this platform is "neoforge" and the mod ID is also "neoforge".
+     */
     NEOFORGE("neoforge");
 
     private final String label;

@@ -40,6 +40,12 @@ public final class PlatformEventsBusListener {
      */
     public static volatile MinecraftServer SERVER_INSTANCE;
 
+    /**
+     * Constructs a new instance of PlatformEventsBusListener.
+     * This class is not intended to be instantiated, as it provides static utility methods for wiring NeoForge-specific loader callbacks into the common event observables.
+     */
+    public PlatformEventsBusListener() {}
+
     // ================================================
     // Server Events
     // ================================================
@@ -305,6 +311,16 @@ public final class PlatformEventsBusListener {
         }
     }
 
+    /**
+     * Handles the player pickup item event in the NeoForge mod loader environment. This method is called when a server-side
+     * player attempts to pick up an item entity. It emits a PLAYER_PICKUP_ITEM event to the PlatformEvents system, allowing
+     * other parts of the mod to respond to the player's item pickup action. The method checks if the entity associated with
+     * the event is an instance of ServerPlayer before emitting the event, ensuring that only server-side player entities
+     * trigger the event emission. If the result of the event emission is true, indicating that the pickup should be canceled,
+     * the method sets the canPickup property of the event to TriState.FALSE, preventing the player from picking up the item.
+     * @param event The ItemEntityPickupEvent.Pre event object, which provides context and information about the player's
+     *              item pickup event, including the player entity and the item entity being picked up.
+     */
     @SubscribeEvent
     public static void onPlayerPickup(ItemEntityPickupEvent.Pre event) {
         var entity = event.getPlayer();

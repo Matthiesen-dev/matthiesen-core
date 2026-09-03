@@ -36,6 +36,13 @@ import java.util.Optional;
  */
 @EventBusSubscriber(modid = MatthiesenCoreCommon.MOD_ID, value = Dist.CLIENT)
 public final class PlatformClientEventsBusListener {
+
+    /**
+     * Constructs a new instance of PlatformClientEventsBusListener.
+     * This class is not intended to be instantiated, as it provides static utility methods for handling client-side events in the NeoForge mod loader environment.
+     */
+    public PlatformClientEventsBusListener() {}
+
     /**
      * This method is called during the client setup phase of the mod loading process. It is responsible for performing
      * any necessary client-side initialization tasks, such as setting up renderers, key bindings, and other client-specific features.

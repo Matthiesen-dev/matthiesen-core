@@ -9,7 +9,17 @@ import net.fabricmc.api.ModInitializer;
  * It implements the ModInitializer interface, which allows it to perform initialization tasks during the mod loading process.
  */
 public final class MatthiesenCoreFabric implements ModInitializer {
+    /**
+     * A static reference to the MatthiesenCoreCommon instance, which provides common functionalities for the mod.
+     */
     public static final MatthiesenCoreCommon INSTANCE = MatthiesenCoreCommon.INSTANCE;
+
+    /**
+     * Constructs a new instance of MatthiesenCoreFabric.
+     * This class is not intended to be instantiated, as it serves as the main entry point for the mod.
+     */
+    public MatthiesenCoreFabric() {
+    }
 
     /**
      * Called when the mod is initialized. This method performs the following tasks:

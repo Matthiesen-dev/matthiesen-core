@@ -10,6 +10,10 @@ package dev.matthiesen.matthiesen_core.common.api.discord;
  */
 @SuppressWarnings("unused")
 public interface WebhookNotifierService {
+    /**
+     * Initializes the WebhookNotifierService, setting up any necessary configurations or resources required for the service to function.
+     * This method should be called during the mod's initialization phase to ensure that the service is properly set up and ready for use.
+     */
     void initialize();
 
     /**

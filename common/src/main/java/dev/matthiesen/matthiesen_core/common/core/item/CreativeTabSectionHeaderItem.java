@@ -17,6 +17,10 @@ import dev.matthiesen.matthiesen_core.common.utility.item.ItemBuilder;
  * still allowing client-side model overrides.</p>
  */
 public final class CreativeTabSectionHeaderItem {
+    /**
+     * The custom model data value used to identify creative tab section marker stacks.
+     * This value is used to differentiate the marker stacks from regular barrier items in the game.
+     */
     public static final int MARKER_MODEL_DATA = 2047001;
 
     private static final String SECTION_ID_KEY = "SectionID";

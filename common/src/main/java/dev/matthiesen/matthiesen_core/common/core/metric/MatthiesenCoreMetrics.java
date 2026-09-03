@@ -26,6 +26,11 @@ public final class MatthiesenCoreMetrics {
      * for the mod. It provides methods to register mods, track errors, and retrieve registered mods for reporting purposes.
      */
     public static final UniversalMetricProvider PROVIDER = new UniversalMetricProvider(MatthiesenCoreCommon.MOD_ID, TOKEN);
+
+    /**
+     * Singleton instance of MatthiesenCoreMetrics. This instance is used to manage metrics collection and error tracking
+     * for the mod. It provides methods to register mods, track errors, and retrieve registered mods for reporting purposes.
+     */
     public static final MatthiesenCoreMetrics INSTANCE = new MatthiesenCoreMetrics();
 
     private MatthiesenCoreMetrics() {

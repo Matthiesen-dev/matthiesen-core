@@ -8,6 +8,7 @@ import net.minecraft.client.KeyMapping;
 public interface KeybindMapping {
     /**
      * Returns the key mapping to register.
+     * @return The key mapping to register.
      */
     KeyMapping getKeybind();
 

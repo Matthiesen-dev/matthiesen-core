@@ -30,6 +30,13 @@ public final class PlatformEventsBusListener {
     public static volatile MinecraftServer SERVER_INSTANCE;
 
     /**
+     * Constructs a new instance of PlatformEventsBusListener.
+     * This class is not intended to be instantiated, as it provides static utility methods for wiring Fabric-specific loader callbacks into the common event observables.
+     */
+    public PlatformEventsBusListener() {
+    }
+
+    /**
      * Wires Fabric-specific loader callbacks into the common event observables.
      */
     public static void initialize() {

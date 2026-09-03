@@ -17,6 +17,12 @@ import team.reborn.energy.api.EnergyStorage;
 @SuppressWarnings("unused")
 public final class FabricEnergyHelpers {
     /**
+     * Constructs a new instance of FabricEnergyHelpers.
+     * This class is not intended to be instantiated, as it provides static utility methods for energy management.
+     */
+    public FabricEnergyHelpers() {}
+
+    /**
      * Distributes energy from the given {@code storage} to adjacent blocks in the {@code level} at the given {@code pos}.
      * It attempts to push energy to all six adjacent blocks (up, down, north, south, east, west) until either all energy is distributed
      * or no more adjacent blocks can accept energy.

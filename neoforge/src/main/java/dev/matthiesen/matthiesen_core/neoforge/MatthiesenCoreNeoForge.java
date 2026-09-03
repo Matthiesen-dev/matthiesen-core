@@ -46,6 +46,13 @@ public final class MatthiesenCoreNeoForge {
     public static class ServerEventsSubscriber {
 
         /**
+         * Constructs a new instance of the ServerEventsSubscriber class. This constructor is empty, as the class is primarily used
+         * for subscribing to events and does not require any specific initialization logic.
+         */
+        public ServerEventsSubscriber() {
+        }
+
+        /**
          * Handles the payload registration event for the mod. This method is called when the mod loader is registering custom packet payloads,
          * and it registers any pending client-to-server (C2S) and server-to-client (S2C) payloads that have been queued up for registration.
          * After registering the payloads, it clears the pending lists to ensure that they are not registered again in future events.

@@ -65,6 +65,13 @@ public final class ResultEventObservable<T> {
      */
     @FunctionalInterface
     public interface ResultListener<T> {
+
+        /**
+         * Handles the event and returns an {@link InteractionResult}.
+         *
+         * @param event the event to handle
+         * @return {@link InteractionResult#FAIL} to cancel the event, or any other result to allow dispatch to continue
+         */
         InteractionResult handle(T event);
     }
 
@@ -141,6 +148,16 @@ public final class ResultEventObservable<T> {
         return InteractionResult.PASS;
     }
 
+    /**
+     * Dispatches a {@link PlayerEvent.UseItem} event to active subscribers in priority and registration order.
+     *
+     * <p>Returns an {@link InteractionResultHolder} containing the result of the dispatch and the item stack
+     * in the player's hand. If any listener returns {@link InteractionResult#FAIL}, dispatch stops immediately
+     * and {@link InteractionResult#FAIL} is returned in the holder.</p>
+     *
+     * @param event the player use item event to dispatch; must not be {@code null}
+     * @return an {@link InteractionResultHolder} containing the result of the dispatch and the item stack in the player's hand
+     */
     @SuppressWarnings("unchecked")
     public InteractionResultHolder<ItemStack> emitPlayerUseItem(PlayerEvent.UseItem event) {
         InteractionResult result = emit((T) event);

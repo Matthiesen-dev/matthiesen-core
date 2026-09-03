@@ -15,6 +15,14 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 @SuppressWarnings("unused")
 public abstract class AbstractEnergyBlockEntity extends BlockEntity {
+
+    /**
+     * Constructs a new instance of AbstractEnergyBlockEntity with the specified block entity type, position, and block state.
+     *
+     * @param blockEntityType The type of the block entity.
+     * @param blockPos        The position of the block entity in the world.
+     * @param blockState      The state of the block associated with this block entity.
+     */
     public AbstractEnergyBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
     }

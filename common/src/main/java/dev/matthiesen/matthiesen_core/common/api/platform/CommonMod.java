@@ -89,6 +89,7 @@ public interface CommonMod extends LoggerMethods {
      * Registers a runtime config loading listener for the supplied mod id.
      *
      * <p>This is separate from base config registration and is intended for advanced runtime parsing workflows.</p>
+     * @param modId The unique identifier (ID) of the mod for which the config loading listener is being registered. This ID is typically a lowercase string that uniquely identifies the mod within the modding ecosystem.
      */
     default void registerModConfigLoadingListener(String modId) {
         PlatformEvents.CONFIG_LOADING(modId);
@@ -98,6 +99,7 @@ public interface CommonMod extends LoggerMethods {
      * Registers a runtime config unloading listener for the supplied mod id.
      *
      * <p>This is separate from base config registration and is intended for advanced runtime parsing workflows.</p>
+     * @param modId The unique identifier (ID) of the mod for which the config loading listener is being registered. This ID is typically a lowercase string that uniquely identifies the mod within the modding ecosystem.
      */
     default void registerModConfigUnloadingListener(String modId) {
         PlatformEvents.CONFIG_UNLOADING(modId);
@@ -107,6 +109,7 @@ public interface CommonMod extends LoggerMethods {
      * Registers a runtime config reloading listener for the supplied mod id.
      *
      * <p>This is separate from base config registration and is intended for advanced runtime parsing workflows.</p>
+     * @param modId The unique identifier (ID) of the mod for which the config loading listener is being registered. This ID is typically a lowercase string that uniquely identifies the mod within the modding ecosystem.
      */
     default void registerModConfigReloadingListener(String modId) {
         PlatformEvents.CONFIG_RELOADING(modId);

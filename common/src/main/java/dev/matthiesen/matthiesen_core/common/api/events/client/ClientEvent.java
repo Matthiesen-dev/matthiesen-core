@@ -18,6 +18,7 @@ public final class ClientEvent {
      * Fired when the client is stopping.
      *
      * <p>Emitted once during client shutdown, allowing mods to perform cleanup tasks.</p>
+     * @param client the Minecraft client instance
      */
     public record Stopping(Minecraft client) {}
 
@@ -25,6 +26,7 @@ public final class ClientEvent {
      * Fired at the start of each client tick.
      *
      * <p>Emitted before any client-side processing for the current tick has begun.</p>
+     * @param client the Minecraft client instance
      */
     public record PreTick(Minecraft client) {}
 
@@ -32,6 +34,7 @@ public final class ClientEvent {
      * Fired at the end of each client tick.
      *
      * <p>Emitted after all client-side processing for the current tick has completed.</p>
+     * @param client the Minecraft client instance
      */
     public record EndTick(Minecraft client) {}
 
