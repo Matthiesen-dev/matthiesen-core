@@ -54,6 +54,7 @@ public final class CreativeModeTabSectionsManager {
 
     /**
      * Initializes the creative mode tab sections manager by invoking the initialization of the internal registry.
+     * @param modInstance The instance of the MatthiesenCoreCommon mod that is initializing the creative mode tab sections manager.
      */
     public void initialize(MatthiesenCoreCommon modInstance) {
         if (initialized) return;

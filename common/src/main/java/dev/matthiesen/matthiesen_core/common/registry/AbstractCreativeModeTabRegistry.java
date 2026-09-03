@@ -206,6 +206,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
     /**
      * Registers creative mode tab sections using the provided {@link Consumer} to configure the section builder. This
      * method delegates to {@link CreativeModeTabSectionsManager#registerCreativeModeTabSections(ResourceLocation, Consumer)} with the mod ID and the provided consumer.
+     * @param creativeModeTabId The ID of the creative mode tab for which to register sections. This ID will be combined with the mod ID to create a namespaced resource location.
      * @param builderConsumer A {@link Consumer} that configures the section builder for creative mode tab sections.
      */
     protected final void registerCreativeModeTabSections(String creativeModeTabId, Consumer<CreativeModeTabSectionsManager.SectionBuilder> builderConsumer) {
