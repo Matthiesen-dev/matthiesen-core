@@ -41,13 +41,21 @@ public enum ModConfigType implements StringRepresentable {
      */
     STARTUP;
 
+    /**
+     * Returns the file extension associated with this mod config type.
+     * The extension is derived from the name of the enum constant, converted to lowercase.
+     * @return The file extension for this mod config type.
+     */
     public String extension() {
         // Forge Config Api Port: replace NeoForge helper class method call
         return this.name().toLowerCase(Locale.ROOT);
     }
 
-    // Forge Config Api Port: implements StringRepresentable to allow using vanilla argument type for /config
-    // It's ok to use this in a Fabric/Quilt project, just don't use it in Common, that's what the annotation is for
+    /**
+     * Returns the serialized name of this mod config type.
+     * This is used for vanilla argument types in commands such as /config.
+     * @return The serialized name of this mod config type.
+     */
     @Override
     public @NotNull String getSerializedName() {
         return this.extension();

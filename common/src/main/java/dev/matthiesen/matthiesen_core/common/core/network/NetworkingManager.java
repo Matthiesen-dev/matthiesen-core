@@ -36,6 +36,8 @@ public final class NetworkingManager {
      * Initializes the NetworkingManager, setting up necessary configurations and preparing it for use.
      * This method should be called during the mod's initialization phase to ensure that the networking system is
      * ready for registering packet types and handling network communications.
+     * @param modInstance The instance of the mod that is initializing the NetworkingManager. This parameter is used to log
+     *                    initialization information and ensure that the NetworkingManager is associated with the correct mod instance.
      */
     public void initialize(MatthiesenCoreCommon modInstance) {
         if (initialized) return;

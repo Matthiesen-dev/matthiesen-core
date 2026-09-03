@@ -36,6 +36,8 @@ public final class TextParserRegistryManager {
 
     /**
      * Initializes the Text Parser Registry Manager. This method should be called once during the mod's initialization phase.
+     * @param instance The instance of the mod that is initializing the Text Parser Registry Manager. This parameter is used to log
+     *                 initialization information and ensure that the manager is associated with the correct mod instance.
      */
     public void initialize(MatthiesenCoreCommon instance) {
         if (initialized) return;

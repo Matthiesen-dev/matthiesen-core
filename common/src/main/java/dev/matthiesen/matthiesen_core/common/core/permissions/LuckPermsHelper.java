@@ -39,6 +39,10 @@ public final class LuckPermsHelper {
 
     private LuckPermsHelper() {}
 
+    /**
+     * Loads the LuckPerms compatibility by initializing the LuckPermsHelper instance. This method should be called during the mod's
+     * initialization phase to ensure that the LuckPerms API is properly loaded and available for use.
+     */
     public static void loadCompat() {
         INSTANCE.initialize();
     }

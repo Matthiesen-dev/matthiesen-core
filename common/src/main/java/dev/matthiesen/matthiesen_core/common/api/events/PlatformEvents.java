@@ -222,6 +222,9 @@ public final class PlatformEvents {
      *
      * <p>This event is scoped by mod id because config events are emitted from loader-specific mod containers.
      * Duplicate subscriptions are allowed and each subscription receives callbacks.</p>
+     *
+     * @param modId The mod id for which the config loading event is being fired.
+     * @return An {@link EventObservable} for the config loading event associated with the specified mod id.
      */
     public static EventObservable<ConfigEvent.Loading> CONFIG_LOADING(String modId) {
         ensureConfigListenerRegistered(modId, ConfigListenerType.LOADING);
@@ -233,6 +236,9 @@ public final class PlatformEvents {
      *
      * <p>This event is scoped by mod id because config events are emitted from loader-specific mod containers.
      * Duplicate subscriptions are allowed and each subscription receives callbacks.</p>
+     *
+     * @param modId The mod id for which the config loading event is being fired.
+     * @return An {@link EventObservable} for the config loading event associated with the specified mod id.
      */
     public static EventObservable<ConfigEvent.Unloading> CONFIG_UNLOADING(String modId) {
         ensureConfigListenerRegistered(modId, ConfigListenerType.UNLOADING);
@@ -244,6 +250,9 @@ public final class PlatformEvents {
      *
      * <p>This event is scoped by mod id because config events are emitted from loader-specific mod containers.
      * Duplicate subscriptions are allowed and each subscription receives callbacks.</p>
+     *
+     * @param modId The mod id for which the config loading event is being fired.
+     * @return An {@link EventObservable} for the config loading event associated with the specified mod id.
      */
     public static EventObservable<ConfigEvent.Reloading> CONFIG_RELOADING(String modId) {
         ensureConfigListenerRegistered(modId, ConfigListenerType.RELOADING);

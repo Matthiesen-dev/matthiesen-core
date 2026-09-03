@@ -15,9 +15,12 @@ import java.util.*;
  * Represents the saved player data for the server, including player names and aliases. This class provides methods to load, save, and manage player records, allowing for persistent storage of player information across server restarts. Each player's data is stored in a PlayerRecord, which contains the player's name and a list of aliases. The class also includes utility methods to verify and update player data based on their UUID and name.
  */
 public final class SavedPlayerData extends SavedData {
+    /**
+     * The unique identifier for the player data store, used for registration and identification purposes. This constant is used throughout
+     * the application to refer to the player data store in a consistent manner.
+     */
     public static final String PLAYER_DATA_STORE_ID = MatthiesenCoreCommon.MOD_ID + "_player_data";
     private static final String PLAYER_RECORDS_NBT_KEY = "playerRecords";
-
     private final Map<String, PlayerRecord> playerRecords = new HashMap<>();
 
     /**

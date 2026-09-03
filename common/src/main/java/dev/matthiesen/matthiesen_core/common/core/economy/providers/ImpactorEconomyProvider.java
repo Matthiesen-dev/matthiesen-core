@@ -19,6 +19,10 @@ import java.util.UUID;
  * economy system. It provides methods for managing player balances, deposits, withdrawals, and balance checks using the Impactor API.
  */
 public final class ImpactorEconomyProvider implements EconomyProvider {
+
+    /**
+     * Singleton instance of the ImpactorEconomyProvider, ensuring that only one instance is used throughout the application.
+     */
     public static final ImpactorEconomyProvider INSTANCE = new ImpactorEconomyProvider();
 
     private static EconomyService getEconomyService() {
