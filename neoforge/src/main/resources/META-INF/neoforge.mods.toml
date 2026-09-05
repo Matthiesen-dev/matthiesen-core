@@ -61,7 +61,7 @@ side = "SERVER"
 modId = "adventure_platform_neoforge"
 type = "optional"
 mandatory = false
-versionRange = ""
+versionRange = "[6.0.0,)"
 ordering = "AFTER"
 side = "SERVER"
 

@@ -46,11 +46,11 @@ public final class TextParserRegistryManager {
         modInstance.createInfoLog("Initializing Text Parser Registry Manager");
         registerTextParser(VANILLA_PARSER);
 
-        if (modInstance.getCommonUtils().isModLoaded(BuiltInTextParsers.EMBERS.getId())) {
+        if (BuiltInTextParsers.EMBERS.isModLoaded()) {
             EmbersTextParser.register();
         }
 
-        if (modInstance.getCommonUtils().isModLoaded(BuiltInTextParsers.ADVENTURE.getId())) {
+        if (BuiltInTextParsers.ADVENTURE.isModLoaded()) {
             AdventureTextParser.register();
         }
     }
