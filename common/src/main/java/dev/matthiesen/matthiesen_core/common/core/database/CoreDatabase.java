@@ -209,7 +209,9 @@ public final class CoreDatabase implements IDatabase {
                     logger.createErrorLog("Failed to execute statement", e);
                 }
                 try {
-                    connection.rollback();
+                    if (connection != null && !connection.isClosed()) {
+                        connection.rollback();
+                    }
                 } catch (SQLException ex) {
                     logger.createErrorLog("Failed to rollback", ex);
                 }
