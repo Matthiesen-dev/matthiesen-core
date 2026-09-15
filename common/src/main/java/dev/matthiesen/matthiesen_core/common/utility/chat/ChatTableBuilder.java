@@ -67,6 +67,14 @@ public final class ChatTableBuilder {
     }
 
     /**
+     * Returns the number of entries in the chat table. This includes both rows and sections.
+     * @return The number of entries in the chat table.
+     */
+    public int getEntryCount() {
+        return entries.size();
+    }
+
+    /**
      * Builds the chat table as a Component. The title will be formatted with the title color, and each entry will be
      * formatted according to its type (row or section).
      * @return The built chat table as a Component.
