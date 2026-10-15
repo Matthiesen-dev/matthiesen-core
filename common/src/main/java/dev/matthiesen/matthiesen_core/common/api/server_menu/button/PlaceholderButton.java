@@ -12,14 +12,27 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
+/**
+ * A PlaceholderButton is a wrapper around another Button that can be used as a placeholder in server menus.
+ * It delegates all method calls to the wrapped button, allowing for flexible button management and display.
+ */
 public class PlaceholderButton implements Button {
 
     private final Button button;
 
+    /**
+     * Constructs a PlaceholderButton that wraps the given button.
+     *
+     * @param button The button to wrap.
+     */
     public PlaceholderButton(@NotNull Button button) {
         this.button = button;
     }
 
+    /**
+     * Creates a new PlaceholderButton with an empty display.
+     * This constructor is useful for creating placeholder buttons that do not have any specific functionality or display.
+     */
     @SuppressWarnings("unused")
     public PlaceholderButton() {
         this(
@@ -29,6 +42,12 @@ public class PlaceholderButton implements Button {
         );
     }
 
+    /**
+     * Creates a new PlaceholderButton that wraps the given button.
+     *
+     * @param button The button to wrap.
+     * @return A new PlaceholderButton instance.
+     */
     public static PlaceholderButton of(@NotNull Button button) {
         return new PlaceholderButton(button);
     }

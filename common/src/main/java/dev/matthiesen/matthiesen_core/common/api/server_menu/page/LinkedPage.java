@@ -19,8 +19,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
+/**
+ * Represents a server page that can be opened and closed, with customizable behavior for these events.
+ * This class extends PageBase and provides additional functionality for handling onOpen and onClose events.
+ */
 @SuppressWarnings("unused")
-public class LinkedPage extends ServerPage{
+public class LinkedPage extends ServerPage {
 
     public static final String CURRENT_PAGE_PLACEHOLDER = "{current}";
     public static final String TOTAL_PAGES_PLACEHOLDER = "{total}";
@@ -28,6 +32,17 @@ public class LinkedPage extends ServerPage{
     private LinkedPage previous;
     private LinkedPage next;
 
+    /**
+     * Constructs a new LinkedPage instance with the specified template, inventory template, title, event handlers, and linked pages.
+     *
+     * @param template          The template for this page. Must not be null.
+     * @param inventoryTemplate The inventory template for this page. Can be null if no inventory is needed.
+     * @param title             The title of the page as a Component. If null, an empty Component will be used.
+     * @param onOpen            A Consumer<PageAction> to execute when the page is opened. Can be null if no action is needed.
+     * @param onClose           A Consumer<PageAction> to execute when the page is closed. Can be null if no action is needed.
+     * @param previous          The previous LinkedPage in the sequence. Can be null if this is the first page.
+     * @param next              The next LinkedPage in the sequence. Can be null if this is the last page.
+     */
     public LinkedPage(@NotNull Template template,
                       @Nullable InventoryTemplate inventoryTemplate,
                       @Nullable Component title,
@@ -40,28 +55,58 @@ public class LinkedPage extends ServerPage{
         this.next = next;
     }
 
+    /**
+     * Returns the previous page in the linked sequence.
+     * If there is no previous page, this method returns null.
+     * @return The previous LinkedPage, or null if there is no previous page.
+     */
     public LinkedPage getPrevious() {
         return previous;
     }
 
+    /**
+     * Sets the previous page in the linked sequence and updates the current page's title to reflect the new total pages.
+     *
+     * @param previous The previous LinkedPage, or null if there is no previous page.
+     */
     public void setPrevious(LinkedPage previous) {
         this.previous = previous;
         update();
     }
 
+    /**
+     * Returns the next page in the linked sequence.
+     * If there is no next page, this method returns null.
+     * @return The next LinkedPage, or null if there is no next page.
+     */
     public LinkedPage getNext() {
         return next;
     }
 
+    /**
+     * Sets the next page in the linked sequence and updates the current page's title to reflect the new total pages.
+     *
+     * @param next The next LinkedPage, or null if there is no next page.
+     */
     public void setNext(LinkedPage next) {
         this.next = next;
         update();
     }
 
+    /**
+     * Calculates and returns the current page number based on the previous pages.
+     * If there is no previous page, the current page is considered to be 1.
+     * @return The current page number.
+     */
     public int getCurrentPage() {
         return (previous != null) ? previous.getCurrentPage() + 1 : 1;
     }
 
+    /**
+     * Calculates and returns the total number of pages in the linked sequence.
+     * If there is no next page, the total number of pages is considered to be the current page number.
+     * @return The total number of pages in the linked sequence.
+     */
     public int getTotalPages() {
         return (next != null) ? next.getTotalPages() : getCurrentPage();
     }
@@ -80,10 +125,19 @@ public class LinkedPage extends ServerPage{
         return super.getTemplate();
     }
 
+    /**
+     * Creates a new Builder instance for constructing a LinkedPage.
+     *
+     * @return A new Builder instance.
+     */
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Builder class for constructing instances of LinkedPage.
+     * This class extends ServerPage.Builder and provides additional methods for setting previous and next pages.
+     */
     public static class Builder extends ServerPage.Builder {
 
         protected LinkedPage previousPage;
@@ -137,16 +191,33 @@ public class LinkedPage extends ServerPage{
             return this;
         }
 
+        /**
+         * Sets the next page for the LinkedPage being built.
+         *
+         * @param next The next LinkedPage, or null if there is no next page.
+         * @return The current Builder instance for method chaining.
+         */
         public Builder nextPage(@Nullable LinkedPage next) {
             this.nextPage = next;
             return this;
         }
 
+        /**
+         * Sets the previous page for the LinkedPage being built.
+         *
+         * @param previous The previous LinkedPage, or null if there is no previous page.
+         * @return The current Builder instance for method chaining.
+         */
         public Builder previousPage(@Nullable LinkedPage previous) {
             this.previousPage = previous;
             return this;
         }
 
+        /**
+         * Builds and returns a new LinkedPage instance based on the current state of the Builder.
+         *
+         * @return A new LinkedPage instance.
+         */
         public LinkedPage build() {
             validate();
             return new LinkedPage(template, inventoryTemplate, title, onOpen, onClose, previousPage, nextPage);

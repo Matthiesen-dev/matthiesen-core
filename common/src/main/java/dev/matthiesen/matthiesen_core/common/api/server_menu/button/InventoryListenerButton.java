@@ -13,10 +13,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
+/**
+ * Represents a button that listens for inventory interactions in a server menu.
+ * This button can be used to handle clicks and other actions performed by players
+ * within the inventory interface of the server menu.
+ */
 public class InventoryListenerButton extends ButtonBase {
 
     private final Consumer<ButtonAction> onClick;
 
+    /**
+     * Constructs an InventoryListenerButton with the specified click action.
+     *
+     * @param onClick The action to perform when the button is clicked. Can be null if no action is desired.
+     */
     public InventoryListenerButton(@Nullable Consumer<ButtonAction> onClick) {
         super(ItemStack.EMPTY);
         this.onClick = onClick;

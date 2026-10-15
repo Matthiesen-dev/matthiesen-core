@@ -33,6 +33,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * ServerContainer is a custom container implementation for server-side menu interactions.
+ * It manages the interaction between the player and the server-side menu, handling button clicks,
+ * movable buttons, and inventory updates.
+ */
 public class ServerContainer extends AbstractContainerMenu {
 
     private final MinecraftServer server;
@@ -46,6 +51,12 @@ public class ServerContainer extends AbstractContainerMenu {
 
     private Button cursorButton;
 
+    /**
+     * Constructs a new ServerContainer for the specified player and page.
+     *
+     * @param player The server player for whom the container is being created.
+     * @param page   The page associated with this container, containing the template and buttons.
+     */
     public ServerContainer(@NotNull ServerPlayer player, @NotNull Page page) {
         super(page.getTemplate().getTemplateType().getContainerType(page.getTemplate()), 1);
         this.server = player.level().getServer();
@@ -63,6 +74,9 @@ public class ServerContainer extends AbstractContainerMenu {
         page.subscribe(this, this::refresh);
     }
 
+    /**
+     * Refreshes the container by unbinding and rebinding the slots, updating the inventory template, and reopening the window for the player.
+     */
     public void refresh() {
         unbindSlots();
         inventoryTemplate = page.getInventoryTemplate().orElse(null);
@@ -166,6 +180,9 @@ public class ServerContainer extends AbstractContainerMenu {
         return slots.get(slot).getItem();
     }
 
+    /**
+     * Opens the container for the player, sending the necessary packets to display the GUI and initializing the page.
+     */
     public void open() {
         if (player.containerMenu == this) return;
         player.doCloseContainer();
@@ -439,6 +456,10 @@ public class ServerContainer extends AbstractContainerMenu {
         }
     }
 
+    /**
+     * Returns the page associated with this container.
+     * @return The Page object representing the current page of the container.
+     */
     public Page getPage() {
         return page;
     }
@@ -479,6 +500,12 @@ public class ServerContainer extends AbstractContainerMenu {
         ((TemplateSlot) this.getSlot(slot)).setButton(button);
     }
 
+    /**
+     * This method is called when the container is closed. It performs cleanup operations, such as unsubscribing from the page and its slots,
+     * and refreshing the player's inventory to ensure that any changes made during the interaction are reflected.
+     *
+     * @param player The player who is closing the container.
+     */
     @Override
     public void removed(@NotNull Player player) {
         if (closing) return;
@@ -494,6 +521,10 @@ public class ServerContainer extends AbstractContainerMenu {
         super.removed(player);
     }
 
+    /**
+     * This method is overridden to always return true, indicating that the container is always valid for interaction by the player.
+     * This is important for server-side containers, as it allows players to interact with the container without any restrictions based on distance or other conditions.
+     */
     @Override
     public boolean stillValid(@NotNull Player player) {
         return true;
@@ -519,6 +550,12 @@ public class ServerContainer extends AbstractContainerMenu {
         }
     }
 
+    /**
+     * Sets the button currently being carried by the player (the cursor button).
+     * Updates the player's cursor to display the button's item stack or an empty stack if the button is null.
+     *
+     * @param button The button to set as the cursor button, or null to clear the cursor.
+     */
     public void setCarriedButton(Button button) {
         cursorButton = button;
         setPlayersCursor(button == null ? ItemStack.EMPTY : button.getDisplay());

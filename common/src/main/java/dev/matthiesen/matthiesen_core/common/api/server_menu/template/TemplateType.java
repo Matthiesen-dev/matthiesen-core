@@ -13,6 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
+/**
+ * Enum representing different types of templates for server menus.
+ * Each template type is associated with a specific container type.
+ */
 public enum TemplateType {
     CHEST(template -> switch (template.getSize() / 9) {
         case 1 -> MenuType.GENERIC_9x1;
@@ -30,10 +34,21 @@ public enum TemplateType {
 
     private final Function<Template, MenuType<? extends AbstractContainerMenu>> containerTypeSupplier;
 
+    /**
+     * Constructs a TemplateType with the specified container type supplier.
+     *
+     * @param containerTypeSupplier A function that takes a Template and returns the corresponding MenuType.
+     */
     TemplateType(@NotNull Function<Template, MenuType<? extends AbstractContainerMenu>> containerTypeSupplier) {
         this.containerTypeSupplier = containerTypeSupplier;
     }
 
+    /**
+     * Returns the MenuType associated with this TemplateType for the given Template.
+     *
+     * @param template The Template for which to get the MenuType.
+     * @return The MenuType corresponding to this TemplateType and the provided Template.
+     */
     public MenuType<? extends AbstractContainerMenu> getContainerType(@NotNull Template template) {
         return containerTypeSupplier.apply(template);
     }

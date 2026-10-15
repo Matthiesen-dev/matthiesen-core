@@ -17,8 +17,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class that provides methods for creating and linking paginated menus in a server menu system.
+ * This class is designed to work with templates containing placeholder buttons, allowing for dynamic generation of pages based on a list of buttons.
+ */
 @SuppressWarnings("unused")
 public class PaginationHelper {
+    /**
+     * Links a list of LinkedPage instances together in order, setting the previous and next references for each page.
+     *
+     * @param pages The list of LinkedPage instances to link together.
+     */
     public static void linkPagesTogether(@NotNull List<LinkedPage> pages) {
         for (int i = 0; i < pages.size(); i++) {
             if (i != 0) {
@@ -30,6 +39,16 @@ public class PaginationHelper {
         }
     }
 
+    /**
+     * Creates a series of linked pages from a template containing placeholder buttons, replacing them with buttons from the provided list.
+     * Each page will contain as many buttons as there are placeholders in the template, and the pages will be linked together in order.
+     *
+     * @param template    The template containing placeholder buttons to be replaced.
+     * @param toReplace   The list of buttons to replace the placeholders with.
+     * @param pageBuilder An optional builder for customizing the creation of each page. If null, a default builder will be used.
+     * @return The first page in the linked series of pages created from the template and button list.
+     * @throws IllegalStateException if no placeholders are defined in the supplied template.
+     */
     public static LinkedPage createPagesFromPlaceholders(@NotNull Template template,
                                                          @NotNull List<Button> toReplace,
                                                          @Nullable LinkedPage.Builder pageBuilder) {

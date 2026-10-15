@@ -13,6 +13,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * A generic event emitter that allows observers to subscribe and receive events of type T.
+ * This class implements the Subject interface, providing methods for subscribing, unsubscribing, and emitting events.
+ *
+ * @param <T> The type of the event data that will be emitted to observers.
+ */
 public class EventEmitter<T> implements Subject<T> {
 
     private final Map<Object, Consumer<T>> observers = Maps.newHashMap();
@@ -27,6 +33,11 @@ public class EventEmitter<T> implements Subject<T> {
         this.observers.remove(subscriber);
     }
 
+    /**
+     * Emits an event to all subscribed observers, passing the specified value to each observer's consumer.
+     *
+     * @param value The value to emit to the observers.
+     */
     public void emit(T value) {
         this.observers.values().forEach((observer) -> observer.accept(value));
     }

@@ -7,6 +7,11 @@
  */
 package dev.matthiesen.matthiesen_core.common.api.server_menu.button;
 
+/**
+ * Represents the different types of flags that can be applied to items in a server menu.
+ * Each flag type corresponds to a specific property or behavior of the item, such as enchantments,
+ * attribute modifiers, or special properties like unbreakable or dyed leather.
+ */
 @SuppressWarnings("unused")
 public enum FlagType
 {
