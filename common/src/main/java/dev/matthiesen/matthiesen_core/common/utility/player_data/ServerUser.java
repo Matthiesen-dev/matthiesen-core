@@ -103,6 +103,22 @@ public final class ServerUser {
     }
 
     /**
+     * Gets the GameProfile of the player associated with this ServerUser.
+     * @return The GameProfile of the player, or null if they are not found.
+     */
+    public GameProfile getGameProfile() {
+        ServerPlayer player = getOnlinePlayer();
+        if (player != null) return player.getGameProfile();
+        Player offlinePlayer = getOfflinePlayer();
+        if (offlinePlayer != null) return offlinePlayer.getGameProfile();
+        MinecraftServer server = MatthiesenCoreCommon.INSTANCE.getCommonUtils().getServer();
+        if (server == null) return null;
+        GameProfileCache profileCache = server.getProfileCache();
+        if (profileCache == null) return null;
+        return profileCache.get(this.uuid).orElse(null);
+    }
+
+    /**
      * Gets the list of aliases associated with the player.
      * @return A list of aliases for the player, or an empty list if none are found.
      */
