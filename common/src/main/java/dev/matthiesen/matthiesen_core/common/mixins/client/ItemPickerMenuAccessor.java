@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.mixins;
+package dev.matthiesen.matthiesen_core.common.mixins.client;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
