@@ -2,6 +2,7 @@ package dev.matthiesen.matthiesen_core.neoforge;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.core.server_menu.MenuCallbackEngine;
 import dev.matthiesen.matthiesen_core.neoforge.platform.NeoForgeLoaderNetworking;
 import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -9,6 +10,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -68,6 +70,18 @@ public final class MatthiesenCoreNeoForge {
             final PayloadRegistrar optionalRegistrar = event.registrar("1.0.0").optional();
             registerAndClearPending(NeoForgeLoaderNetworking.PENDING_OPTIONAL_C2S, MatthiesenCoreNeoForge::registerC2S, optionalRegistrar);
             registerAndClearPending(NeoForgeLoaderNetworking.PENDING_OPTIONAL_S2C, MatthiesenCoreNeoForge::registerS2C, optionalRegistrar);
+        }
+
+        /**
+         * Handles the command registration event for the mod. This method is called when the mod loader is registering commands,
+         * and it initializes the MenuCallbackEngine with the provided command dispatcher. This allows the mod to register custom
+         * commands that can be executed by players on the server.
+         * @param event The RegisterCommandsEvent event object, which provides context and information about the command
+         *              registration phase of the mod loading process.
+         */
+        @SubscribeEvent
+        public static void onRegisterCommands(RegisterCommandsEvent event) {
+            MenuCallbackEngine.init(event.getDispatcher());
         }
     }
 

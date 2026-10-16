@@ -4,7 +4,9 @@ import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
+import dev.matthiesen.matthiesen_core.common.core.server_menu.MenuCallbackEngine;
 import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -102,5 +104,13 @@ public final class PlatformEventsBusListener {
                 return InteractionResult.PASS;
             return PlatformEvents.PLAYER_USE_BLOCK.emit(new PlayerEvent.UseBlock(serverPlayer, world, hand, hitResult.getBlockPos()));
         });
+
+        // ================================================
+        // Custom Commands
+        // ================================================
+
+        CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) ->
+                MenuCallbackEngine.init(dispatcher))
+        );
     }
 }
