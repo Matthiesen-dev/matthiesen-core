@@ -31,9 +31,11 @@ public class VirtualBookContainer {
      * The default ItemStack representing a written book in Minecraft.
      */
     public static final ItemStack BOOK = new ItemStack(Items.WRITTEN_BOOK);
+    public static final String DEFAULT_TITLE = "Virtual Book";
+    public static final String DEFAULT_AUTHOR = "Server";
 
-    private String title = "";
-    private String author = "";
+    private String title = DEFAULT_TITLE;
+    private String author = DEFAULT_AUTHOR;
     private int generation = 0;
 
     private final List<MutableComponent> rawSections = new ArrayList<>();
