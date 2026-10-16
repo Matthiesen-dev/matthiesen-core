@@ -29,8 +29,8 @@ public class ServerPage extends PageBase {
      * @param template          The template for this page. Must not be null.
      * @param inventoryTemplate The inventory template for this page. Can be null if no inventory is needed.
      * @param title             The title of the page as a Component. If null, an empty Component will be used.
-     * @param onOpen            A Consumer<PageAction> to execute when the page is opened. Can be null if no action is needed.
-     * @param onClose           A Consumer<PageAction> to execute when the page is closed. Can be null if no action is needed.
+     * @param onOpen            A PageAction to execute when the page is opened. Can be null if no action is needed.
+     * @param onClose           A PageAction to execute when the page is closed. Can be null if no action is needed.
      */
     public ServerPage(@NotNull Template template,
                      @Nullable InventoryTemplate inventoryTemplate,
@@ -127,7 +127,7 @@ public class ServerPage extends PageBase {
         /**
          * Sets the onOpen behavior for the page. If the provided behaviour is null, it will clear any existing onOpen behavior.
          *
-         * @param behaviour The Consumer<PageAction> to execute when the page is opened, or null to clear it.
+         * @param behaviour The PageAction to execute when the page is opened, or null to clear it.
          * @return The current Builder instance for method chaining.
          */
         public Builder onOpen(@Nullable Consumer<PageAction> behaviour) {
@@ -153,7 +153,7 @@ public class ServerPage extends PageBase {
         /**
          * Sets the onClose behavior for the page. If the provided behaviour is null, it will clear any existing onClose behavior.
          *
-         * @param behaviour The Consumer<PageAction> to execute when the page is closed, or null to clear it.
+         * @param behaviour The PageAction to execute when the page is closed, or null to clear it.
          * @return The current Builder instance for method chaining.
          */
         public Builder onClose(@Nullable Consumer<PageAction> behaviour) {
@@ -164,7 +164,7 @@ public class ServerPage extends PageBase {
         /**
          * Sets the onClose behavior for the page. If the provided behaviour is null, it will clear any existing onClose behavior.
          *
-         * @param behaviour The Consumer<PageAction> to execute when the page is closed, or null to clear it.
+         * @param behaviour The PageAction to execute when the page is closed, or null to clear it.
          * @return The current Builder instance for method chaining.
          */
         public Builder onClose(@Nullable Runnable behaviour) {

@@ -26,7 +26,7 @@ public class ServerButton extends ButtonBase {
      * Constructs a new ServerButton with the specified display item stack and onClick behavior.
      *
      * @param display The ItemStack to be used as the button's display.
-     * @param onClick A Consumer<ButtonAction> that defines the behavior when the button is clicked. Can be null for no action.
+     * @param onClick A ButtonAction that defines the behavior when the button is clicked. Can be null for no action.
      */
     protected ServerButton(@NotNull ItemStack display, @Nullable Consumer<ButtonAction> onClick) {
         super(display);
@@ -93,10 +93,10 @@ public class ServerButton extends ButtonBase {
         }
 
         /**
-         * Sets the onClick behavior for the button using a Consumer<ButtonAction>.
+         * Sets the onClick behavior for the button using a ButtonAction.
          * This method allows you to specify a custom action to be executed when the button is clicked.
          *
-         * @param behaviour The Consumer<ButtonAction> to execute on click. If null, no action will be performed.
+         * @param behaviour The ButtonAction to execute on click. If null, no action will be performed.
          * @return The current Builder instance for chaining.
          */
         public Builder onClick(@Nullable Consumer<ButtonAction> behaviour) {

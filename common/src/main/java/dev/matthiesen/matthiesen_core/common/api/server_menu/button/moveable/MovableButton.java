@@ -29,9 +29,9 @@ public class MovableButton extends ServerButton implements Movable {
      * Constructs a new MovableButton with the specified display item stack, onClick behavior, onPickup behavior, and onDrop behavior.
      *
      * @param display  The ItemStack to be used as the button's display.
-     * @param onClick  A Consumer<ButtonAction> that defines the behavior when the button is clicked. Can be null for no action.
-     * @param onPickup A Consumer<MovableButtonAction> that defines the behavior when the button is picked up. Can be null for no action.
-     * @param onDrop   A Consumer<MovableButtonAction> that defines the behavior when the button is dropped. Can be null for no action.
+     * @param onClick  A ButtonAction that defines the behavior when the button is clicked. Can be null for no action.
+     * @param onPickup A MovableButtonAction that defines the behavior when the button is picked up. Can be null for no action.
+     * @param onDrop   A MovableButtonAction that defines the behavior when the button is dropped. Can be null for no action.
      */
     protected MovableButton(@NotNull ItemStack display,
                             @Nullable Consumer<ButtonAction> onClick,
@@ -96,10 +96,10 @@ public class MovableButton extends ServerButton implements Movable {
         }
 
         /**
-         * Sets the onClick behavior for the button using a Consumer<ButtonAction>.
+         * Sets the onClick behavior for the button using a ButtonAction.
          * This method allows you to specify a custom action to be executed when the button is clicked.
          *
-         * @param behaviour The Consumer<ButtonAction> to execute on click. If null, no action will be performed.
+         * @param behaviour The ButtonAction to execute on click. If null, no action will be performed.
          * @return The current Builder instance for chaining.
          */
         public Builder onClick(@Nullable Consumer<ButtonAction> behaviour) {
@@ -123,7 +123,7 @@ public class MovableButton extends ServerButton implements Movable {
          * Sets the onPickup behavior for the button using a Consumer<MovableButtonAction>.
          * This method allows you to specify a custom action to be executed when the button is picked up.
          *
-         * @param behaviour The Consumer<MovableButtonAction> to execute on pickup. If null, no action will be performed.
+         * @param behaviour The MovableButtonAction to execute on pickup. If null, no action will be performed.
          * @return The current Builder instance for chaining.
          */
         public Builder onPickup(@Nullable Consumer<MovableButtonAction> behaviour) {
@@ -146,10 +146,10 @@ public class MovableButton extends ServerButton implements Movable {
         }
 
         /**
-         * Sets the onDrop behavior for the button using a Consumer<MovableButtonAction>.
+         * Sets the onDrop behavior for the button using a MovableButtonAction.
          * This method allows you to specify a custom action to be executed when the button is dropped.
          *
-         * @param behaviour The Consumer<MovableButtonAction> to execute on drop. If null, no action will be performed.
+         * @param behaviour The MovableButtonAction to execute on drop. If null, no action will be performed.
          * @return The current Builder instance for chaining.
          */
         public Builder onDrop(@Nullable Consumer<MovableButtonAction> behaviour) {

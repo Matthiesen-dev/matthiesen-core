@@ -32,7 +32,7 @@ public class LinkedPageButton extends ServerButton {
      * Constructs a new LinkedPageButton with the specified display item stack, onClick behavior, and link type.
      *
      * @param display   The ItemStack to be used as the button's display.
-     * @param onClick   A Consumer<ButtonAction> that defines the behavior when the button is clicked. Can be null for no action.
+     * @param onClick   A ButtonAction that defines the behavior when the button is clicked. Can be null for no action.
      * @param linkType  The LinkType indicating whether this button links to the previous or next page.
      */
     protected LinkedPageButton(@NotNull ItemStack display,
