@@ -120,7 +120,7 @@ public class MovableButton extends ServerButton implements Movable {
         }
 
         /**
-         * Sets the onPickup behavior for the button using a Consumer<MovableButtonAction>.
+         * Sets the onPickup behavior for the button using a MovableButtonAction.
          * This method allows you to specify a custom action to be executed when the button is picked up.
          *
          * @param behaviour The MovableButtonAction to execute on pickup. If null, no action will be performed.
