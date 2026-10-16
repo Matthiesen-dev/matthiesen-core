@@ -8,8 +8,10 @@
 package dev.matthiesen.matthiesen_core.common.api.server_menu;
 
 import dev.matthiesen.matthiesen_core.common.api.server_menu.container.ServerContainer;
+import dev.matthiesen.matthiesen_core.common.api.server_menu.container.VirtualBookContainer;
 import dev.matthiesen.matthiesen_core.common.api.server_menu.page.Page;
 import dev.matthiesen.matthiesen_core.common.api.server_menu.tasks.UITask;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.mixins.server.ServerPlayerAccessor;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +53,29 @@ public class ServerUIManager {
      * Opens the UI for the given player, regardless of their current container state.
      *
      * @param player The player for whom the UI should be opened.
+     * @param book   The virtual book to be displayed in the UI.
+     * @param timeout The maximum time to wait for the player to be out of a container.
+     * @param timeoutUnit The unit of time for the timeout.
+     */
+    public static void openUIPassively(@NotNull ServerPlayer player, @NotNull VirtualBookContainer book, long timeout, TimeUnit timeoutUnit) {
+        AtomicLong timeOutTicks = new AtomicLong(timeoutUnit.convert(timeout, TimeUnit.SECONDS) * 20);
+        UITask.builder()
+                .execute((task) -> {
+                    timeOutTicks.getAndDecrement();
+                    if (player.containerMenu.containerId == ((ServerPlayerAccessor) player).matthiesenCore$getContainerCounter() || timeOutTicks.get() <= 0) {
+                        openUIForcefully(player, book);
+                        task.setExpired();
+                    }
+                })
+                .infinite()
+                .interval(1)
+                .build();
+    }
+
+    /**
+     * Opens the UI for the given player, regardless of their current container state.
+     *
+     * @param player The player for whom the UI should be opened.
      * @param page   The page to be displayed in the UI.
      */
     public static void openUIForcefully(@NotNull ServerPlayer player, @NotNull Page page) {
@@ -61,9 +86,27 @@ public class ServerUIManager {
                         ServerContainer container = new ServerContainer(player, page);
                         container.open();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        MatthiesenCoreCommon.INSTANCE.createErrorLog(e.getMessage(), e);
                     }
+                })
+                .build();
+    }
 
+    /**
+     * Opens the UI for the given player, regardless of their current container state.
+     *
+     * @param player The player for whom the UI should be opened.
+     * @param book   The virtual book to be displayed in the UI.
+     */
+    public static void openUIForcefully(@NotNull ServerPlayer player, @NotNull VirtualBookContainer book) {
+        // Delay the open to allow sponge's annoying mixins to process previous container and not have aneurysm
+        UITask.builder()
+                .execute(() -> {
+                    try {
+                        book.openBookForPlayer(player);
+                    } catch (Exception e) {
+                        MatthiesenCoreCommon.INSTANCE.createErrorLog(e.getMessage(), e);
+                    }
                 })
                 .build();
     }
