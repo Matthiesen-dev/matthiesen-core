@@ -38,8 +38,8 @@ public class LinkedPage extends ServerPage {
      * @param template          The template for this page. Must not be null.
      * @param inventoryTemplate The inventory template for this page. Can be null if no inventory is needed.
      * @param title             The title of the page as a Component. If null, an empty Component will be used.
-     * @param onOpen            A Consumer<PageAction> to execute when the page is opened. Can be null if no action is needed.
-     * @param onClose           A Consumer<PageAction> to execute when the page is closed. Can be null if no action is needed.
+     * @param onOpen            A PageAction to execute when the page is opened. Can be null if no action is needed.
+     * @param onClose           A PageAction to execute when the page is closed. Can be null if no action is needed.
      * @param previous          The previous LinkedPage in the sequence. Can be null if this is the first page.
      * @param next              The next LinkedPage in the sequence. Can be null if this is the last page.
      */
