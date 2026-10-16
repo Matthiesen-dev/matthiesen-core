@@ -4,9 +4,14 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "CreativeModeInventoryScreenMixin",
-    "AbstractContainerScreenMixin",
-    "ItemPickerMenuAccessor"
+    "client.CreativeModeInventoryScreenMixin",
+    "client.AbstractContainerScreenMixin",
+    "client.ItemPickerMenuAccessor"
+  ],
+  "server": [
+    "server.InventoryMixin",
+    "server.MinecraftServerMixin",
+    "server.ServerPlayerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

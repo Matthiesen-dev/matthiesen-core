@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.mixins;
+package dev.matthiesen.matthiesen_core.common.mixins.client;
 
 import dev.matthiesen.matthiesen_core.common.core.item.CreativeTabSectionHeaderItem;
 import dev.matthiesen.matthiesen_core.common.core.registry.CreativeModeTabSectionsManager;
