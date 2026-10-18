@@ -157,9 +157,9 @@ public class VirtualBookContainer {
             int pageNum = i + 1;
             MutableComponent header = Component.literal(this.title + "\n")
                     .withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withBold(true))
-                    .append(Component.literal(PAGE_RULE + "\n\n").withStyle(ChatFormatting.GRAY));
+                    .append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
 
-            MutableComponent footer = Component.literal("\n\n").append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
+            MutableComponent footer = Component.literal("\n").append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
             if (pageNum > 1) {
                 footer = footer.append(createPageButton("◀ Back", pageNum - 1));
             } else {
@@ -181,12 +181,12 @@ public class VirtualBookContainer {
     }
 
     private String buildHeaderText() {
-        return this.title + "\n" + PAGE_RULE + "\n\n";
+        return this.title + "\n" + PAGE_RULE + "\n";
     }
 
     private String buildMaximumFooterText() {
         String maxPageNumber = "9".repeat(MAX_PAGE_NUMBER_DIGITS);
-        return "\n\n" + PAGE_RULE + "\n" + "◀ Back" + "  " + maxPageNumber + "/" + maxPageNumber + "  " + "Next ▶";
+        return "\n" + PAGE_RULE + "\n" + "◀ Back" + "  " + maxPageNumber + "/" + maxPageNumber + "  " + "Next ▶";
     }
 
     private static int countNewlines(String value) {
