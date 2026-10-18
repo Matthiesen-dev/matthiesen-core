@@ -8,7 +8,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.Filterable;
 import net.minecraft.world.SimpleContainer;
@@ -33,7 +32,7 @@ public class VirtualBookContainer {
     public static final ItemStack BOOK = new ItemStack(Items.WRITTEN_BOOK);
     public static final String DEFAULT_TITLE = "Virtual Book";
     public static final String DEFAULT_AUTHOR = "Server";
-    public static final String PAGE_RULE = "----------------";
+    private static final int MAX_BOOK_PAGES = 100;
 
     private String title = DEFAULT_TITLE;
     private String author = DEFAULT_AUTHOR;
@@ -116,39 +115,21 @@ public class VirtualBookContainer {
     }
 
     /**
-     * Compiles the raw sections into final book pages, automatically
-     * injecting layout elements like headers and navigation footers.
+     * Compiles the raw sections into final book pages
      */
     private List<Component> compilePages() {
-        List<Component> compiled = new ArrayList<>();
-        int totalPages = rawSections.size();
+        List<Component> pages = new ArrayList<>();
 
-        for (int i = 0; i < totalPages; i++) {
-            int pageNum = i + 1;
-            MutableComponent body = rawSections.get(i);
-
-            MutableComponent header = Component.literal(this.title + "\n")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withBold(true))
-                    .append(Component.literal(PAGE_RULE + "\n\n").withStyle(ChatFormatting.GRAY));
-
-            MutableComponent footer = Component.literal("\n\n").append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
-            if (pageNum > 1) {
-                footer = footer.append(createPageButton("◀ Back", pageNum - 1));
-            } else {
-                footer = footer.append(Component.literal("    ")); // Spacer
+        int pageCount = 0;
+        for (MutableComponent page : rawSections) {
+            if (pageCount >= MAX_BOOK_PAGES) {
+                break;
             }
-            footer = footer.append(Component.literal("  " + pageNum + "/" + totalPages + "  ").withStyle(ChatFormatting.DARK_GRAY));
-            if (pageNum < totalPages) {
-                footer = footer.append(createPageButton("Next ▶", pageNum + 1));
-            }
-            MutableComponent fullPage = Component.empty()
-                    .append(header)
-                    .append(body)
-                    .append(footer);
-            compiled.add(fullPage);
+            pages.add(page);
+            pageCount++;
         }
 
-        return compiled;
+        return pages;
     }
 
     /**
@@ -177,21 +158,6 @@ public class VirtualBookContainer {
                 .withColor(color)
                 .withBold(true)
                 .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, executionCommand))
-        );
-    }
-
-    /**
-     * Creates a clickable button component that navigates to a specific page in the virtual book.
-     *
-     * @param label The text displayed on the button.
-     * @param targetPageNum The page number to navigate to when clicked.
-     * @return A Component representing the clickable button.
-     */
-    public Component createPageButton(String label, int targetPageNum) {
-        return Component.literal(label).withStyle(style -> style
-                .withColor(ChatFormatting.BLUE)
-                .withBold(true)
-                .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, String.valueOf(targetPageNum)))
         );
     }
 
