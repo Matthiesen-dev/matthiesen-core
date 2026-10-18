@@ -2,14 +2,12 @@ package dev.matthiesen.matthiesen_core.common.api.server_menu.container;
 
 import dev.matthiesen.matthiesen_core.common.api.server_menu.virtual.VirtualLecternContainerData;
 import dev.matthiesen.matthiesen_core.common.api.server_menu.virtual.VirtualLecternMenu;
-import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.server_menu.MenuCallbackEngine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.Filterable;
 import net.minecraft.world.SimpleContainer;
@@ -34,10 +32,7 @@ public class VirtualBookContainer {
     public static final ItemStack BOOK = new ItemStack(Items.WRITTEN_BOOK);
     public static final String DEFAULT_TITLE = "Virtual Book";
     public static final String DEFAULT_AUTHOR = "Server";
-    public static final String PAGE_RULE = "----------------";
     private static final int MAX_BOOK_PAGES = 100;
-    private static final int MAX_BOOK_CHARACTERS = 1023;
-    private static final int MAX_BOOK_NEWLINES = 14;
 
     private String title = DEFAULT_TITLE;
     private String author = DEFAULT_AUTHOR;
@@ -120,162 +115,21 @@ public class VirtualBookContainer {
     }
 
     /**
-     * Compiles the raw sections into final book pages, automatically
-     * injecting layout elements like headers and navigation footers.
+     * Compiles the raw sections into final book pages
      */
     private List<Component> compilePages() {
-        List<Component> compiled = new ArrayList<>();
-        List<Component> pageBodies = new ArrayList<>();
+        List<Component> pages = new ArrayList<>();
 
-        int bodyCharLimit = Math.max(0, MAX_BOOK_CHARACTERS - buildHeaderText().length());
-        int bodyNewlineLimit = Math.max(0, MAX_BOOK_NEWLINES - countNewlines(buildHeaderText()));
-
-        for (MutableComponent section : rawSections) {
-            String sectionText = normalizeSectionText(section.getString());
-            List<String> sectionChunks = splitSectionIntoChunks(sectionText, bodyCharLimit, bodyNewlineLimit);
-
-            if (sectionChunks.size() == 1 && sectionChunks.getFirst().equals(sectionText)) {
-                pageBodies.add(section.copy());
-                continue;
+        int pageCount = 0;
+        for (MutableComponent page : rawSections) {
+            if (pageCount >= MAX_BOOK_PAGES) {
+                break;
             }
-
-            for (String chunk : sectionChunks) {
-                pageBodies.add(Component.literal(chunk).withStyle(section.getStyle()));
-            }
+            pages.add(page);
+            pageCount++;
         }
 
-        if (pageBodies.size() > MAX_BOOK_PAGES) {
-            int truncatedPages = pageBodies.size() - MAX_BOOK_PAGES;
-            MatthiesenCoreCommon.INSTANCE.createWarnLog("Virtual book '" + this.title + "' exceeded the " + MAX_BOOK_PAGES + " page limit. Truncating " + truncatedPages + " page(s) of content.");
-            pageBodies = new ArrayList<>(pageBodies.subList(0, MAX_BOOK_PAGES));
-        }
-
-        for (Component pageBody : pageBodies) {
-            MutableComponent header = Component.literal(this.title + "\n")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withBold(true))
-                    .append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
-
-            MutableComponent fullPage = Component.empty()
-                    .append(header)
-                    .append(pageBody);
-            compiled.add(fullPage);
-        }
-
-        return compiled;
-    }
-
-    private String buildHeaderText() {
-        return this.title + "\n" + PAGE_RULE + "\n";
-    }
-
-
-    private static int countNewlines(String value) {
-        int count = 0;
-        for (int i = 0; i < value.length(); i++) {
-            if (value.charAt(i) == '\n') {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    private static String normalizeSectionText(String value) {
-        return value.replace("\r\n", "\n").replace('\r', '\n');
-    }
-
-    private List<String> splitSectionIntoChunks(String text, int charLimit, int newlineLimit) {
-        List<String> chunks = new ArrayList<>();
-        if (text.isEmpty()) {
-            chunks.add("");
-            return chunks;
-        }
-
-        String[] lines = text.split("\n", -1);
-        StringBuilder current = new StringBuilder();
-        int currentNewlines = 0;
-        boolean warnedAboutOversizedWord = false;
-
-        for (int lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            String line = lines[lineIndex];
-            if (!line.isBlank()) {
-                String[] words = line.trim().split("\\s+");
-                for (String word : words) {
-                    if (word.isEmpty()) {
-                        continue;
-                    }
-
-                    int requiredLength = word.length();
-                    if (!current.isEmpty() && current.charAt(current.length() - 1) != '\n') {
-                        requiredLength++;
-                    }
-
-                    if (!current.isEmpty() && current.length() + requiredLength > charLimit) {
-                        chunks.add(current.toString());
-                        current = new StringBuilder();
-                        currentNewlines = 0;
-                    }
-
-                    if (word.length() > charLimit && charLimit > 0) {
-                        if (!warnedAboutOversizedWord) {
-                            MatthiesenCoreCommon.INSTANCE.createWarnLog("A single word in virtual book '" + this.title + "' exceeds the page body limit. Splitting the word as a fallback.");
-                            warnedAboutOversizedWord = true;
-                        }
-
-                        int offset = 0;
-                        while (offset < word.length()) {
-                            int nextOffset = Math.min(word.length(), offset + charLimit);
-                            String piece = word.substring(offset, nextOffset);
-
-                            if (!current.isEmpty()) {
-                                chunks.add(current.toString());
-                                current = new StringBuilder();
-                                currentNewlines = 0;
-                            }
-
-                            current.append(piece);
-                            offset = nextOffset;
-
-                            if (offset < word.length()) {
-                                chunks.add(current.toString());
-                                current = new StringBuilder();
-                                currentNewlines = 0;
-                            }
-                        }
-                        continue;
-                    }
-
-                    if (!current.isEmpty() && current.charAt(current.length() - 1) != '\n') {
-                        current.append(' ');
-                    }
-                    current.append(word);
-                }
-            }
-
-            if (lineIndex < lines.length - 1) {
-                if (currentNewlines + 1 > newlineLimit) {
-                    if (!current.isEmpty()) {
-                        chunks.add(current.toString());
-                        current = new StringBuilder();
-                        currentNewlines = 0;
-                    }
-                } else {
-                    if (!current.isEmpty() && current.length() + 1 > charLimit) {
-                        chunks.add(current.toString());
-                        current = new StringBuilder();
-                        currentNewlines = 0;
-                    }
-
-                    current.append('\n');
-                    currentNewlines++;
-                }
-            }
-        }
-
-        if (!current.isEmpty() || chunks.isEmpty()) {
-            chunks.add(current.toString());
-        }
-
-        return chunks;
+        return pages;
     }
 
     /**
