@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class VirtualLecternMenu extends LecternMenu {
     private final List<String> callbacksToClean;
+    private final boolean isBookRemovable;
 
     /**
      * Constructs a new VirtualLecternMenu with the specified parameters.
@@ -25,8 +26,22 @@ public class VirtualLecternMenu extends LecternMenu {
      * @param callbacksToClean A list of callback identifiers that should be invalidated when this menu is closed.
      */
     public VirtualLecternMenu(int id, SimpleContainer container, ContainerData data, List<String> callbacksToClean) {
+        this(id, container, data, callbacksToClean, false);
+    }
+
+    /**
+     * Constructs a new VirtualLecternMenu with the specified parameters, including the option to specify whether the book is removable.
+     *
+     * @param id               The unique identifier for this menu instance.
+     * @param container        The SimpleContainer representing the inventory of the lectern.
+     * @param data             The ContainerData used to manage the state of the lectern, such as the current page.
+     * @param callbacksToClean A list of callback identifiers that should be invalidated when this menu is closed.
+     * @param isBookRemovable  A boolean indicating whether the book can be removed from the lectern by players.
+     */
+    public VirtualLecternMenu(int id, SimpleContainer container, ContainerData data, List<String> callbacksToClean, boolean isBookRemovable) {
         super(id, container, data);
         this.callbacksToClean = callbacksToClean;
+        this.isBookRemovable = isBookRemovable;
     }
 
     /**
@@ -55,5 +70,19 @@ public class VirtualLecternMenu extends LecternMenu {
                 MenuCallbackEngine.invalidate(cmd);
             }
         }
+    }
+
+    /**
+     * Determines whether the book in the lectern can be removed by players.
+     * If the book is not removable, we return early otherwise, we call the superclass method to handle the removal.
+     *
+     * @param player The player attempting to remove the book.
+     * @param i The button index being clicked (not used in this implementation).
+     * @return true if the book can be removed, false otherwise.
+     */
+    @Override
+    public boolean clickMenuButton(Player player, int i) {
+        if (i == 3 && !this.isBookRemovable) return false;
+        return super.clickMenuButton(player, i);
     }
 }

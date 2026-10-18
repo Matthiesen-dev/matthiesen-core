@@ -38,6 +38,7 @@ public class VirtualBookContainer {
     private String title = DEFAULT_TITLE;
     private String author = DEFAULT_AUTHOR;
     private int generation = 0;
+    private boolean isBookRemovable = false;
 
     private final List<MutableComponent> rawSections = new ArrayList<>();
     private final List<String> generatedCallbacks = new ArrayList<>();
@@ -100,6 +101,17 @@ public class VirtualBookContainer {
      */
     public VirtualBookContainer setGeneration(int generation) {
         this.generation = generation;
+        return this;
+    }
+
+    /**
+     * Sets whether the book can be removed from the lectern by players.
+     *
+     * @param isBookRemovable A boolean indicating whether the book can be removed.
+     * @return The current instance of VirtualBookContainer for method chaining.
+     */
+    public VirtualBookContainer setBookRemovable(boolean isBookRemovable) {
+        this.isBookRemovable = isBookRemovable;
         return this;
     }
 
@@ -221,7 +233,7 @@ public class VirtualBookContainer {
         ContainerData lecternData = new VirtualLecternContainerData();
 
         player.openMenu(new SimpleMenuProvider(
-                (id, inventory, p) -> new VirtualLecternMenu(id, container, lecternData, this.generatedCallbacks),
+                (id, inventory, p) -> new VirtualLecternMenu(id, container, lecternData, this.generatedCallbacks, this.isBookRemovable),
                 Component.literal(title)
         ));
     }
