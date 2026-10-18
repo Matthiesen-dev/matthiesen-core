@@ -38,7 +38,6 @@ public class VirtualBookContainer {
     private static final int MAX_BOOK_PAGES = 100;
     private static final int MAX_BOOK_CHARACTERS = 1023;
     private static final int MAX_BOOK_NEWLINES = 14;
-    private static final int MAX_PAGE_NUMBER_DIGITS = 3;
 
     private String title = DEFAULT_TITLE;
     private String author = DEFAULT_AUTHOR;
@@ -128,8 +127,8 @@ public class VirtualBookContainer {
         List<Component> compiled = new ArrayList<>();
         List<Component> pageBodies = new ArrayList<>();
 
-        int bodyCharLimit = Math.max(0, MAX_BOOK_CHARACTERS - buildHeaderText().length() - buildMaximumFooterText().length());
-        int bodyNewlineLimit = Math.max(0, MAX_BOOK_NEWLINES - countNewlines(buildHeaderText()) - countNewlines(buildMaximumFooterText()));
+        int bodyCharLimit = Math.max(0, MAX_BOOK_CHARACTERS - buildHeaderText().length());
+        int bodyNewlineLimit = Math.max(0, MAX_BOOK_NEWLINES - countNewlines(buildHeaderText()));
 
         for (MutableComponent section : rawSections) {
             String sectionText = normalizeSectionText(section.getString());
@@ -151,29 +150,14 @@ public class VirtualBookContainer {
             pageBodies = new ArrayList<>(pageBodies.subList(0, MAX_BOOK_PAGES));
         }
 
-        int totalPages = pageBodies.size();
-
-        for (int i = 0; i < totalPages; i++) {
-            int pageNum = i + 1;
+        for (Component pageBody : pageBodies) {
             MutableComponent header = Component.literal(this.title + "\n")
                     .withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withBold(true))
                     .append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
 
-            MutableComponent footer = Component.literal("\n").append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
-            if (pageNum > 1) {
-                footer = footer.append(createPageButton("◀ Back", pageNum - 1));
-            } else {
-                footer = footer.append(Component.literal("    ")); // Spacer
-            }
-            footer = footer.append(Component.literal("  " + pageNum + "/" + totalPages + "  ").withStyle(ChatFormatting.DARK_GRAY));
-            if (pageNum < totalPages) {
-                footer = footer.append(createPageButton("Next ▶", pageNum + 1));
-            }
-
             MutableComponent fullPage = Component.empty()
                     .append(header)
-                    .append(pageBodies.get(i))
-                    .append(footer);
+                    .append(pageBody);
             compiled.add(fullPage);
         }
 
@@ -184,10 +168,6 @@ public class VirtualBookContainer {
         return this.title + "\n" + PAGE_RULE + "\n";
     }
 
-    private String buildMaximumFooterText() {
-        String maxPageNumber = "9".repeat(MAX_PAGE_NUMBER_DIGITS);
-        return "\n" + PAGE_RULE + "\n" + "◀ Back" + "  " + maxPageNumber + "/" + maxPageNumber + "  " + "Next ▶";
-    }
 
     private static int countNewlines(String value) {
         int count = 0;
@@ -324,21 +304,6 @@ public class VirtualBookContainer {
                 .withColor(color)
                 .withBold(true)
                 .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, executionCommand))
-        );
-    }
-
-    /**
-     * Creates a clickable button component that navigates to a specific page in the virtual book.
-     *
-     * @param label The text displayed on the button.
-     * @param targetPageNum The page number to navigate to when clicked.
-     * @return A Component representing the clickable button.
-     */
-    public Component createPageButton(String label, int targetPageNum) {
-        return Component.literal(label).withStyle(style -> style
-                .withColor(ChatFormatting.BLUE)
-                .withBold(true)
-                .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, String.valueOf(targetPageNum)))
         );
     }
 
