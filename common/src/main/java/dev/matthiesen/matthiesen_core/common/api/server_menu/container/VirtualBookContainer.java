@@ -33,6 +33,7 @@ public class VirtualBookContainer {
     public static final ItemStack BOOK = new ItemStack(Items.WRITTEN_BOOK);
     public static final String DEFAULT_TITLE = "Virtual Book";
     public static final String DEFAULT_AUTHOR = "Server";
+    public static final String PAGE_RULE = "----------------";
 
     private String title = DEFAULT_TITLE;
     private String author = DEFAULT_AUTHOR;
@@ -116,15 +117,15 @@ public class VirtualBookContainer {
 
             MutableComponent header = Component.literal(this.title + "\n")
                     .withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY).withBold(true))
-                    .append(Component.literal("-------------------\n\n").withStyle(ChatFormatting.GRAY));
+                    .append(Component.literal(PAGE_RULE + "\n\n").withStyle(ChatFormatting.GRAY));
 
-            MutableComponent footer = Component.literal("\n\n").append(Component.literal("-------------------\n").withStyle(ChatFormatting.GRAY));
+            MutableComponent footer = Component.literal("\n\n").append(Component.literal(PAGE_RULE + "\n").withStyle(ChatFormatting.GRAY));
             if (pageNum > 1) {
                 footer = footer.append(createPageButton("◀ Back", pageNum - 1));
             } else {
-                footer = footer.append(Component.literal("      ")); // Spacer
+                footer = footer.append(Component.literal("    ")); // Spacer
             }
-            footer = footer.append(Component.literal("  Page " + pageNum + "/" + totalPages + "  ").withStyle(ChatFormatting.DARK_GRAY));
+            footer = footer.append(Component.literal("  " + pageNum + "/" + totalPages + "  ").withStyle(ChatFormatting.DARK_GRAY));
             if (pageNum < totalPages) {
                 footer = footer.append(createPageButton("Next ▶", pageNum + 1));
             }
