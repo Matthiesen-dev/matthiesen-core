@@ -23,7 +23,13 @@ import net.minecraft.world.level.block.Blocks;
  */
 @SuppressWarnings("unused")
 public final class ItemDecoder {
+    /**
+     * Default fallback item string to use when decoding fails. This is set to {@code "minecraft:air"}.
+     */
     public static final String FALLBACK_ITEM_STRING = "minecraft:air";
+    /**
+     * Default fallback item to use when decoding fails. This is set to {@link Items#AIR}.
+     */
     public static final Item FALLBACK_ITEM = Items.AIR;
 
     private static HolderLookup.Provider getRegistries() {
