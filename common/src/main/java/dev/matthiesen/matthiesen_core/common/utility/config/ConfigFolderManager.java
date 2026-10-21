@@ -16,8 +16,10 @@ import java.util.*;
  * Each file is identified by its filename without the {@code .json} extension.
  *
  * @param <T> The type of the config class to manage
+ * @deprecated This class is deprecated and will be removed in future versions. Use {@link ConfigFolderLoader} for managing TOML-based configurations instead.
  */
 @SuppressWarnings("unused")
+@Deprecated(forRemoval = true)
 public final class ConfigFolderManager<T> {
     private static final String JSON_EXTENSION = ".json";
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME);

@@ -52,6 +52,7 @@ public interface CommonMod extends LoggerMethods {
      * @return A new instance of ConfigFolderManager for managing the specified configuration class and folder name. The ConfigFolderManager will handle loading, saving, and managing multiple configuration files within the specified folder.
      * @param <T> The type of the configuration class. This type should represent the structure of the configuration files and contain fields corresponding to the configuration options.
      */
+    @Deprecated(forRemoval = true)
     default <T> ConfigFolderManager<T> createConfigFolderManager(Class<T> configClass, String folderName) {
         return new ConfigFolderManager<>(configClass, folderName, getModId());
     }
