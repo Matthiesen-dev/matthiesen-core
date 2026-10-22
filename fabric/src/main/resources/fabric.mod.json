@@ -40,16 +40,14 @@
     "fabric-api": "*",
     "forgeconfigapiport": ">=21.1.6 <22.0.0"
   },
-  "recommends": {
-    "fabric-permissions-api-v0": "*"
-  },
   "suggests": {
     "adventure-platform-fabric": "*",
     "emberstextapi": ">=3.0.0 <4.0.0",
     "impactor": ">=5.3.5+1.21.1",
     "luckperms": ">=5.4 <6.0.0",
     "mysql-jdbc": ">=9.7.0+2026-05-03",
-    "sqlite-jdbc": ">=3.53.2.0+2026-06-06"
+    "sqlite-jdbc": ">=3.53.2.0+2026-06-06",
+    "fabric-permissions-api-v0": "*"
   },
   "breaks": {
     "matthiesen_lib": "*",
