@@ -46,6 +46,7 @@ Matthiesen Core provides a unified API for:
 | Minecraft Version | Mod Version |
 |-------------------|-------------|
 | 1.21.1            | 1.x.x       |
+| 1.21.1            | 2.x.x       |
 
 ## Developer Quick Start
 
@@ -70,10 +71,10 @@ repositories {
 **Step 2**: Add the version property to your `gradle.properties` file
 
 ```properties
-matthiesen_core_version=1.x.x
+matthiesen_core_version=2.x.x
 ```
 
-> Note: Replace `1.x.x` with the latest version of Matthiesen Core. You can find the latest version on [Matthiesen Dev Maven](https://maven.matthiesen.dev) or see the table below for the latest version.
+> Note: Replace `2.x.x` with the latest version of Matthiesen Core. You can find the latest version on [Matthiesen Dev Maven](https://maven.matthiesen.dev) or see the table below for the latest version.
 
 | Release Type | Version Badge                                                                                                                                  |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -113,7 +114,7 @@ For Fabric and NeoForge, you will need to add the appropriate loader-specific de
 ```json
 {
   "depends": {
-    "matthiesen_core": ">=1.x.x"
+    "matthiesen_core": ">=2.x.x"
   }
 }
 ```
@@ -124,7 +125,7 @@ For Fabric and NeoForge, you will need to add the appropriate loader-specific de
 [[dependencies.yourmodid]]
 modId = "matthiesen_core"
 type = "required"
-versionRange = "[1.x.x,)"
+versionRange = "[2.x.x,)"
 ordering = "AFTER"
 side = "BOTH"
 ```
@@ -197,7 +198,7 @@ how this mod is being used and improve it over time. You can learn more about th
 
 You can also view the data collected by this mod on the [FastStats: Matthiesen Core](https://faststats.dev/project/matthiesen-core) page.
 
-To opt out of this data collection, set the `enabled` property to `false` in the `<game_directory>/config/matthiesen_core/metrics.properties` file.
+To opt out of this data collection, set the `enabled` property to `false` in the `<game_directory>/config/faststats/config.properties` file.
 
 ## License
 
