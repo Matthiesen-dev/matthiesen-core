@@ -23,8 +23,6 @@ dependencies {
     modImplementation(libs.bundles.commonModImplementation)
     modImplementation(libs.bundles.commonModImplementationNoTransitive) { isTransitive = false }
 
-    shadowBundle(libs.faststats.matthiesen)
-
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }

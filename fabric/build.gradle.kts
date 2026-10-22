@@ -39,7 +39,7 @@ dependencies {
     "developmentFabric"(project(":common", configuration = "transformProductionFabric"))
     shadowBundle(project(":common", configuration = "transformProductionFabric"))
 
-    include(libs.faststats.official.fabric)
+    include(libs.faststats.fabric)
 
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
