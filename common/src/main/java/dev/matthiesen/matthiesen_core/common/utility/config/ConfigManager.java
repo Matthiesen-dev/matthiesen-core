@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
  * @param <T> The type of the config class to manage
  */
 @SuppressWarnings("unused")
+@Deprecated(forRemoval = true)
 public final class ConfigManager<T> {
     private static final Logger LOGGER = LogManager.getLogger(MatthiesenCoreCommon.MOD_NAME);
 
