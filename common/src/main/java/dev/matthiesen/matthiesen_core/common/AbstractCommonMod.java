@@ -37,6 +37,12 @@ public abstract class AbstractCommonMod implements CommonServerMod {
      */
     public abstract @Nullable @Token String getMetricsToken();
 
+    /**
+     * Determines whether metrics collection requires user consent. This method can be overridden by subclasses to specify
+     * whether metrics collection should be enabled only with user consent. By default, this method returns false, indicating
+     * that metrics collection does not require user consent.
+     * @return true if metrics collection requires user consent, false otherwise.
+     */
     public boolean metricsRequiresConsent() {
         return false;
     }
