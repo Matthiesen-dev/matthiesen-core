@@ -50,5 +50,9 @@
     "luckperms": ">=5.4 <6.0.0",
     "mysql-jdbc": ">=9.7.0+2026-05-03",
     "sqlite-jdbc": ">=3.53.2.0+2026-06-06"
+  },
+  "breaks": {
+    "matthiesen_lib": "*",
+    "matthiesen_lib_api": "*"
   }
 }
