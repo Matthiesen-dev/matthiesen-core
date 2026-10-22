@@ -6,6 +6,8 @@ import dev.faststats.SimpleContext;
 import dev.faststats.Token;
 import org.jspecify.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.AccessDeniedException;
 import java.util.ServiceLoader;
 import java.util.function.Function;
 
@@ -54,6 +56,24 @@ public interface CommonContextService {
      */
     default ErrorTracker getContextUnawareErrorTracker() {
         return ErrorTracker.contextUnaware();
+    }
+
+    /**
+     * Creates a context-unaware ErrorTracker instance with default anonymization and error ignoring settings.
+     * This method is useful for creating an ErrorTracker that does not rely on any specific context and can be used
+     * in situations where context information is not available or not needed.
+     *
+     * @return A context-unaware ErrorTracker with default settings
+     */
+    default ErrorTracker makeAnonymizedErrorTracker() {
+        return ErrorTracker.contextUnaware()
+                .ignoreError(InvocationTargetException.class, "Expected .* but got .*")
+                .ignoreError(AccessDeniedException.class)
+                .anonymize("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$", "[email hidden]")
+                .anonymize("Bearer [A-Za-z0-9._~+/=-]+", "Bearer [token hidden]")
+                .anonymize("AKIA[0-9A-Z]{16}", "[aws-key hidden]")
+                .anonymize("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", "[uuid hidden]")
+                .anonymize("([?&](?:api_?key|token|secret)=)[^&\\s]+", "$1[redacted]");
     }
 
     /**
