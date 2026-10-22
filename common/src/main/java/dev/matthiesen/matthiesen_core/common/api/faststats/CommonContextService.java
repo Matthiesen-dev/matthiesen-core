@@ -63,9 +63,24 @@ public interface CommonContextService {
      * @param token The token
      * @return A SimpleContext for metrics
      */
-    SimpleContext buildMetricContext(
+    default SimpleContext buildMetricContext(
             String modId,
             @Token String token
+    ) {
+        return buildMetricContext(modId, token, false);
+    }
+
+    /**
+     * Builds a SimpleContext for metrics with the specified modId and token, requiring user consent.
+     *
+     * @param modId The mod ID
+     * @param token The token
+     * @return A SimpleContext for metrics that requires user consent
+     */
+    SimpleContext buildMetricContext(
+            String modId,
+            @Token String token,
+            boolean requireConsent
     );
 
     /**
@@ -76,10 +91,27 @@ public interface CommonContextService {
      * @param errorTracker The ErrorTracker to use
      * @return A SimpleContext for metrics
      */
-    SimpleContext buildMetricContext(
+    default SimpleContext buildMetricContext(
             String modId,
             @Token String token,
             ErrorTracker errorTracker
+    ) {
+        return buildMetricContext(modId, token, errorTracker, false);
+    }
+
+    /**
+     * Builds a SimpleContext for metrics with the specified modId, token, and ErrorTracker, requiring user consent.
+     *
+     * @param modId The mod ID
+     * @param token The token
+     * @param errorTracker The ErrorTracker to use
+     * @return A SimpleContext for metrics that requires user consent
+     */
+    SimpleContext buildMetricContext(
+            String modId,
+            @Token String token,
+            ErrorTracker errorTracker,
+            boolean requireConsent
     );
 
     /**
@@ -91,10 +123,29 @@ public interface CommonContextService {
      * @param metrics A function to customize the Metrics instance
      * @return A SimpleContext for metrics
      */
-    SimpleContext buildMetricContext(
+    default SimpleContext buildMetricContext(
             String modId,
             @Token String token,
             ErrorTracker errorTracker,
             Function<Metrics.Factory, Metrics> metrics
+    ) {
+        return buildMetricContext(modId, token, errorTracker, metrics, false);
+    }
+
+    /**
+     * Builds a SimpleContext for metrics with the specified modId, token, ErrorTracker, and custom Metrics function, requiring user consent.
+     *
+     * @param modId The mod ID
+     * @param token The token
+     * @param errorTracker The ErrorTracker to use
+     * @param metrics A function to customize the Metrics instance
+     * @return A SimpleContext for metrics that requires user consent
+     */
+    SimpleContext buildMetricContext(
+            String modId,
+            @Token String token,
+            ErrorTracker errorTracker,
+            Function<Metrics.Factory, Metrics> metrics,
+            boolean requireConsent
     );
 }

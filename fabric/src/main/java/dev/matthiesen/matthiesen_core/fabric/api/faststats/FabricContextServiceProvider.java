@@ -10,22 +10,26 @@ import dev.matthiesen.matthiesen_core.common.api.faststats.CommonContextService;
 import java.util.function.Function;
 
 public final class FabricContextServiceProvider implements CommonContextService {
-    private FabricContext.Factory getBaseFactory(String modId, @Token String token) {
-        return new FabricContext.Factory(modId, token);
+    private FabricContext.Factory getBaseFactory(String modId, @Token String token, boolean requireConsent) {
+        var factory = new FabricContext.Factory(modId, token);
+        if (requireConsent) {
+            factory.requireConsent();
+        }
+        return factory;
     }
 
     @Override
-    public SimpleContext buildMetricContext(String modId, @Token String token) {
-        return getBaseFactory(modId, token).create();
+    public SimpleContext buildMetricContext(String modId, @Token String token, boolean requireConsent) {
+        return getBaseFactory(modId, token, requireConsent).create();
     }
 
     @Override
-    public SimpleContext buildMetricContext(String modId, @Token String token, ErrorTracker errorTracker) {
-        return getBaseFactory(modId, token).errorTrackerService(errorTracker).create();
+    public SimpleContext buildMetricContext(String modId, @Token String token, ErrorTracker errorTracker, boolean requireConsent) {
+        return getBaseFactory(modId, token, requireConsent).errorTrackerService(errorTracker).create();
     }
 
     @Override
-    public SimpleContext buildMetricContext(String modId, @Token String token, ErrorTracker errorTracker, Function<Metrics.Factory, Metrics> metrics) {
-        return getBaseFactory(modId, token).errorTrackerService(errorTracker).metrics(metrics).create();
+    public SimpleContext buildMetricContext(String modId, @Token String token, ErrorTracker errorTracker, Function<Metrics.Factory, Metrics> metrics, boolean requireConsent) {
+        return getBaseFactory(modId, token, requireConsent).errorTrackerService(errorTracker).metrics(metrics).create();
     }
 }
