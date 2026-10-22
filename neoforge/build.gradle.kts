@@ -43,6 +43,8 @@ dependencies {
     }
     shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
 
+    include(libs.faststats.official.neoforge)
+
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }
