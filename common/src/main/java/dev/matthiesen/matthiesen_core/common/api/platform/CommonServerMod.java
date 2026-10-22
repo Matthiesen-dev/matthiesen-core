@@ -4,7 +4,7 @@ import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
-import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
+import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 

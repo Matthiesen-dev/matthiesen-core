@@ -95,6 +95,7 @@ public interface CommonContextService {
      *
      * @param modId The mod ID
      * @param token The token
+     * @param requireConsent Whether user consent is required for metrics collection
      * @return A SimpleContext for metrics that requires user consent
      */
     SimpleContext buildMetricContext(
@@ -125,6 +126,7 @@ public interface CommonContextService {
      * @param modId The mod ID
      * @param token The token
      * @param errorTracker The ErrorTracker to use
+     * @param requireConsent Whether user consent is required for metrics collection
      * @return A SimpleContext for metrics that requires user consent
      */
     SimpleContext buildMetricContext(
@@ -159,6 +161,7 @@ public interface CommonContextService {
      * @param token The token
      * @param errorTracker The ErrorTracker to use
      * @param metrics A function to customize the Metrics instance
+     * @param requireConsent Whether user consent is required for metrics collection
      * @return A SimpleContext for metrics that requires user consent
      */
     SimpleContext buildMetricContext(

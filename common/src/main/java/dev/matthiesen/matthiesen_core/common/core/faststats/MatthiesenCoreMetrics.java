@@ -1,12 +1,12 @@
-package dev.matthiesen.matthiesen_core.common.core.metric;
+package dev.matthiesen.matthiesen_core.common.core.faststats;
 
-import dev.matthiesen.libs.faststats.ErrorTracker;
-import dev.matthiesen.libs.faststats.Metrics;
-import dev.matthiesen.libs.faststats.Token;
-import dev.matthiesen.libs.faststats.data.Metric;
+import dev.faststats.ErrorTracker;
+import dev.faststats.SimpleContext;
+import dev.faststats.Token;
+import dev.faststats.data.Metric;
+import dev.matthiesen.matthiesen_core.common.api.faststats.CommonContextService;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
-import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,12 +25,6 @@ public final class MatthiesenCoreMetrics {
      * Singleton instance of MatthiesenCoreMetrics. This instance is used to manage metrics collection and error tracking
      * for the mod. It provides methods to register mods, track errors, and retrieve registered mods for reporting purposes.
      */
-    public static final UniversalMetricProvider PROVIDER = new UniversalMetricProvider(MatthiesenCoreCommon.MOD_ID, TOKEN);
-
-    /**
-     * Singleton instance of MatthiesenCoreMetrics. This instance is used to manage metrics collection and error tracking
-     * for the mod. It provides methods to register mods, track errors, and retrieve registered mods for reporting purposes.
-     */
     public static final MatthiesenCoreMetrics INSTANCE = new MatthiesenCoreMetrics();
 
     private MatthiesenCoreMetrics() {
@@ -43,33 +37,25 @@ public final class MatthiesenCoreMetrics {
      */
     public static void initialize() {}
 
+    private static final CommonContextService CONTEXT_SERVICE = CommonContextService.getInstance();
     private static final ErrorTracker ERROR_TRACKER;
-    private static final UniversalMetricContext METRIC_CONTEXT;
+    private static final SimpleContext METRIC_CONTEXT;
     private static final List<String> REGISTERED_MODS = new CopyOnWriteArrayList<>();
 
     static {
-        ERROR_TRACKER = PROVIDER.makeErrorTracker();
-        METRIC_CONTEXT = PROVIDER.getBaseMetricsFactory()
-                .metrics(Metrics.Factory::create)
-                .metrics(factory -> factory
+        ERROR_TRACKER = CONTEXT_SERVICE.makeAnonymizedErrorTracker();
+        METRIC_CONTEXT = CONTEXT_SERVICE.buildMetricContext(
+                MatthiesenCoreCommon.MOD_ID,
+                TOKEN,
+                ERROR_TRACKER,
+                factory -> factory
                         .addMetric(Metric.stringArray("registered_mods", INSTANCE::getRegisteredMods))
                         .create()
-                )
-                .create();
+        );
     }
 
     private String[] getRegisteredMods() {
         return REGISTERED_MODS.toArray(new String[0]);
-    }
-
-    /**
-     * Returns the UniversalMetricProvider instance used for metrics collection and error tracking. This provider is responsible for managing the
-     * metrics context and error tracking for the mod, allowing developers to monitor and report on various aspects of the mod's performance and
-     * behavior. The provider is initialized with the mod's ID and a token for authentication with the metrics service.
-     * @return The UniversalMetricProvider instance used for metrics collection and error tracking.
-     */
-    public UniversalMetricProvider getProvider() {
-        return PROVIDER;
     }
 
     /**

@@ -1,16 +1,16 @@
 package dev.matthiesen.matthiesen_core.common;
 
-import dev.matthiesen.libs.faststats.ErrorTracker;
-import dev.matthiesen.libs.faststats.Token;
+import dev.faststats.ErrorTracker;
+import dev.faststats.SimpleContext;
+import dev.faststats.Token;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
+import dev.matthiesen.matthiesen_core.common.api.faststats.CommonContextService;
 import dev.matthiesen.matthiesen_core.common.api.platform.CommonServerMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
-import dev.matthiesen.matthiesen_core.common.core.metric.MatthiesenCoreMetrics;
-import dev.matthiesen.matthiesen_core.common.core.metric.UniversalMetricProvider;
-import dev.matthiesen.matthiesen_core.common.core.metric.impl.UniversalMetricContext;
+import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
@@ -28,7 +28,7 @@ public abstract class AbstractCommonMod implements CommonServerMod {
     private final String MOD_NAME;
     private final Logger LOGGER;
     private final ErrorTracker errorTracker;
-    private final UniversalMetricContext metricContext;
+    private final SimpleContext metricContext;
     private final RegistryBuilder registryBuilder;
 
     /**
@@ -36,6 +36,10 @@ public abstract class AbstractCommonMod implements CommonServerMod {
      * @return The Token as a String, or null if Metrics are not used
      */
     public abstract @Nullable @Token String getMetricsToken();
+
+    public boolean metricsRequiresConsent() {
+        return false;
+    }
 
     /**
      * Initializes the mod with the given mod ID and mod name.
@@ -49,11 +53,10 @@ public abstract class AbstractCommonMod implements CommonServerMod {
         this.registryBuilder = new RegistryBuilder(MOD_ID);
 
         var metricsToken = getMetricsToken();
-        UniversalMetricProvider metricsProvider;
         if (metricsToken != null) {
-            metricsProvider = new UniversalMetricProvider(MOD_ID, metricsToken);
-            errorTracker = metricsProvider.makeErrorTracker();
-            metricContext = metricsProvider.buildErrorTrackingMetricProvider(errorTracker);
+            CommonContextService contextService = CommonContextService.getInstance();
+            errorTracker = contextService.makeAnonymizedErrorTracker();
+            metricContext = contextService.buildMetricContext(MOD_ID, metricsToken, errorTracker, metricsRequiresConsent());
         } else {
             errorTracker = null;
             metricContext = null;
@@ -78,7 +81,7 @@ public abstract class AbstractCommonMod implements CommonServerMod {
      * @return The mod's metric context, or null if the metric context is not initialized. The metric context is used to send metrics to FastStats.dev, and
      * is initialized if the mod has a valid metrics token. If the mod does not have a valid metrics token, this method returns null.
      */
-    public UniversalMetricContext getMetricContext() {
+    public SimpleContext getMetricContext() {
         return metricContext;
     }
 
