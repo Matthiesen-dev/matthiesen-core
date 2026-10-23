@@ -13,7 +13,6 @@ import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
 import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
-import dev.matthiesen.matthiesen_core.common.core.registry.PermissionsManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
