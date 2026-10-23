@@ -38,6 +38,9 @@ dependencies {
     modImplementation(libs.bundles.neoforgeModImplementationNoTransitive) { isTransitive = false }
 
     implementation(project(":common", configuration = "namedElements"))
+    modRuntimeOnly(project(":common", configuration = "transformProductionNeoForge")) {
+        isTransitive = false
+    }
     "developmentNeoForge"(project(":common", configuration = "transformProductionNeoForge")) {
         isTransitive = false
     }
@@ -51,6 +54,9 @@ dependencies {
 
 tasks {
     processResources {
+        // NeoForge references the shared common mixin config; include it in this module's runtime resources.
+        from(project(":common").layout.projectDirectory.file("src/main/resources/matthiesen_core.mixins.json"))
+
         filesMatching("META-INF/neoforge.mods.toml") {
             expand(project.properties)
         }
@@ -58,7 +64,7 @@ tasks {
 
     sourcesJar {
         val depSources = project(":common").tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar")
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         dependsOn(depSources)
         from(depSources.flatMap { it.archiveFile }.map { zipTree(it) }) {
             exclude("architectury.accessWidener")

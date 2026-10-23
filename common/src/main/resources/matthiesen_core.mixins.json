@@ -1,14 +1,14 @@
 {
   "required": true,
   "package": "dev.matthiesen.matthiesen_core.common.mixins",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_18",
   "minVersion": "0.8",
   "client": [
     "client.CreativeModeInventoryScreenMixin",
     "client.AbstractContainerScreenMixin",
     "client.ItemPickerMenuAccessor"
   ],
-  "mixins": [
+  "server": [
     "server.InventoryMixin",
     "server.MinecraftServerMixin",
     "server.ServerPlayerAccessor"
