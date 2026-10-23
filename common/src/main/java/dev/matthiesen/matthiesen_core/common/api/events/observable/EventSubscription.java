@@ -1,17 +1,19 @@
-package dev.matthiesen.matthiesen_core.common.api.events;
+package dev.matthiesen.matthiesen_core.common.api.events.observable;
+
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A handle returned when subscribing a listener to an {@link EventObservable} or
- * {@link ResultEventObservable}.
+ * {@link InteractionResultEventObservable}.
  *
  * <p>Calling {@link #unsubscribe()} marks the listener for removal. The listener will still
  * receive the current in-flight emit if it is already being dispatched, but will be excluded
  * from every subsequent emit cycle.</p>
  *
  * @see EventObservable#subscribe(java.util.function.Consumer)
- * @see ResultEventObservable#subscribe(ResultEventObservable.ResultListener)
+ * @see InteractionResultEventObservable#subscribe(InteractionResultEventObservable.ResultListener)
  */
 @SuppressWarnings("unused")
 public interface EventSubscription {

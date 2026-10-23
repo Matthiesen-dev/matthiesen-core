@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.events.definitions;
+package dev.matthiesen.matthiesen_core.common.api.events.server;
 
 import dev.matthiesen.matthiesen_core.common.utility.player_data.ServerUser;
 import net.minecraft.server.level.ServerPlayer;

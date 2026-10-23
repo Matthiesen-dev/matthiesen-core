@@ -1,5 +1,7 @@
-package dev.matthiesen.matthiesen_core.common.api.events;
+package dev.matthiesen.matthiesen_core.common.api.events.observable;
 
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,83 +11,62 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 /**
- * A thread-safe, priority-ordered observable for events that return a cancellation flag.
+ * A thread-safe, priority-ordered observable for void (non-result) events.
  *
  * <h2>Dispatch behavior</h2>
  * <ul>
- *   <li>Listeners are invoked in {@link EventPriority#HIGHEST} -> {@link EventPriority#LOWEST} order.</li>
+ *   <li>Listeners are invoked in {@link EventPriority#HIGHEST} → {@link EventPriority#LOWEST} order.</li>
  *   <li>Within the same priority tier, listeners fire in the order they were registered.</li>
- *   <li>If any listener returns {@code true}, dispatch stops immediately and the emit call returns {@code true}.</li>
- *   <li>If no listener returns {@code true}, emit returns {@code false}.</li>
- *   <li>Exceptions thrown by listeners are logged and suppressed; dispatch continues to the next listener.</li>
+ *   <li>If a listener throws any {@link Throwable}, the exception is logged and dispatch continues
+ *       with the remaining listeners — one faulty mod cannot block others.</li>
  * </ul>
  *
  * <h2>Unsubscribe semantics</h2>
- * <p>Calling {@link EventSubscription#unsubscribe()} marks the listener for removal on the next emit cycle;
- * the current in-flight emit is not affected.</p>
+ * <p>Calling {@link EventSubscription#unsubscribe()} on the returned handle marks the listener as
+ * inactive. The current in-flight emit is unaffected; the listener is removed before the next emit.</p>
  *
  * @param <T> the event type
- * @see EventObservable
+ * @see InteractionResultEventObservable
  * @see PlatformEvents
  */
 @SuppressWarnings("unused")
-public final class BooleanResultEventObservable<T> {
+public final class EventObservable<T> {
 
-    private static final Logger LOGGER = LogManager.getLogger(BooleanResultEventObservable.class);
+    private static final Logger LOGGER = LogManager.getLogger(EventObservable.class);
 
     private final CopyOnWriteArrayList<Entry<T>> entries = new CopyOnWriteArrayList<>();
     private final AtomicLong sequenceCounter = new AtomicLong();
 
     /**
-     * Creates a new {@code BooleanResultEventObservable} instance.
+     * Creates a new {@code EventObservable} instance.
      */
-    public BooleanResultEventObservable() {}
-
-    // -------------------------------------------------------------------------
-    // Listener type
-    // -------------------------------------------------------------------------
-
-    /**
-     * A listener that receives an event and returns {@code true} to cancel it.
-     *
-     * @param <T> the event type
-     */
-    @FunctionalInterface
-    public interface ResultListener<T> {
-
-        /**
-         * Handles the event and returns {@code true} to cancel it, or {@code false} to allow it to continue.
-         *
-         * @param event the event to handle
-         * @return {@code true} to cancel the event, {@code false} to allow it to continue
-         */
-        boolean handle(T event);
-    }
+    public EventObservable() {}
 
     // -------------------------------------------------------------------------
     // Subscription
     // -------------------------------------------------------------------------
 
     /**
-     * Subscribes a result listener at {@link EventPriority#NORMAL} priority.
+     * Subscribes a listener at {@link EventPriority#NORMAL} priority.
      *
      * @param listener the listener to register
      * @return an {@link EventSubscription} handle that can be used to remove the listener later
      */
-    public EventSubscription subscribe(ResultListener<T> listener) {
+    public EventSubscription subscribe(Consumer<T> listener) {
         return subscribe(EventPriority.NORMAL, listener);
     }
 
     /**
-     * Subscribes a result listener at the specified priority.
+     * Subscribes a listener at the specified priority.
      *
      * @param priority the dispatch priority; lower enum ordinals fire first
      * @param listener the listener to register
      * @return an {@link EventSubscription} handle that can be used to remove the listener later
      */
-    public EventSubscription subscribe(EventPriority priority, ResultListener<T> listener) {
+    public EventSubscription subscribe(EventPriority priority, Consumer<T> listener) {
         AtomicBoolean active = new AtomicBoolean(true);
         entries.add(new Entry<>(priority.getValue(), sequenceCounter.getAndIncrement(), listener, active));
         return EventSubscription.of(active);
@@ -96,12 +77,14 @@ public final class BooleanResultEventObservable<T> {
     // -------------------------------------------------------------------------
 
     /**
-     * Dispatches {@code event} to active subscribers in priority and registration order.
+     * Dispatches {@code event} to all currently active subscribers in priority and registration order.
+     *
+     * <p>Any listeners whose {@link EventSubscription} was unsubscribed before this call will be
+     * removed from the internal list during this emit and will not be invoked.</p>
      *
      * @param event the event to dispatch; must not be {@code null}
-     * @return {@code true} if the event was cancelled, otherwise {@code false}
      */
-    public boolean emit(T event) {
+    public void emit(T event) {
         List<Entry<T>> snapshot = new ArrayList<>(entries.size());
         List<Entry<T>> dead = new ArrayList<>();
 
@@ -121,22 +104,18 @@ public final class BooleanResultEventObservable<T> {
 
         for (Entry<T> entry : snapshot) {
             try {
-                if (entry.listener().handle(event)) {
-                    return true;
-                }
+                entry.listener().accept(event);
             } catch (Throwable t) {
-                LOGGER.error("[PlatformEvents] Unhandled exception in result listener for event '{}': {}",
+                LOGGER.error("[PlatformEvents] Unhandled exception in listener for event '{}': {}",
                         event.getClass().getSimpleName(), t.getMessage(), t);
             }
         }
-
-        return false;
     }
 
     // -------------------------------------------------------------------------
     // Internal
     // -------------------------------------------------------------------------
 
-    private record Entry<E>(int priority, long sequence, ResultListener<E> listener, AtomicBoolean active) {}
+    private record Entry<E>(int priority, long sequence, Consumer<E> listener, AtomicBoolean active) {}
 }
 

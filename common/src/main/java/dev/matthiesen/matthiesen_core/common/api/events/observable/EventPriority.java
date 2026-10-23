@@ -1,8 +1,10 @@
-package dev.matthiesen.matthiesen_core.common.api.events;
+package dev.matthiesen.matthiesen_core.common.api.events.observable;
+
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 
 /**
  * Defines the priority at which an event listener is dispatched relative to other listeners on the same
- * {@link EventObservable} or {@link ResultEventObservable}.
+ * {@link EventObservable} or {@link InteractionResultEventObservable}.
  *
  * <p>Listeners are invoked from {@link #HIGHEST} to {@link #LOWEST}. Within the same priority tier,
  * listeners are called in the order they were registered.</p>

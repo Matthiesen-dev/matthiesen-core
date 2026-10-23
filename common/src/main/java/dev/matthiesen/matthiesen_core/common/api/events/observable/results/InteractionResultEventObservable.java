@@ -1,5 +1,9 @@
-package dev.matthiesen.matthiesen_core.common.api.events;
+package dev.matthiesen.matthiesen_core.common.api.events.observable.results;
 
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventObservable;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventPriority;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventSubscription;
+import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,9 +14,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A thread-safe, priority-ordered observable for events that return an {@link InteractionResult}.
@@ -37,70 +38,13 @@ import java.util.concurrent.atomic.AtomicLong;
  * @see PlatformEvents
  */
 @SuppressWarnings("unused")
-public final class ResultEventObservable<T> {
-
-    private static final Logger LOGGER = LogManager.getLogger(ResultEventObservable.class);
-
-    private final CopyOnWriteArrayList<Entry<T>> entries = new CopyOnWriteArrayList<>();
-    private final AtomicLong sequenceCounter = new AtomicLong();
+public final class InteractionResultEventObservable<T> extends ResultEventObservable<T, InteractionResult> {
+    private static final Logger LOGGER = LogManager.getLogger(InteractionResultEventObservable.class);
 
     /**
      * Creates a new {@code ResultEventObservable} instance.
      */
-    public ResultEventObservable() {}
-
-    // -------------------------------------------------------------------------
-    // Listener type
-    // -------------------------------------------------------------------------
-
-    /**
-     * A listener that receives an event and returns an {@link InteractionResult} indicating whether
-     * the action should proceed.
-     *
-     * <p>Return {@link InteractionResult#FAIL} to cancel the event immediately. Return
-     * {@link InteractionResult#PASS} (or any other non-{@code FAIL} result) to allow dispatch
-     * to continue to lower-priority listeners.</p>
-     *
-     * @param <T> the event type
-     */
-    @FunctionalInterface
-    public interface ResultListener<T> {
-
-        /**
-         * Handles the event and returns an {@link InteractionResult}.
-         *
-         * @param event the event to handle
-         * @return {@link InteractionResult#FAIL} to cancel the event, or any other result to allow dispatch to continue
-         */
-        InteractionResult handle(T event);
-    }
-
-    // -------------------------------------------------------------------------
-    // Subscription
-    // -------------------------------------------------------------------------
-
-    /**
-     * Subscribes a result listener at {@link EventPriority#NORMAL} priority.
-     *
-     * @param listener the listener to register
-     * @return an {@link EventSubscription} handle that can be used to remove the listener later
-     */
-    public EventSubscription subscribe(ResultListener<T> listener) {
-        return subscribe(EventPriority.NORMAL, listener);
-    }
-
-    /**
-     * Subscribes a result listener at the specified priority.
-     *
-     * @param priority the dispatch priority; lower enum ordinals fire first
-     * @param listener the listener to register
-     * @return an {@link EventSubscription} handle that can be used to remove the listener later
-     */
-    public EventSubscription subscribe(EventPriority priority, ResultListener<T> listener) {
-        AtomicBoolean active = new AtomicBoolean(true);
-        entries.add(new Entry<>(priority.getValue(), sequenceCounter.getAndIncrement(), listener, active));
-        return EventSubscription.of(active);
-    }
+    public InteractionResultEventObservable() {}
 
     // -------------------------------------------------------------------------
     // Emit
@@ -115,11 +59,13 @@ public final class ResultEventObservable<T> {
      * @param event the event to dispatch; must not be {@code null}
      * @return {@link InteractionResult#FAIL} if the event was cancelled, otherwise {@link InteractionResult#PASS}
      */
+    @Override
     public InteractionResult emit(T event) {
-        List<Entry<T>> snapshot = new ArrayList<>(entries.size());
-        List<Entry<T>> dead = new ArrayList<>();
+        var entries = getEntries();
+        List<Entry<T, InteractionResult>> snapshot = new ArrayList<>(entries.size());
+        List<Entry<T, InteractionResult>> dead = new ArrayList<>();
 
-        for (Entry<T> e : entries) {
+        for (Entry<T, InteractionResult> e : entries) {
             if (e.active().get()) {
                 snapshot.add(e);
             } else {
@@ -128,12 +74,12 @@ public final class ResultEventObservable<T> {
         }
 
         if (!dead.isEmpty()) {
-            entries.removeAll(dead);
+            removeEntries(dead);
         }
 
-        snapshot.sort(Comparator.comparingInt((Entry<T> a) -> a.priority()).thenComparingLong(Entry::sequence));
+        snapshot.sort(Comparator.comparingInt((Entry<T, InteractionResult> a) -> a.priority()).thenComparingLong(Entry::sequence));
 
-        for (Entry<T> entry : snapshot) {
+        for (Entry<T, InteractionResult> entry : snapshot) {
             try {
                 InteractionResult result = entry.listener().handle(event);
                 if (result == InteractionResult.FAIL) {
@@ -163,11 +109,5 @@ public final class ResultEventObservable<T> {
         InteractionResult result = emit((T) event);
         return new InteractionResultHolder<>(result, event.player().getItemInHand(event.hand()));
     }
-
-    // -------------------------------------------------------------------------
-    // Internal
-    // -------------------------------------------------------------------------
-
-    private record Entry<E>(int priority, long sequence, ResultListener<E> listener, AtomicBoolean active) {}
 }
 

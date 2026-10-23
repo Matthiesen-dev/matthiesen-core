@@ -1,8 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.events.server;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
-import dev.matthiesen.matthiesen_core.common.api.events.ResultEventObservable;
-import dev.matthiesen.matthiesen_core.common.api.events.definitions.PlayerEventHandlerDef;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.Level;
  * Typed event records for server-side player events used with {@link PlatformEvents}.
  *
  * <p>Interaction events ({@link UseItem}, {@link UseBlock}) are dispatched through a
- * {@link ResultEventObservable}, allowing any listener to return {@link InteractionResult#FAIL}
+ * {@link InteractionResultEventObservable}, allowing any listener to return {@link InteractionResult#FAIL}
  * to immediately cancel the action.</p>
  *
  * @see PlatformEvents#PLAYER_JOIN
@@ -55,7 +54,7 @@ public final class PlayerEvent {
 
     /**
      * Fired when a server-side player uses an item. Subscribed via
-     * {@link PlatformEvents#PLAYER_USE_ITEM} ({@link ResultEventObservable}).
+     * {@link PlatformEvents#PLAYER_USE_ITEM} ({@link InteractionResultEventObservable}).
      *
      * <p>Return {@link InteractionResult#FAIL} from your listener to cancel the action
      * and stop further listeners from being called.</p>
@@ -68,7 +67,7 @@ public final class PlayerEvent {
 
     /**
      * Fired when a server-side player right-clicks a block. Subscribed via
-     * {@link PlatformEvents#PLAYER_USE_BLOCK} ({@link ResultEventObservable}).
+     * {@link PlatformEvents#PLAYER_USE_BLOCK} ({@link InteractionResultEventObservable}).
      *
      * <p>Return {@link InteractionResult#FAIL} from your listener to cancel the action
      * and stop further listeners from being called.</p>
@@ -82,7 +81,7 @@ public final class PlayerEvent {
 
     /**
      * Fired when a server-side player picks up an item entity. Subscribed via
-     * {@link PlatformEvents#PLAYER_PICKUP_ITEM} ({@link ResultEventObservable}).
+     * {@link PlatformEvents#PLAYER_PICKUP_ITEM} ({@link InteractionResultEventObservable}).
      *
      * <p>Return {@code true} to cancel the pickup action and stop further listeners from being called.</p>
      *

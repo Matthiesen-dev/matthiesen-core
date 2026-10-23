@@ -2,6 +2,8 @@ package dev.matthiesen.matthiesen_core.common.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.client.ResourcePackRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventObservable;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackDef;
 import dev.matthiesen.matthiesen_core.common.api.platform.registry.ResourcePackActivationBehaviour;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;
@@ -95,7 +97,7 @@ public final class PlatformClientEvents {
      * <p>Result-based event returning {@link InteractionResult}. First listener returning FAIL stops dispatch
      * and cancels rendering. All other listeners must return PASS. Exceptions are logged and suppressed.</p>
      */
-    public static final ResultEventObservable<ClientEvent.BlockHighlight> BLOCK_HIGHLIGHT = new ResultEventObservable<>();
+    public static final InteractionResultEventObservable<ClientEvent.BlockHighlight> BLOCK_HIGHLIGHT = new InteractionResultEventObservable<>();
 
     /**
      * Fired when resource packs are ready to be registered.

@@ -1,6 +1,11 @@
 package dev.matthiesen.matthiesen_core.common.api.events;
 
-import dev.matthiesen.matthiesen_core.common.api.events.config.ConfigEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.server.ConfigEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventObservable;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventPriority;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventSubscription;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.BooleanResultEventObservable;
+import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
@@ -16,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Central registry of all server-side platform events provided by Matthiesen Core.
  *
  * <p>Each public static field is either an {@link EventObservable} (void dispatch), a
- * {@link ResultEventObservable} ({@link net.minecraft.world.InteractionResult}-returning dispatch),
+ * {@link InteractionResultEventObservable} ({@link net.minecraft.world.InteractionResult}-returning dispatch),
  * or a {@link BooleanResultEventObservable} (boolean-cancellation dispatch).
  * Access them directly to subscribe listeners — no manager or registration step is required.</p>
  *
@@ -24,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <ul>
  *   <li>Listeners fire from {@link EventPriority#HIGHEST} to {@link EventPriority#LOWEST}.</li>
  *   <li>Listeners at the same priority fire in the order they were registered.</li>
- *   <li>For {@link ResultEventObservable} fields: returning {@link net.minecraft.world.InteractionResult#FAIL}
+ *   <li>For {@link InteractionResultEventObservable} fields: returning {@link net.minecraft.world.InteractionResult#FAIL}
  *       from any listener immediately cancels the action and stops further listeners.</li>
  *   <li>For {@link BooleanResultEventObservable} fields: returning {@code true} cancels immediately
  *       and stops further listeners.</li>
@@ -189,7 +194,7 @@ public final class PlatformEvents {
      * <p>Return {@link net.minecraft.world.InteractionResult#FAIL} to cancel the action immediately.
      * No subsequent listeners at lower priorities will be invoked after a cancellation.</p>
      */
-    public static final ResultEventObservable<PlayerEvent.UseItem> PLAYER_USE_ITEM = new ResultEventObservable<>();
+    public static final InteractionResultEventObservable<PlayerEvent.UseItem> PLAYER_USE_ITEM = new InteractionResultEventObservable<>();
 
     /**
      * Fired when a server-side player right-clicks a block.
@@ -197,7 +202,7 @@ public final class PlatformEvents {
      * <p>Return {@link net.minecraft.world.InteractionResult#FAIL} to cancel the action immediately.
      * No subsequent listeners at lower priorities will be invoked after a cancellation.</p>
      */
-    public static final ResultEventObservable<PlayerEvent.UseBlock> PLAYER_USE_BLOCK = new ResultEventObservable<>();
+    public static final InteractionResultEventObservable<PlayerEvent.UseBlock> PLAYER_USE_BLOCK = new InteractionResultEventObservable<>();
 
     /**
      * Fired when a server-side player picks up an item entity.
@@ -301,13 +306,5 @@ public final class PlatformEvents {
      * Wires platform-specific loader callbacks into the common event observables.
      */
     public static void initialize() {
-        // Handled Externally by EventBusSubscriber (Fabric/NeoForge)
-        // - SERVER_STARTING, SERVER_STARTED, SERVER_STOPPING, SERVER_STOPPED
-        // - SERVER_START_TICK, SERVER_END_TICK, SERVER_RELOAD, SERVER_CHAT
-        // - PLAYER_JOIN, PLAYER_LEAVE
-        // - PLAYER_USE_ITEM, PLAYER_USE_BLOCK
-        // - CONFIG_LOADING(modId), CONFIG_UNLOADING(modId), CONFIG_RELOADING(modId)
-        // Handled Externally by Mixin (Fabric) and EventBusSubscriber (NeoForge)
-        // - PLAYER_PRE_TICK, PLAYER_END_TICK
     }
 }
