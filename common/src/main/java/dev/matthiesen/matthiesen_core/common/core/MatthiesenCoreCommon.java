@@ -43,14 +43,11 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     public static final String MOD_NAME = "Matthiesen Core";
 
     private static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
-    private static final CommonLoaderUtils COMMON_UTILS =
-            ServiceLoader.load(CommonLoaderUtils.class).findFirst()
-                    .orElseThrow(() -> new IllegalStateException("No CommonLoaderUtils implementation found"));
-    private static final CommonLoaderRegistry COMMON_REGISTRY =
-            ServiceLoader.load(CommonLoaderRegistry.class).findFirst()
-                    .orElseThrow(() -> new IllegalStateException("No CommonLoaderRegistry implementation found"));
-    private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
-            new DiscordNotifierService();
+    private static final CommonLoaderUtils COMMON_UTILS = ServiceLoader.load(CommonLoaderUtils.class)
+            .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderUtils implementation found"));
+    private static final CommonLoaderRegistry COMMON_REGISTRY = ServiceLoader.load(CommonLoaderRegistry.class)
+            .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderRegistry implementation found"));
+    private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE = new DiscordNotifierService();
 
     /**
      * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.
