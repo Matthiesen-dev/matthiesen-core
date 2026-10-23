@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.events.observable.results;
 
+import dev.matthiesen.matthiesen_core.common.api.events.observable.EventObservable;
 import dev.matthiesen.matthiesen_core.common.api.events.observable.EventPriority;
-import dev.matthiesen.matthiesen_core.common.api.events.observable.EventSubscription;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * </ul>
  *
  * <h2>Unsubscribe semantics</h2>
- * <p>Calling {@link EventSubscription#unsubscribe()} marks the listener for removal on the next emit cycle;
+ * <p>Calling {@link EventObservable.Subscription#unsubscribe()} marks the listener for removal on the next emit cycle;
  * the current in-flight emit is not affected.</p>
  *
  * @param <T> the event type
@@ -64,9 +64,9 @@ public class ResultEventObservable<T, R> {
      * Subscribes a listener at {@link EventPriority#NORMAL} priority.
      *
      * @param listener the listener to register
-     * @return an {@link EventSubscription} handle that can be used to remove the listener later
+     * @return an {@link EventObservable.Subscription} handle that can be used to remove the listener later
      */
-    public EventSubscription subscribe(ResultListener<T, R> listener) {
+    public EventObservable.Subscription subscribe(ResultListener<T, R> listener) {
         return subscribe(EventPriority.NORMAL, listener);
     }
 
@@ -75,12 +75,12 @@ public class ResultEventObservable<T, R> {
      *
      * @param priority the priority at which to invoke the listener
      * @param listener the listener to register
-     * @return an {@link EventSubscription} handle that can be used to remove the listener later
+     * @return an {@link EventObservable.Subscription} handle that can be used to remove the listener later
      */
-    public EventSubscription subscribe(EventPriority priority, ResultListener<T, R> listener) {
+    public EventObservable.Subscription subscribe(EventPriority priority, ResultListener<T, R> listener) {
         AtomicBoolean active = new AtomicBoolean(true);
         entries.add(new Entry<>(priority.getValue(), sequenceCounter.getAndIncrement(), listener, active));
-        return EventSubscription.of(active);
+        return EventObservable.Subscription.of(active);
     }
 
     /**

@@ -25,7 +25,7 @@ import java.util.function.Consumer;
  * </ul>
  *
  * <h2>Unsubscribe semantics</h2>
- * <p>Calling {@link EventSubscription#unsubscribe()} on the returned handle marks the listener as
+ * <p>Calling {@link EventObservable.Subscription#unsubscribe()} on the returned handle marks the listener as
  * inactive. The current in-flight emit is unaffected; the listener is removed before the next emit.</p>
  *
  * @param <T> the event type
@@ -45,17 +45,13 @@ public final class EventObservable<T> {
      */
     public EventObservable() {}
 
-    // -------------------------------------------------------------------------
-    // Subscription
-    // -------------------------------------------------------------------------
-
     /**
      * Subscribes a listener at {@link EventPriority#NORMAL} priority.
      *
      * @param listener the listener to register
-     * @return an {@link EventSubscription} handle that can be used to remove the listener later
+     * @return an {@link EventObservable.Subscription} handle that can be used to remove the listener later
      */
-    public EventSubscription subscribe(Consumer<T> listener) {
+    public Subscription subscribe(Consumer<T> listener) {
         return subscribe(EventPriority.NORMAL, listener);
     }
 
@@ -64,22 +60,18 @@ public final class EventObservable<T> {
      *
      * @param priority the dispatch priority; lower enum ordinals fire first
      * @param listener the listener to register
-     * @return an {@link EventSubscription} handle that can be used to remove the listener later
+     * @return an {@link EventObservable.Subscription} handle that can be used to remove the listener later
      */
-    public EventSubscription subscribe(EventPriority priority, Consumer<T> listener) {
+    public Subscription subscribe(EventPriority priority, Consumer<T> listener) {
         AtomicBoolean active = new AtomicBoolean(true);
         entries.add(new Entry<>(priority.getValue(), sequenceCounter.getAndIncrement(), listener, active));
-        return EventSubscription.of(active);
+        return Subscription.of(active);
     }
-
-    // -------------------------------------------------------------------------
-    // Emit
-    // -------------------------------------------------------------------------
 
     /**
      * Dispatches {@code event} to all currently active subscribers in priority and registration order.
      *
-     * <p>Any listeners whose {@link EventSubscription} was unsubscribed before this call will be
+     * <p>Any listeners whose {@link EventObservable.Subscription} was unsubscribed before this call will be
      * removed from the internal list during this emit and will not be invoked.</p>
      *
      * @param event the event to dispatch; must not be {@code null}
@@ -112,10 +104,48 @@ public final class EventObservable<T> {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Internal
-    // -------------------------------------------------------------------------
+    /**
+     * An entry in the observable's listener list, containing the listener, its priority, and its active state.
+     *
+     * @param <E> the event type
+     */
+    public record Entry<E>(int priority, long sequence, Consumer<E> listener, AtomicBoolean active) {}
 
-    private record Entry<E>(int priority, long sequence, Consumer<E> listener, AtomicBoolean active) {}
+    /**
+     * A handle to an event listener subscription that can be used to unsubscribe the listener.
+     */
+    public interface Subscription {
+        /**
+         * Unsubscribes the listener associated with this subscription. The listener will be removed
+         * from the observable before the next emit cycle.
+         */
+        void unsubscribe();
+        /**
+         * Returns whether the listener associated with this subscription is still active.
+         *
+         * @return {@code true} if the listener is still active, {@code false} if it has been unsubscribed
+         */
+        boolean isSubscribed();
+
+        /**
+         * Creates a new {@link Subscription} instance that wraps the given {@link AtomicBoolean}.
+         *
+         * @param active the atomic boolean representing the subscription state
+         * @return a new {@link Subscription} instance
+         */
+        static Subscription of(AtomicBoolean active) {
+            return new Subscription() {
+                @Override
+                public void unsubscribe() {
+                    active.set(false);
+                }
+
+                @Override
+                public boolean isSubscribed() {
+                    return active.get();
+                }
+            };
+        }
+    }
 }
 

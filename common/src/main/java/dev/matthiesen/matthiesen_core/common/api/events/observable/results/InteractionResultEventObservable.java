@@ -2,7 +2,6 @@ package dev.matthiesen.matthiesen_core.common.api.events.observable.results;
 
 import dev.matthiesen.matthiesen_core.common.api.events.observable.EventObservable;
 import dev.matthiesen.matthiesen_core.common.api.events.observable.EventPriority;
-import dev.matthiesen.matthiesen_core.common.api.events.observable.EventSubscription;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import net.minecraft.world.InteractionResult;
@@ -30,7 +29,7 @@ import java.util.List;
  * </ul>
  *
  * <h2>Unsubscribe semantics</h2>
- * <p>Calling {@link EventSubscription#unsubscribe()} marks the listener for removal on the next emit cycle;
+ * <p>Calling {@link EventObservable.Subscription#unsubscribe()} marks the listener for removal on the next emit cycle;
  * the current in-flight emit is not affected.</p>
  *
  * @param <T> the event type

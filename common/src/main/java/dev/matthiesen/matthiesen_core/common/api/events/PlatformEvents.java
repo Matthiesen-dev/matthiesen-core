@@ -3,7 +3,6 @@ package dev.matthiesen.matthiesen_core.common.api.events;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ConfigEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.observable.EventObservable;
 import dev.matthiesen.matthiesen_core.common.api.events.observable.EventPriority;
-import dev.matthiesen.matthiesen_core.common.api.events.observable.EventSubscription;
 import dev.matthiesen.matthiesen_core.common.api.events.observable.results.BooleanResultEventObservable;
 import dev.matthiesen.matthiesen_core.common.api.events.observable.results.InteractionResultEventObservable;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
@@ -34,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *   <li>For {@link BooleanResultEventObservable} fields: returning {@code true} cancels immediately
  *       and stops further listeners.</li>
  *   <li>Exceptions thrown by any listener are logged and dispatch continues.</li>
- *   <li>Calling {@link EventSubscription#unsubscribe()} takes effect on the <em>next</em> emit cycle.</li>
+ *   <li>Calling {@link EventObservable.Subscription#unsubscribe()} takes effect on the <em>next</em> emit cycle.</li>
  * </ul>
  *
  * <h2>Basic usage</h2>
@@ -63,7 +62,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see ServerEvent
  * @see PlayerEvent
  * @see EventPriority
- * @see EventSubscription
+ * @see EventObservable.Subscription
  */
 @SuppressWarnings("unused")
 public final class PlatformEvents {
