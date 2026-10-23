@@ -222,6 +222,9 @@ public final class Message {
         }
     }
 
+    /**
+     * Builder class for constructing {@link Message} instances.
+     */
     public static class Builder {
         private String content;
         private String username;

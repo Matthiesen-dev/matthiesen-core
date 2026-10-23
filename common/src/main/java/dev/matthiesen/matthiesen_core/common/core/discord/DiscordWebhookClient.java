@@ -14,12 +14,20 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * A client for sending messages to Discord webhooks.
+ *
+ * <p>This class provides methods to send messages to Discord webhooks using HTTP POST requests.</p>
+ */
 public final class DiscordWebhookClient implements WebhookClient {
     private static final int CONNECT_TIMEOUT_MS = 5000;
     private static final int READ_TIMEOUT_MS = 5000;
 
     private final Gson gson;
 
+    /**
+     * Constructs a new DiscordWebhookClient with a Gson instance for JSON serialization.
+     */
     public DiscordWebhookClient() {
         this.gson = new GsonBuilder().disableHtmlEscaping().create();
     }
