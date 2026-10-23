@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * Represents a Discord webhook message payload.
  */
 @SuppressWarnings("unused")
-public final class WebhookMessage {
+public final class Message {
     private String content;
     private String username;
     @SerializedName("avatar_url")
@@ -23,7 +23,7 @@ public final class WebhookMessage {
     /**
      * Creates an empty webhook message.
      */
-    public WebhookMessage() {
+    public Message() {
     }
 
     /**
@@ -31,7 +31,7 @@ public final class WebhookMessage {
      *
      * @param content the plain message content
      */
-    public WebhookMessage(String content) {
+    public Message(String content) {
         this.content = content;
     }
 
@@ -368,12 +368,12 @@ public final class WebhookMessage {
         }
 
         /**
-         * Builds a new {@link WebhookMessage} instance.
+         * Builds a new {@link Message} instance.
          *
          * @return the built message
          */
-        public WebhookMessage build() {
-            WebhookMessage message = new WebhookMessage();
+        public Message build() {
+            Message message = new Message();
             message.setContent(content);
             message.setUsername(username);
             message.setAvatarUrl(avatarUrl);

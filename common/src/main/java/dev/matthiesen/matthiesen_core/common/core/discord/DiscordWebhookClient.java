@@ -6,7 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.discord.WebhookClient;
 import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookDeliveryException;
 import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookException;
 import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookSerializationException;
-import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessage;
+import dev.matthiesen.matthiesen_core.common.core.discord.model.Message;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,7 +25,7 @@ public final class DiscordWebhookClient implements WebhookClient {
     }
 
     @Override
-    public void sendMessage(String webhookUrl, WebhookMessage message) throws DiscordWebhookException {
+    public void sendMessage(String webhookUrl, Message message) throws DiscordWebhookException {
         if (webhookUrl == null || webhookUrl.isBlank()) {
             throw new DiscordWebhookException("Webhook URL must not be blank");
         }
@@ -48,7 +48,7 @@ public final class DiscordWebhookClient implements WebhookClient {
                 throw new DiscordWebhookSerializationException("Failed to serialize webhook message", e);
             }
 
-            List<WebhookMessage.File> files = message.getFiles();
+            List<Message.File> files = message.getFiles();
             if (files != null && !files.isEmpty()) {
                 writeMultipartPayload(connection, payload, files);
             } else {
@@ -82,7 +82,7 @@ public final class DiscordWebhookClient implements WebhookClient {
         }
     }
 
-    private static void writeMultipartPayload(HttpURLConnection connection, String payload, List<WebhookMessage.File> files) throws IOException {
+    private static void writeMultipartPayload(HttpURLConnection connection, String payload, List<Message.File> files) throws IOException {
         String boundary = "===" + System.currentTimeMillis() + "===";
         connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
@@ -96,7 +96,7 @@ public final class DiscordWebhookClient implements WebhookClient {
             writer.flush();
 
             for (int i = 0; i < files.size(); i++) {
-                WebhookMessage.File file = files.get(i);
+                Message.File file = files.get(i);
                 writer.append("--").append(boundary).append("\r\n");
                 writer.append("Content-Disposition: form-data; name=\"files[").append(String.valueOf(i)).append("]\"; filename=\"")
                         .append(file.getFilename()).append("\"\r\n");
