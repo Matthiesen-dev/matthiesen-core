@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.fabric.mixins;
+package dev.matthiesen.matthiesen_core.fabric.mixins.server;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;

@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.data;
 
+import dev.matthiesen.matthiesen_core.common.api.data.PlayerRecord;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.core.HolderLookup;

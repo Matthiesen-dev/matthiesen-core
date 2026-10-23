@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.mixins;
+package dev.matthiesen.matthiesen_core.neoforge.mixins.client;
 
 import dev.matthiesen.matthiesen_core.common.core.item.CreativeTabSectionHeaderItem;
 import net.minecraft.client.gui.GuiGraphics;

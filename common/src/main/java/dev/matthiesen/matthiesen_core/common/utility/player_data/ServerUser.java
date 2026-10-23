@@ -1,9 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.utility.player_data;
 
 import com.mojang.authlib.GameProfile;
+import dev.matthiesen.matthiesen_core.common.api.data.FakePlayer;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
-import dev.matthiesen.matthiesen_core.common.core.data.fakeplayer.FakePlayerFactory;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.GameProfileCache;
@@ -86,7 +86,7 @@ public final class ServerUser {
         if (profileCache == null) return null;
         GameProfile gameProfile = profileCache.get(this.uuid).orElse(null);
         if (gameProfile == null) return null;
-        this.offlinePlayer = FakePlayerFactory.get(server.overworld(), gameProfile);
+        this.offlinePlayer = FakePlayer.Factory.get(server.overworld(), gameProfile);
         return this.offlinePlayer;
     }
 

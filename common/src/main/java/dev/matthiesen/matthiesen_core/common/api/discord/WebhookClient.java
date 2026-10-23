@@ -1,7 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.discord;
 
 import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessage;
-import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessageBuilder;
 import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookException;
 
 import java.util.function.Consumer;
@@ -22,11 +21,11 @@ public interface WebhookClient {
     /**
      * Sends a message to the specified Discord webhook URL using a builder pattern.
      * @param webhookUrl The URL of the Discord webhook to send the message to.
-     * @param messageBuilderConsumer A consumer that accepts a WebhookMessageBuilder to build the message to be sent.
+     * @param messageBuilderConsumer A consumer that accepts a WebhookMessage.Builder to build the message to be sent.
      * @throws DiscordWebhookException If an error occurs during message sending, such as network issues or invalid webhook URL.
      */
-    default void sendMessage(String webhookUrl, Consumer<WebhookMessageBuilder> messageBuilderConsumer) throws DiscordWebhookException {
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
+    default void sendMessage(String webhookUrl, Consumer<WebhookMessage.Builder> messageBuilderConsumer) throws DiscordWebhookException {
+        WebhookMessage.Builder builder = new WebhookMessage.Builder();
         messageBuilderConsumer.accept(builder);
         sendMessage(webhookUrl, builder.build());
     }

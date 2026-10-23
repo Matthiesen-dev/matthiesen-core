@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
-import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
