@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common;
 
 import dev.faststats.ErrorTracker;
+import dev.faststats.Metrics;
 import dev.faststats.SimpleContext;
 import dev.faststats.Token;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
@@ -17,6 +18,8 @@ import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Function;
 
 /**
  * Abstract class representing a common mod. This class provides basic functionality for initializing the mod,
@@ -48,6 +51,16 @@ public abstract class AbstractCommonMod implements CommonServerMod {
     }
 
     /**
+     * Retrieves a function that creates a Metrics instance using the provided Metrics.Factory. This function is used to create
+     * metrics instances for the mod, allowing for customization of metrics collection and reporting. By default, this method
+     * returns a function that creates a Metrics instance using the Metrics.Factory's create method.
+     * @return A function that takes a Metrics.Factory and returns a Metrics instance.
+     */
+    public Function<Metrics.Factory, Metrics> getMetricsFunction() {
+        return Metrics.Factory::create;
+    }
+
+    /**
      * Initializes the mod with the given mod ID and mod name.
      * @param MOD_ID The mod ID
      * @param MOD_NAME The mod name
@@ -62,7 +75,7 @@ public abstract class AbstractCommonMod implements CommonServerMod {
         if (metricsToken != null) {
             CommonContextService contextService = CommonContextService.getInstance();
             errorTracker = contextService.makeAnonymizedErrorTracker();
-            metricContext = contextService.buildMetricContext(MOD_ID, metricsToken, errorTracker, metricsRequiresConsent());
+            metricContext = contextService.buildMetricContext(MOD_ID, metricsToken, errorTracker, getMetricsFunction(), metricsRequiresConsent());
         } else {
             errorTracker = null;
             metricContext = null;
