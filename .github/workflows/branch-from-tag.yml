@@ -1,0 +1,31 @@
+name: Branch from Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'The tag name to create a branch from'
+        required: true
+        default: 'v1.0.0'
+      target-branch:
+        description: 'The name of the branch to create'
+        required: true
+        default: 'main'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Create branch from tag
+        run: |
+          git fetch -all --tags
+          git checkout tags/${{ github.event.inputs.tag_name }} -b ${{ github.event.inputs.target-branch }}
+          git push origin ${{ github.event.inputs.target-branch }}
