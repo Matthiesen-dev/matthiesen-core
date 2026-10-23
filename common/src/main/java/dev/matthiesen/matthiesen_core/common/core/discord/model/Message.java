@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * Represents a Discord webhook message payload.
  */
 @SuppressWarnings("unused")
-public final class WebhookMessage {
+public final class Message {
     private String content;
     private String username;
     @SerializedName("avatar_url")
@@ -18,12 +18,12 @@ public final class WebhookMessage {
     private boolean tts;
     private List<Embed> embeds;
     private List<Component> components;
-    private transient List<WebhookFile> files;
+    private transient List<File> files;
 
     /**
      * Creates an empty webhook message.
      */
-    public WebhookMessage() {
+    public Message() {
     }
 
     /**
@@ -31,7 +31,7 @@ public final class WebhookMessage {
      *
      * @param content the plain message content
      */
-    public WebhookMessage(String content) {
+    public Message(String content) {
         this.content = content;
     }
 
@@ -148,7 +148,7 @@ public final class WebhookMessage {
      *
      * @return the attachment list
      */
-    public List<WebhookFile> getFiles() {
+    public List<File> getFiles() {
         return files;
     }
 
@@ -157,21 +157,21 @@ public final class WebhookMessage {
      *
      * @param files the attachment list
      */
-    public void setFiles(List<WebhookFile> files) {
+    public void setFiles(List<File> files) {
         this.files = files;
     }
 
     /**
      * Represents a file attachment for a Discord webhook message.
      */
-    public static class WebhookFile {
+    public static class File {
         private String filename;
         private byte[] data;
 
         /**
          * Creates an empty webhook file instance.
          */
-        public WebhookFile() {
+        public File() {
         }
 
         /**
@@ -180,7 +180,7 @@ public final class WebhookMessage {
          * @param filename the file name to expose to Discord
          * @param data the binary file payload
          */
-        public WebhookFile(String filename, byte[] data) {
+        public File(String filename, byte[] data) {
             this.filename = filename;
             this.data = data;
         }
@@ -222,6 +222,9 @@ public final class WebhookMessage {
         }
     }
 
+    /**
+     * Builder class for constructing {@link Message} instances.
+     */
     public static class Builder {
         private String content;
         private String username;
@@ -229,7 +232,7 @@ public final class WebhookMessage {
         private boolean tts;
         private List<Embed> embeds;
         private List<Component> components;
-        private List<WebhookMessage.WebhookFile> files;
+        private List<File> files;
 
         /**
          * Creates an empty webhook message builder.
@@ -348,7 +351,7 @@ public final class WebhookMessage {
          * @param files attachment list
          * @return this builder
          */
-        public Builder withFiles(List<WebhookMessage.WebhookFile> files) {
+        public Builder withFiles(List<File> files) {
             this.files = files;
             return this;
         }
@@ -359,7 +362,7 @@ public final class WebhookMessage {
          * @param file the attachment
          * @return this builder
          */
-        public Builder addFile(WebhookMessage.WebhookFile file) {
+        public Builder addFile(File file) {
             if (this.files == null) {
                 this.files = new ArrayList<>();
             }
@@ -368,12 +371,12 @@ public final class WebhookMessage {
         }
 
         /**
-         * Builds a new {@link WebhookMessage} instance.
+         * Builds a new {@link Message} instance.
          *
          * @return the built message
          */
-        public WebhookMessage build() {
-            WebhookMessage message = new WebhookMessage();
+        public Message build() {
+            Message message = new Message();
             message.setContent(content);
             message.setUsername(username);
             message.setAvatarUrl(avatarUrl);
