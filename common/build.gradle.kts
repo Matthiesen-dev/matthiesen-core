@@ -3,15 +3,13 @@ plugins {
     id("dev.architectury.loom")
     id("architectury-plugin")
     id("matthiesen.minecraft-module-conventions")
-    id("matthiesen.shadow-platform-conventions")
+    id("matthiesen.platform-resources-conventions")
     id("matthiesen.publishing-conventions")
 }
 
 architectury {
     common("neoforge", "fabric")
 }
-
-val shadowBundle: Configuration by configurations.creating
 
 dependencies {
     minecraft(libs.minecraft)
@@ -36,13 +34,8 @@ tasks {
         }
     }
 
-    shadowJar {
-        configurations = listOf(shadowBundle)
-    }
-
     // Force the published remapped jar to be generated from the shaded jar.
     remapJar {
-        dependsOn(shadowJar)
         inputFile.set(shadowJar.flatMap { it.archiveFile })
     }
 }
