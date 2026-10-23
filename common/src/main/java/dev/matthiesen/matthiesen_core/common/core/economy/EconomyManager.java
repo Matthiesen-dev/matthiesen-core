@@ -44,7 +44,7 @@ public final class EconomyManager {
 
         registerEconomyProvider(ItemEconomyProvider.INSTANCE);
 
-        if (modInstance.getCommonUtils().isModLoaded(BuiltInEconomyProviders.IMPACTOR.getId())) {
+        if (BuiltInEconomyProviders.IMPACTOR.isAvailable()) {
             registerEconomyProvider(ImpactorEconomyProvider.INSTANCE);
         }
     }
