@@ -6,7 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.CommonServerMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
-import dev.matthiesen.matthiesen_core.common.core.discord.no_op.NoOpWebhookNotifierService;
+import dev.matthiesen.matthiesen_core.common.core.discord.DiscordNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
 import dev.matthiesen.matthiesen_core.common.core.permissions.LuckPermsHelper;
 import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
@@ -50,7 +50,7 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
             ServiceLoader.load(CommonLoaderRegistry.class).findFirst()
                     .orElseThrow(() -> new IllegalStateException("No CommonLoaderRegistry implementation found"));
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE =
-            ServiceLoader.load(WebhookNotifierService.class).findFirst().orElse(new NoOpWebhookNotifierService());
+            new DiscordNotifierService();
 
     /**
      * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.

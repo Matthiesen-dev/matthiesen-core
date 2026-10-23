@@ -18,7 +18,7 @@ public final class WebhookMessage {
     private boolean tts;
     private List<Embed> embeds;
     private List<Component> components;
-    private transient List<WebhookFile> files;
+    private transient List<File> files;
 
     /**
      * Creates an empty webhook message.
@@ -148,7 +148,7 @@ public final class WebhookMessage {
      *
      * @return the attachment list
      */
-    public List<WebhookFile> getFiles() {
+    public List<File> getFiles() {
         return files;
     }
 
@@ -157,21 +157,21 @@ public final class WebhookMessage {
      *
      * @param files the attachment list
      */
-    public void setFiles(List<WebhookFile> files) {
+    public void setFiles(List<File> files) {
         this.files = files;
     }
 
     /**
      * Represents a file attachment for a Discord webhook message.
      */
-    public static class WebhookFile {
+    public static class File {
         private String filename;
         private byte[] data;
 
         /**
          * Creates an empty webhook file instance.
          */
-        public WebhookFile() {
+        public File() {
         }
 
         /**
@@ -180,7 +180,7 @@ public final class WebhookMessage {
          * @param filename the file name to expose to Discord
          * @param data the binary file payload
          */
-        public WebhookFile(String filename, byte[] data) {
+        public File(String filename, byte[] data) {
             this.filename = filename;
             this.data = data;
         }
@@ -229,7 +229,7 @@ public final class WebhookMessage {
         private boolean tts;
         private List<Embed> embeds;
         private List<Component> components;
-        private List<WebhookMessage.WebhookFile> files;
+        private List<File> files;
 
         /**
          * Creates an empty webhook message builder.
@@ -348,7 +348,7 @@ public final class WebhookMessage {
          * @param files attachment list
          * @return this builder
          */
-        public Builder withFiles(List<WebhookMessage.WebhookFile> files) {
+        public Builder withFiles(List<File> files) {
             this.files = files;
             return this;
         }
@@ -359,7 +359,7 @@ public final class WebhookMessage {
          * @param file the attachment
          * @return this builder
          */
-        public Builder addFile(WebhookMessage.WebhookFile file) {
+        public Builder addFile(File file) {
             if (this.files == null) {
                 this.files = new ArrayList<>();
             }

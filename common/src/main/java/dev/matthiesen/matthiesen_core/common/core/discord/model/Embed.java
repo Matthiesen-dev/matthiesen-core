@@ -15,7 +15,7 @@ public final class Embed {
     private String url;
     private Integer color;
     private Author author;
-    private List<EmbedField> fields;
+    private List<Field> fields;
     private Footer footer;
     private Image image;
     private Thumbnail thumbnail;
@@ -121,7 +121,7 @@ public final class Embed {
      *
      * @return the field list
      */
-    public List<EmbedField> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 
@@ -130,7 +130,7 @@ public final class Embed {
      *
      * @param fields the field list
      */
-    public void setFields(List<EmbedField> fields) {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 
@@ -326,7 +326,7 @@ public final class Embed {
     /**
      * Embed field entry.
      */
-    public static class EmbedField {
+    public static class Field {
         private String name;
         private String value;
         private boolean inline;
@@ -334,7 +334,7 @@ public final class Embed {
         /**
          * Creates an empty embed field.
          */
-        public EmbedField() {}
+        public Field() {}
 
         /**
          * Gets the field name.
@@ -460,7 +460,7 @@ public final class Embed {
         private String url;
         private Integer color;
         private Embed.Author author;
-        private List<Embed.EmbedField> fields;
+        private List<Field> fields;
         private Embed.Footer footer;
         private Embed.Image image;
         private Embed.Thumbnail thumbnail;
@@ -543,7 +543,7 @@ public final class Embed {
          * @param fields the field list
          * @return this builder
          */
-        public Builder withFields(List<Embed.EmbedField> fields) {
+        public Builder withFields(List<Field> fields) {
             this.fields = fields;
             return this;
         }
@@ -560,7 +560,7 @@ public final class Embed {
             if (this.fields == null) {
                 this.fields = new ArrayList<>();
             }
-            Embed.EmbedField field = new Embed.EmbedField();
+            Field field = new Field();
             field.setName(name);
             field.setValue(value);
             field.setInline(inline);
