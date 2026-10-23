@@ -31,7 +31,7 @@ jobs:
       mod_name: "Matthiesen Core"
       changelog: ${{ github.event.release.body }}
       fabric_loader_version: "0.18.4+"
-      neoforge_loader_version: "21.1.182+"
+      neoforge_loader_version: "21.1.234+"
       modrinth_game_version: "1.21.1"
       modrinth_id: "sqEZOmQo"
       modrinth_dependencies: |-
