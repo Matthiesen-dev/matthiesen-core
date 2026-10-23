@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.core.network;
 
+import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;

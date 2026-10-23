@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.core.data;
+package dev.matthiesen.matthiesen_core.common.api.data;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

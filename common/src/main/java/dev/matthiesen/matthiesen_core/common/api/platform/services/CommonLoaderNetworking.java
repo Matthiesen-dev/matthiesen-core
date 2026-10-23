@@ -1,6 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.platform.services;
 
-import dev.matthiesen.matthiesen_core.common.core.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

@@ -1,7 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.discord;
 
 import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessage;
-import dev.matthiesen.matthiesen_core.common.core.discord.model.WebhookMessageBuilder;
 import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookException;
 
 import java.util.function.Consumer;
@@ -55,12 +54,12 @@ public interface WebhookNotifierInstance {
     /**
      * Sends a message to the Discord webhook using a builder pattern. The provided consumer is used to configure the message
      * before it is sent. If the webhook is not configured, the method will return without sending a message.
-     * @param messageBuilderConsumer A consumer that accepts a WebhookMessageBuilder to configure the message to be sent.
+     * @param messageBuilderConsumer A consumer that accepts a WebhookMessage.Builder to configure the message to be sent.
      * @throws DiscordWebhookException If there is an error while sending the message to the Discord webhook.
      */
-    default void sendMessage(Consumer<WebhookMessageBuilder> messageBuilderConsumer) throws DiscordWebhookException {
+    default void sendMessage(Consumer<WebhookMessage.Builder> messageBuilderConsumer) throws DiscordWebhookException {
         if (isNotConfigured()) return;
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
+        WebhookMessage.Builder builder = new WebhookMessage.Builder();
         messageBuilderConsumer.accept(builder);
         sendMessage(builder.build());
     }

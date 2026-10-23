@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.core.discord;
+package dev.matthiesen.matthiesen_core.common.api.discord;
 
 /**
  * Enum representing the standard colors used in Discord embeds, with their corresponding integer values.

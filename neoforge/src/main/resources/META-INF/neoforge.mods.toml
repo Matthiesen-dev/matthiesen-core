@@ -21,22 +21,35 @@ config = "matthiesen_core_neoforge.mixins.json"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
-mandatory = true
+type = "required"
 versionRange = "[1.21.1]"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "neoforge"
-mandatory = true
+type = "required"
 versionRange = "[21.1.182,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "matthiesen_lib_api"
+type = "incompatible"
+versionRange = ""
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "matthiesen_lib"
+type = "incompatible"
+versionRange = ""
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "emberstextapi"
 type = "optional"
-mandatory = false
 versionRange = "[3.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
@@ -44,7 +57,6 @@ side = "BOTH"
 [[dependencies.${mod_id}]]
 modId = "impactor"
 type = "optional"
-mandatory = false
 versionRange = "[5.3.5+1.21.1,)"
 ordering = "AFTER"
 side = "SERVER"
@@ -52,7 +64,6 @@ side = "SERVER"
 [[dependencies.${mod_id}]]
 modId = "luckperms"
 type = "optional"
-mandatory = false
 versionRange = "[5.4,)"
 ordering = "AFTER"
 side = "SERVER"
@@ -60,7 +71,6 @@ side = "SERVER"
 [[dependencies.${mod_id}]]
 modId = "adventure_platform_neoforge"
 type = "optional"
-mandatory = false
 versionRange = "[6.0.0,)"
 ordering = "AFTER"
 side = "SERVER"
@@ -68,7 +78,6 @@ side = "SERVER"
 [[dependencies.${mod_id}]]
 modId = "mysql_jdbc"
 type = "optional"
-mandatory = false
 versionRange = "[9.7.0+2026-05-03,)"
 ordering = "AFTER"
 side = "SERVER"
@@ -76,7 +85,6 @@ side = "SERVER"
 [[dependencies.${mod_id}]]
 modId = "sqlite_jdbc"
 type = "optional"
-mandatory = false
 versionRange = "[3.53.2.0+2026-06-06,)"
 ordering = "AFTER"
 side = "SERVER"
