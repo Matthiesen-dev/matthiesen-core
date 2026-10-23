@@ -31,6 +31,16 @@ public interface CommonMod extends LoggerMethods {
     void initialize();
 
     /**
+     * Creates a mod-specific configuration file path based on the provided path. The resulting path will be in the format of "modId/path.toml".
+     * This method is useful for organizing configuration files for different mods in a consistent manner.
+     * @param path The relative path for the configuration file, without the file extension. The method will append ".toml" to the end of the path.
+     * @return A string representing the full path to the configuration file, in the format of "modId/path.toml".
+     */
+    default String modConfigPath(String path) {
+        return getModId() + "/" + path + ".toml";
+    }
+
+    /**
      * Creates a new ModContainer instance for the mod. The ModContainer provides information about the mod, such as its ID, name, version, and platform data. It also allows for registering configuration specifications for the mod.
      * @param modId The unique identifier (ID) of the mod. This ID is typically a lowercase string that uniquely identifies the mod within the modding ecosystem.
      * @param type The type of configuration (e.g., COMMON, CLIENT, SERVER) that specifies how the configuration should be loaded and applied.
