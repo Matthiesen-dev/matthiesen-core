@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.events.config;
+package dev.matthiesen.matthiesen_core.common.api.events.server;
 
 /**
  * This class defines events related to mod configuration loading, unloading, and reloading. It provides three nested

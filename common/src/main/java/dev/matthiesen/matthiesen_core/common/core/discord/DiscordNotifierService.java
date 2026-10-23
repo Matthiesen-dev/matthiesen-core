@@ -37,11 +37,6 @@ public final class DiscordNotifierService implements WebhookNotifierService {
         if (webhookUrl == null || webhookUrl.isBlank()) {
             throw new IllegalArgumentException("Webhook URL must not be blank");
         }
-        if (webhookNotifierInstances.containsKey(webhookUrl)) {
-            return webhookNotifierInstances.get(webhookUrl);
-        }
-        WebhookNotifierInstance instance = new DiscordNotifierInstance(webhookUrl);
-        webhookNotifierInstances.put(webhookUrl, instance);
-        return instance;
+        return webhookNotifierInstances.computeIfAbsent(webhookUrl, DiscordNotifierInstance::new);
     }
 }

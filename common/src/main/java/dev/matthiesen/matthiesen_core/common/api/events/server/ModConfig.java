@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.events.config;
+package dev.matthiesen.matthiesen_core.common.api.events.server;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import net.neoforged.fml.config.IConfigSpec;

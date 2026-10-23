@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
-import dev.matthiesen.matthiesen_core.common.api.events.config.ConfigEvent;
+import dev.matthiesen.matthiesen_core.common.api.events.server.ConfigEvent;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.Environment;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
@@ -155,8 +155,8 @@ public final class NeoForgeLoaderUtils implements CommonLoaderUtils {
                 };
             }
 
-            private dev.matthiesen.matthiesen_core.common.api.events.config.ModConfig toCommonConfig(ModConfig config) {
-                return new dev.matthiesen.matthiesen_core.common.api.events.config.ModConfig(
+            private dev.matthiesen.matthiesen_core.common.api.events.server.ModConfig toCommonConfig(ModConfig config) {
+                return new dev.matthiesen.matthiesen_core.common.api.events.server.ModConfig(
                         parseConfigType(config.getType()),
                         config.getSpec(),
                         config.getFileName(),
