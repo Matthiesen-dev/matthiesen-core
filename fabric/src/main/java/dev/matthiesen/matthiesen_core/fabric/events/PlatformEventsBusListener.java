@@ -9,6 +9,7 @@ import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
@@ -104,6 +105,10 @@ public final class PlatformEventsBusListener {
                 return InteractionResult.PASS;
             return PlatformEvents.PLAYER_USE_BLOCK.emit(new PlayerEvent.UseBlock(serverPlayer, world, hand, hitResult.getBlockPos()));
         });
+
+        PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) ->
+                PlatformEvents.PLAYER_BLOCK_BREAK.emit(new PlayerEvent.BlockBreakEvent(world, player, pos, state, blockEntity))
+        );
 
         // ================================================
         // Custom Commands

@@ -7,7 +7,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Typed event records for server-side player events used with {@link PlatformEvents}.
@@ -89,5 +92,26 @@ public final class PlayerEvent {
      * @param itemEntity the {@link ItemEntity} being picked up
      */
     public record PickupItem(ServerPlayer player, ItemEntity itemEntity) {}
+
+    /**
+     * Fired when a server-side player breaks a block. Subscribed via
+     * {@link PlatformEvents#PLAYER_BLOCK_BREAK} ({@link InteractionResultEventObservable}).
+     *
+     * <p>Return {@code true} to cancel the block break action and stop further listeners from being called.</p>
+     *
+     * @param world  the level in which the block is being broken
+     * @param player the {@link ServerPlayer} breaking the block
+     * @param pos    the position of the block being broken
+     * @param state  the {@link BlockState} of the block being broken
+     * @param blockEntity the {@link BlockEntity} of the block being broken, if any
+     */
+    public record BlockBreakEvent(
+            Level world,
+            Player player,
+            BlockPos pos,
+            BlockState state,
+            BlockEntity blockEntity
+    ) {
+    }
 }
 

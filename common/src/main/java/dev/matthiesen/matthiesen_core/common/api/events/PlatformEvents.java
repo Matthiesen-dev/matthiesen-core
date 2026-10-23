@@ -210,6 +210,13 @@ public final class PlatformEvents {
      */
     public static final BooleanResultEventObservable<PlayerEvent.PickupItem> PLAYER_PICKUP_ITEM = new BooleanResultEventObservable<>();
 
+    /**
+     * Fired when a server-side player breaks a block.
+     *
+     * <p>Return {@code true} to cancel the block break immediately. No subsequent listeners at lower priorities will be invoked after a cancellation.</p>
+     */
+    public static final EventObservable<PlayerEvent.BlockBreakEvent> PLAYER_BLOCK_BREAK = new EventObservable<>();
+
     // =========================================================================
     // Config Events
     // =========================================================================
