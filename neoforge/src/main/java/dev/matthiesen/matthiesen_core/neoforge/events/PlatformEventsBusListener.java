@@ -9,6 +9,7 @@ import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeReloadLi
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -17,6 +18,7 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.ServerChatEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
@@ -330,5 +332,27 @@ public final class PlatformEventsBusListener {
         if (result) {
             event.setCanPickup(TriState.FALSE);
         }
+    }
+
+    /**
+     * Handles the player block break event in the NeoForge mod loader environment. This method is called when a server-side
+     * player breaks a block. It emits a PLAYER_BLOCK_BREAK event to the PlatformEvents system, allowing other parts of the
+     * mod to respond to the player's block break action. The method checks if the event is canceled or if the level is not
+     * an instance of Level before emitting the event, ensuring that only valid block break events trigger the event emission.
+     * @param event The BlockEvent.BreakEvent event object, which provides context and information about the player's block
+     *              break event, including the world, player, position, state, and block entity of the block being broken.
+     */
+    @SubscribeEvent
+    public static void onPlayerBlockBreak(BlockEvent.BreakEvent event) {
+        if (event.isCanceled() || !(event.getLevel() instanceof Level level)) {
+            return;
+        }
+        PlatformEvents.PLAYER_BLOCK_BREAK.emit(new PlayerEvent.BlockBreakEvent(
+                level,
+                event.getPlayer(),
+                event.getPos(),
+                event.getState(),
+                event.getLevel().getBlockEntity(event.getPos())
+        ));
     }
 }
