@@ -43,10 +43,10 @@ Matthiesen Core provides a unified API for:
 
 ## Version Compatibility
 
-| Minecraft Version | Mod Version |
-|-------------------|-------------|
-| 1.21.1            | 1.x.x       |
-| 1.21.1            | 2.x.x       |
+| Minecraft Version | Fabric Version | NeoForge Version | Mod Version |
+|-------------------|----------------|------------------|-------------|
+| 1.21.1            | 0.17.2+        | 21.1.182+        | 1.x.x       |
+| 1.21.1            | 0.18.4+        | 21.1.234+        | 2.x.x       |
 
 ## Developer Quick Start
 
