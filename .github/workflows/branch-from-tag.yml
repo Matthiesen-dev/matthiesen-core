@@ -7,13 +7,13 @@ on:
         description: 'The tag name to create a branch from'
         required: true
         default: 'v1.0.0'
-      target-branch:
+      target_branch:
         description: 'The name of the branch to create'
         required: true
-        default: 'main'
+        default: 'release-v1.0.0'
 
 jobs:
-  run:
+  create-branch:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,6 +26,5 @@ jobs:
 
       - name: Create branch from tag
         run: |
-          git fetch -all --tags
-          git checkout tags/${{ github.event.inputs.tag_name }} -b ${{ github.event.inputs.target-branch }}
-          git push origin ${{ github.event.inputs.target-branch }}
+          git checkout tags/${{ github.event.inputs.tag_name }} -b ${{ github.event.inputs.target_branch }}
+          git push origin ${{ github.event.inputs.target_branch }}
