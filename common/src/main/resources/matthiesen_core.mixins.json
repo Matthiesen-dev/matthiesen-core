@@ -8,7 +8,7 @@
     "client.AbstractContainerScreenMixin",
     "client.ItemPickerMenuAccessor"
   ],
-  "server": [
+  "mixins": [
     "server.InventoryMixin",
     "server.MinecraftServerMixin",
     "server.ServerPlayerAccessor"
