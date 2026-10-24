@@ -21,25 +21,18 @@ public final class ChatUtils {
      */
     public static ChatFormatting getChatFormattingColor(String code) throws IllegalArgumentException {
         code = code.toLowerCase();
-        return switch (code) {
-            case "black", "0" -> ChatFormatting.BLACK;
-            case "dark_blue", "1" -> ChatFormatting.DARK_BLUE;
-            case "dark_green", "2" -> ChatFormatting.DARK_GREEN;
-            case "dark_aqua", "3" -> ChatFormatting.DARK_AQUA;
-            case "dark_red", "4" -> ChatFormatting.DARK_RED;
-            case "dark_purple", "5" -> ChatFormatting.DARK_PURPLE;
-            case "gold", "6" -> ChatFormatting.GOLD;
-            case "gray", "7" -> ChatFormatting.GRAY;
-            case "dark_gray", "8" -> ChatFormatting.DARK_GRAY;
-            case "blue", "9" -> ChatFormatting.BLUE;
-            case "green", "a" -> ChatFormatting.GREEN;
-            case "aqua", "b" -> ChatFormatting.AQUA;
-            case "red", "c" -> ChatFormatting.RED;
-            case "light_purple", "d" -> ChatFormatting.LIGHT_PURPLE;
-            case "yellow", "e" -> ChatFormatting.YELLOW;
-            case "white", "f" -> ChatFormatting.WHITE;
-            default -> throw new IllegalArgumentException("Unknown color value: " + code);
-        };
+        if (code.length() == 1) {
+            try {
+                return ChatColors.fromCode(code).getFormat();
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Unknown color value: " + code);
+            }
+        }
+        try {
+            return ChatColors.fromName(code).getFormat();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unknown color value: " + code);
+        }
     }
 
     /**

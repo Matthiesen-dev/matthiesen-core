@@ -9,39 +9,40 @@ import net.minecraft.ChatFormatting;
 @SuppressWarnings("unused")
 public enum ChatColors {
     /** Represents the color black in MC's chat formatting. */
-    BLACK("BLACK", ChatFormatting.BLACK),
+    BLACK("BLACK", "0", ChatFormatting.BLACK),
     /** Represents the color dark blue in MC's chat formatting. */
-    DARK_BLUE("DARK_BLUE", ChatFormatting.DARK_BLUE),
+    DARK_BLUE("DARK_BLUE", "1", ChatFormatting.DARK_BLUE),
     /** Represents the color dark green in MC's chat formatting. */
-    DARK_GREEN("DARK_GREEN", ChatFormatting.DARK_GREEN),
+    DARK_GREEN("DARK_GREEN", "2", ChatFormatting.DARK_GREEN),
     /** Represents the color dark aqua in MC's chat formatting. */
-    DARK_AQUA("DARK_AQUA", ChatFormatting.DARK_AQUA),
+    DARK_AQUA("DARK_AQUA", "3", ChatFormatting.DARK_AQUA),
     /** Represents the color dark red in MC's chat formatting. */
-    DARK_RED("DARK_RED", ChatFormatting.DARK_RED),
+    DARK_RED("DARK_RED", "4", ChatFormatting.DARK_RED),
     /** Represents the color dark purple in MC's chat formatting. */
-    DARK_PURPLE("DARK_PURPLE", ChatFormatting.DARK_PURPLE),
+    DARK_PURPLE("DARK_PURPLE", "5", ChatFormatting.DARK_PURPLE),
     /** Represents the color gold in MC's chat formatting. */
-    GOLD("GOLD", ChatFormatting.GOLD),
+    GOLD("GOLD", "6", ChatFormatting.GOLD),
     /** Represents the color gray in MC's chat formatting. */
-    GRAY("GRAY", ChatFormatting.GRAY),
+    GRAY("GRAY", "7", ChatFormatting.GRAY),
     /** Represents the color dark gray in MC's chat formatting. */
-    DARK_GRAY("DARK_GRAY", ChatFormatting.DARK_GRAY),
+    DARK_GRAY("DARK_GRAY", "8", ChatFormatting.DARK_GRAY),
     /** Represents the color blue in MC's chat formatting. */
-    BLUE("BLUE", ChatFormatting.BLUE),
+    BLUE("BLUE", "9", ChatFormatting.BLUE),
     /** Represents the color green in MC's chat formatting. */
-    GREEN("GREEN", ChatFormatting.GREEN),
+    GREEN("GREEN", "a", ChatFormatting.GREEN),
     /** Represents the color aqua in MC's chat formatting. */
-    AQUA("AQUA", ChatFormatting.AQUA),
+    AQUA("AQUA", "b", ChatFormatting.AQUA),
     /** Represents the color red in MC's chat formatting. */
-    RED("RED", ChatFormatting.RED),
+    RED("RED", "c", ChatFormatting.RED),
     /** Represents the color light purple in MC's chat formatting. */
-    LIGHT_PURPLE("LIGHT_PURPLE", ChatFormatting.LIGHT_PURPLE),
+    LIGHT_PURPLE("LIGHT_PURPLE", "d", ChatFormatting.LIGHT_PURPLE),
     /** Represents the color yellow in MC's chat formatting. */
-    YELLOW("YELLOW", ChatFormatting.YELLOW),
+    YELLOW("YELLOW", "e", ChatFormatting.YELLOW),
     /** Represents the color white in MC's chat formatting. */
-    WHITE("WHITE", ChatFormatting.WHITE);
+    WHITE("WHITE", "f", ChatFormatting.WHITE);
 
     private final String name;
+    private final String code;
     private final ChatFormatting format;
 
     /**
@@ -49,8 +50,9 @@ public enum ChatColors {
      * @param name The name of this color.
      * @param format The ChatFormatting associated with this color.
      */
-    ChatColors(String name, ChatFormatting format) {
+    ChatColors(String name, String code, ChatFormatting format) {
         this.name = name;
+        this.code = code;
         this.format = format;
     }
 
@@ -60,6 +62,14 @@ public enum ChatColors {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Returns the code of this ChatColors enum constant.
+     * @return The code of this color.
+     */
+    public String getCode() {
+        return code;
     }
 
     /**
@@ -98,5 +108,20 @@ public enum ChatColors {
             }
         }
         throw new IllegalArgumentException("No ChatColors constant with name: " + name);
+    }
+
+    /**
+     * Returns the ChatColors enum constant corresponding to the given code.
+     * @param code The code of the color to retrieve.
+     * @return The ChatColors enum constant with the specified code.
+     * @throws IllegalArgumentException if no ChatColors constant with the given code exists.
+     */
+    public static ChatColors fromCode(String code) throws IllegalArgumentException {
+        for (ChatColors color : ChatColors.values()) {
+            if (color.getCode().equalsIgnoreCase(code)) {
+                return color;
+            }
+        }
+        throw new IllegalArgumentException("No ChatColors constant with code: " + code);
     }
 }
