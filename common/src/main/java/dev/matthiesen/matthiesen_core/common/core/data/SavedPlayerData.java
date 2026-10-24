@@ -1,6 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.core.data;
 
-import dev.matthiesen.matthiesen_core.common.api.data.PlayerRecord;
+import dev.matthiesen.matthiesen_core.common.api.data.PlayerRecordDataV1;
+import dev.matthiesen.matthiesen_core.common.api.data.PlayerRecordDataV2;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import net.minecraft.core.HolderLookup;
@@ -22,7 +23,8 @@ public final class SavedPlayerData extends SavedData {
      */
     public static final String PLAYER_DATA_STORE_ID = MatthiesenCoreCommon.MOD_ID + "_player_data";
     private static final String PLAYER_RECORDS_NBT_KEY = "playerRecords";
-    private final Map<String, PlayerRecord> playerRecords = new HashMap<>();
+    private static final String PLAYER_RECORDS_V2_NBT_KEY = "playerRecordsV2";
+    private final Map<String, PlayerRecordDataV2> playerRecords = new HashMap<>();
 
     /**
      * Constructs a new instance of SavedPlayerData. This constructor is private to enforce the use of the static factory methods for creating and loading instances. The playerRecords map is initialized to store player data, where each entry maps a player's UUID (as a string) to their corresponding PlayerRecord, which contains the player's name and a list of aliases.
@@ -34,12 +36,24 @@ public final class SavedPlayerData extends SavedData {
 
     private static SavedPlayerData load(CompoundTag nbt, HolderLookup.Provider provider) {
         SavedPlayerData data = create();
-        // Load player records from NBT
-        CompoundTag playerRecordsNBT = nbt.getCompound(PLAYER_RECORDS_NBT_KEY);
-        for (String key : playerRecordsNBT.getAllKeys()) {
-            CompoundTag recordNBT = playerRecordsNBT.getCompound(key);
-            PlayerRecord entryData = PlayerRecord.fromNBT(recordNBT);
-            data.playerRecords.put(key, entryData);
+        // Check if NBT contains the old format, if so, migrate to the new format
+        if (nbt.contains(PLAYER_RECORDS_NBT_KEY)) {
+            CompoundTag playerRecordsNBT = nbt.getCompound(PLAYER_RECORDS_NBT_KEY);
+            for (String key : playerRecordsNBT.getAllKeys()) {
+                CompoundTag oldRecordNBT = playerRecordsNBT.getCompound(key);
+                PlayerRecordDataV1 oldRecord = PlayerRecordDataV1.fromNBT(oldRecordNBT);
+                // Create a new PlayerRecordDataV2 with the last username and an empty alias map
+                PlayerRecordDataV2 newRecord = oldRecord.toPlayerRecordDataV2(System.currentTimeMillis());
+                data.playerRecords.put(key, newRecord);
+            }
+        }
+        if (nbt.contains(PLAYER_RECORDS_V2_NBT_KEY)) {
+            CompoundTag playerRecordsV2NBT = nbt.getCompound(PLAYER_RECORDS_V2_NBT_KEY);
+            for (String key : playerRecordsV2NBT.getAllKeys()) {
+                CompoundTag recordNBT = playerRecordsV2NBT.getCompound(key);
+                PlayerRecordDataV2 entryData = PlayerRecordDataV2.fromNBT(recordNBT);
+                data.playerRecords.put(key, entryData);
+            }
         }
         return data;
     }
@@ -52,11 +66,11 @@ public final class SavedPlayerData extends SavedData {
      */
     @Override
     public @NotNull CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        CompoundTag playerRecordsNBT = new CompoundTag();
-        for (Map.Entry<String, PlayerRecord> entry : playerRecords.entrySet()) {
-            playerRecordsNBT.put(entry.getKey(), entry.getValue().toNBT());
+        CompoundTag playerRecordsV2NBT = new CompoundTag();
+        for (Map.Entry<String, PlayerRecordDataV2> entry : playerRecords.entrySet()) {
+            playerRecordsV2NBT.put(entry.getKey(), entry.getValue().toNBT());
         }
-        compoundTag.put(PLAYER_RECORDS_NBT_KEY, playerRecordsNBT);
+        compoundTag.put(PLAYER_RECORDS_V2_NBT_KEY, playerRecordsV2NBT);
         return compoundTag;
     }
 
@@ -84,24 +98,22 @@ public final class SavedPlayerData extends SavedData {
         String playerName = player.getGameProfile().getName();
         UUID playerUUID = player.getUUID();
 
-        PlayerRecord existingRecord = dataStore.playerRecords.get(playerUUID.toString());
-        if (existingRecord == null) {
-            // No record exists, create a new one
-            PlayerRecord newRecord = new PlayerRecord(playerName, List.of());
-            dataStore.playerRecords.put(playerUUID.toString(), newRecord);
-            dataStore.setDirty();
-        } else {
-            // Record exists, check for name changes
-            if (!existingRecord.name().equals(playerName)) {
-                // Name has changed, update the record
-                List<String> updatedAliases = new ArrayList<>(existingRecord.aliases());
-                if (!updatedAliases.contains(existingRecord.name())) {
-                    updatedAliases.add(existingRecord.name());
-                }
-                PlayerRecord updatedRecord = new PlayerRecord(playerName, updatedAliases);
+        PlayerRecordDataV2 existingRecord = dataStore.playerRecords.get(playerUUID.toString());
+        if (existingRecord != null) {
+            // Check if the last username is different from the current username
+            if (!existingRecord.lastUsername().equals(playerName)) {
+                // Update the record with the new username and add the old username to aliases
+                Map<String, Long> updatedAliases = new HashMap<>(existingRecord.aliases());
+                updatedAliases.put(existingRecord.lastUsername(), System.currentTimeMillis());
+                PlayerRecordDataV2 updatedRecord = new PlayerRecordDataV2(playerName, updatedAliases);
                 dataStore.playerRecords.put(playerUUID.toString(), updatedRecord);
                 dataStore.setDirty();
             }
+        } else {
+            // No record exists, create a new one
+            PlayerRecordDataV2 newRecord = new PlayerRecordDataV2(playerName, new HashMap<>());
+            dataStore.playerRecords.put(playerUUID.toString(), newRecord);
+            dataStore.setDirty();
         }
     }
 
@@ -124,8 +136,8 @@ public final class SavedPlayerData extends SavedData {
     public static boolean hasSavedPlayerData(String name) {
         SavedPlayerData dataStore = getStore();
         if (dataStore == null) return false;
-        for (PlayerRecord record : dataStore.playerRecords.values()) {
-            if (record.name().equalsIgnoreCase(name) || record.aliases().stream().anyMatch(alias -> alias.equalsIgnoreCase(name))) {
+        for (PlayerRecordDataV2 record : dataStore.playerRecords.values()) {
+            if (record.lastUsername().equalsIgnoreCase(name) || record.aliases().keySet().stream().anyMatch(alias -> alias.equalsIgnoreCase(name))) {
                 return true;
             }
         }
@@ -140,9 +152,9 @@ public final class SavedPlayerData extends SavedData {
     public static UUID findPlayerByUsername(String username) {
         SavedPlayerData dataStore = getStore();
         if (dataStore == null) return null;
-        for (Map.Entry<String, PlayerRecord> entry : dataStore.playerRecords.entrySet()) {
-            PlayerRecord record = entry.getValue();
-            if (record.name().equalsIgnoreCase(username) || record.aliases().stream().anyMatch(alias -> alias.equalsIgnoreCase(username))) {
+        for (Map.Entry<String, PlayerRecordDataV2> entry : dataStore.playerRecords.entrySet()) {
+            PlayerRecordDataV2 record = entry.getValue();
+            if (record.lastUsername().equalsIgnoreCase(username) || record.aliases().keySet().stream().anyMatch(alias -> alias.equalsIgnoreCase(username))) {
                 return UUID.fromString(entry.getKey());
             }
         }
@@ -157,8 +169,8 @@ public final class SavedPlayerData extends SavedData {
     public static String findPlayerNameByUUID(UUID uuid) {
         SavedPlayerData dataStore = getStore();
         if (dataStore == null) return null;
-        PlayerRecord record = dataStore.playerRecords.get(uuid.toString());
-        return record != null ? record.name() : null;
+        PlayerRecordDataV2 record = dataStore.playerRecords.get(uuid.toString());
+        return record != null ? record.lastUsername() : null;
     }
 
     /**
@@ -169,7 +181,7 @@ public final class SavedPlayerData extends SavedData {
     public static List<String> getPlayerAliases(UUID uuid) {
         SavedPlayerData dataStore = getStore();
         if (dataStore == null) return Collections.emptyList();
-        PlayerRecord record = dataStore.playerRecords.get(uuid.toString());
-        return record != null ? record.aliases() : Collections.emptyList();
+        PlayerRecordDataV2 record = dataStore.playerRecords.get(uuid.toString());
+        return record != null ? new ArrayList<>(record.aliases().keySet()) : Collections.emptyList();
     }
 }
