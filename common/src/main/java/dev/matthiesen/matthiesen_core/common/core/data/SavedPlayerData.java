@@ -45,6 +45,7 @@ public final class SavedPlayerData extends SavedData {
                 data.playerRecords.put(key, newRecord);
             }
         }
+        // Load Player records in the new format if present
         if (nbt.contains(PLAYER_RECORDS_V2_NBT_KEY)) {
             CompoundTag playerRecordsV2NBT = nbt.getCompound(PLAYER_RECORDS_V2_NBT_KEY);
             for (String key : playerRecordsV2NBT.getAllKeys()) {
