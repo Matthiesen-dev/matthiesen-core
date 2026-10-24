@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.neoforge.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderNetworking;
-import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

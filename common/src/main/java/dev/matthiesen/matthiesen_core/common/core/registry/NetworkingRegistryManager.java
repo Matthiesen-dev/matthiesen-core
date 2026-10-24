@@ -1,6 +1,6 @@
-package dev.matthiesen.matthiesen_core.common.core.network;
+package dev.matthiesen.matthiesen_core.common.core.registry;
 
-import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -13,37 +13,37 @@ import java.util.ServiceLoader;
 import java.util.function.BiConsumer;
 
 /**
- * The NetworkingManager class is a singleton responsible for managing network communications within the application.
+ * The NetworkingRegistryManager class is a singleton responsible for managing network communications within the application.
  * It provides methods to register custom packet types for both client-to-server (C2S) and server-to-client (S2C) communications,
  * as well as methods to send packets to the server or specific players. This class utilizes the CommonLoaderNetworking service
  * to handle the underlying networking operations.
  */
 @SuppressWarnings("unused")
-public final class NetworkingManager {
+public final class NetworkingRegistryManager {
     private static final CommonLoaderNetworking NETWORKING_SERVICE =
             ServiceLoader.load(CommonLoaderNetworking.class).findFirst().orElseThrow();
 
     /**
-     * Retrieves the singleton instance of the NetworkingManager.
+     * Retrieves the singleton instance of the NetworkingRegistryManager.
      * This instance is used to manage network communications, including registering packet types and sending packets.
      */
-    public static final NetworkingManager INSTANCE = new NetworkingManager();
+    public static final NetworkingRegistryManager INSTANCE = new NetworkingRegistryManager();
 
-    private NetworkingManager() {}
+    private NetworkingRegistryManager() {}
 
     private boolean initialized;
 
     /**
-     * Initializes the NetworkingManager, setting up necessary configurations and preparing it for use.
+     * Initializes the NetworkingRegistryManager, setting up necessary configurations and preparing it for use.
      * This method should be called during the mod's initialization phase to ensure that the networking system is
      * ready for registering packet types and handling network communications.
-     * @param modInstance The instance of the mod that is initializing the NetworkingManager. This parameter is used to log
-     *                    initialization information and ensure that the NetworkingManager is associated with the correct mod instance.
+     * @param modInstance The instance of the mod that is initializing the NetworkingRegistryManager. This parameter is used to log
+     *                    initialization information and ensure that the NetworkingRegistryManager is associated with the correct mod instance.
      */
     public void initialize(MatthiesenCoreCommon modInstance) {
         if (initialized) return;
         initialized = true;
-        modInstance.createInfoLog("Initializing NetworkingManager");
+        modInstance.createInfoLog("Initializing NetworkingRegistryManager");
     }
 
     /**

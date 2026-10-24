@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.core.economy.providers;
+package dev.matthiesen.matthiesen_core.common.core.economy;
 
 import dev.matthiesen.matthiesen_core.common.api.economy.BuiltInEconomyProviders;
 import dev.matthiesen.matthiesen_core.common.api.economy.EconomyProvider;

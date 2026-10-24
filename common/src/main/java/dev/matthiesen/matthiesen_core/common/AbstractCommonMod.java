@@ -10,9 +10,9 @@ import dev.matthiesen.matthiesen_core.common.api.platform.CommonServerMod;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.EconomyRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
-import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.NetworkingRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -166,7 +166,7 @@ public abstract class AbstractCommonMod implements CommonServerMod {
     }
 
     @Override
-    public NetworkingManager getNetworkingManager() {
+    public NetworkingRegistryManager getNetworkingManager() {
         return MatthiesenCoreCommon.INSTANCE.getNetworkingManager();
     }
 
@@ -176,7 +176,7 @@ public abstract class AbstractCommonMod implements CommonServerMod {
     }
 
     @Override
-    public EconomyManager getEconomyManager() {
+    public EconomyRegistryManager getEconomyManager() {
         return MatthiesenCoreCommon.INSTANCE.getEconomyManager();
     }
 }

@@ -3,9 +3,9 @@ package dev.matthiesen.matthiesen_core.common.api.platform;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
-import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.EconomyRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
-import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.NetworkingRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 
 /**
@@ -86,7 +86,7 @@ public interface CommonServerMod extends CommonMod {
      * allowing for the registration of packet types, sending and receiving packets, and handling network events.
      * @return The singleton instance of the NetworkingManager, which can be used to register and manage network communications throughout the application.
      */
-    NetworkingManager getNetworkingManager();
+    NetworkingRegistryManager getNetworkingManager();
 
     /**
      * Retrieves the CreativeModeAugmentsManager instance. This instance is responsible for managing augmentations (item additions) to creative mode tabs.
@@ -101,5 +101,5 @@ public interface CommonServerMod extends CommonMod {
      *
      * @return The singleton instance of the EconomyManager, which can be used to register and retrieve economy providers and manage in-game currency.
      */
-    EconomyManager getEconomyManager();
+    EconomyRegistryManager getEconomyManager();
 }

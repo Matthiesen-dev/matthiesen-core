@@ -7,10 +7,10 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
 import dev.matthiesen.matthiesen_core.common.core.discord.DiscordNotifierService;
-import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.EconomyRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.permissions.LuckPermsHelper;
 import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
-import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
+import dev.matthiesen.matthiesen_core.common.core.registry.NetworkingRegistryManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -86,11 +86,11 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlatformEvents.initialize();
-        NetworkingManager.INSTANCE.initialize(INSTANCE);
+        NetworkingRegistryManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
         CreativeModeAugmentsManager.INSTANCE.initialize(INSTANCE);
-        EconomyManager.INSTANCE.initialize(INSTANCE);
+        EconomyRegistryManager.INSTANCE.initialize(INSTANCE);
         BuiltInCreativeModeSection.INSTANCE.initialize();
 
         PlatformEvents.PLAYER_JOIN.subscribe(SavedPlayerData::verifyPlayerData);
@@ -181,8 +181,8 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     @Override
-    public NetworkingManager getNetworkingManager() {
-        return NetworkingManager.INSTANCE;
+    public NetworkingRegistryManager getNetworkingManager() {
+        return NetworkingRegistryManager.INSTANCE;
     }
 
     @Override
@@ -191,8 +191,8 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     @Override
-    public EconomyManager getEconomyManager() {
-        return EconomyManager.INSTANCE;
+    public EconomyRegistryManager getEconomyManager() {
+        return EconomyRegistryManager.INSTANCE;
     }
 
     /**
