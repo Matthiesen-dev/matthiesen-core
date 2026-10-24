@@ -101,7 +101,7 @@ public final class BuiltInCreativeModeSection {
         MATTHIESEN_CORE_TAB = MatthiesenCoreCommon.INSTANCE.getCommonRegistry().registerCreativeModeTab(
                 MATTHIESEN_CORE_TAB_ID,
                 () -> MatthiesenCoreCommon.INSTANCE.getCommonRegistry().newCreativeTabBuilder()
-                        .title(Component.literal("Matthiesen Core Misc"))
+                        .title(Component.translatable("matthiesen_core.creative_tab.section.misc"))
                         .icon(getCreativeTabIcon())
                         .displayItems((parameters, output) -> getCreativeModeTabSectionItems().forEach(output::accept))
                         .build()
@@ -164,7 +164,7 @@ public final class BuiltInCreativeModeSection {
     private static Supplier<ItemStack> getCreativeTabIcon() {
         return () -> new ItemBuilder(Items.BARRIER)
                 .hideAdditional()
-                .setCustomName(Component.literal("Matthiesen Core Misc"))
+                .setCustomName(Component.translatable("matthiesen_core.creative_tab.section.misc"))
                 .setModelData(MATTHIESEN_CORE_LOGO_MODEL_ID)
                 .build();
     }
