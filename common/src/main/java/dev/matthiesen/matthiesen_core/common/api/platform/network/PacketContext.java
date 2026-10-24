@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.network;
+package dev.matthiesen.matthiesen_core.common.api.platform.network;
 
 import net.minecraft.world.entity.player.Player;
 

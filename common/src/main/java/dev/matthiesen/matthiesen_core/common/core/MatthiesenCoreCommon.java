@@ -7,19 +7,11 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
 import dev.matthiesen.matthiesen_core.common.core.discord.DiscordNotifierService;
-import dev.matthiesen.matthiesen_core.common.core.economy.EconomyManager;
 import dev.matthiesen.matthiesen_core.common.core.permissions.LuckPermsHelper;
-import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
-import dev.matthiesen.matthiesen_core.common.core.network.NetworkingManager;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.List;
-import java.util.ServiceLoader;
-import java.util.function.Supplier;
 
 /**
  * MatthiesenCoreCommon is a singleton class that provides core functionalities and services for the Matthiesen Lib mod.
@@ -43,14 +35,12 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     public static final String MOD_NAME = "Matthiesen Core";
 
     private static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
-    private static final CommonLoaderUtils COMMON_UTILS = ServiceLoader.load(CommonLoaderUtils.class)
-            .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderUtils implementation found"));
-    private static final CommonLoaderRegistry COMMON_REGISTRY = ServiceLoader.load(CommonLoaderRegistry.class)
-            .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderRegistry implementation found"));
+    private static final CommonLoaderUtils COMMON_UTILS = CommonLoaderUtils.getInstance();
+    private static final CommonLoaderRegistry COMMON_REGISTRY = CommonLoaderRegistry.getInstance();
     private static final WebhookNotifierService WEBHOOK_NOTIFIER_SERVICE = new DiscordNotifierService();
 
     /**
-     * Singleton instance of the MatthiesenLibCommon. This instance is used to manage the common utilities and registry across the application.
+     * Singleton instance of the MatthiesenCoreCommon. This instance is used to manage the common utilities and registry across the application.
      * It is initialized lazily and is thread-safe, ensuring that only one instance exists throughout the lifecycle of the application.
      */
     public static final MatthiesenCoreCommon INSTANCE = new MatthiesenCoreCommon();
@@ -58,7 +48,7 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     private boolean initialized;
 
     /**
-     * Private constructor to prevent instantiation of the MatthiesenLibCommon class. This ensures that only one instance of the class exists
+     * Private constructor to prevent instantiation of the MatthiesenCoreCommon class. This ensures that only one instance of the class exists
      * throughout the lifecycle of the application, enforcing the singleton pattern.
      */
     public MatthiesenCoreCommon() {}
@@ -74,7 +64,7 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     /**
-     * Initializes the MatthiesenLibCommon instance. This method sets up the PermissionsManager and marks the instance as initialized.
+     * Initializes the MatthiesenCoreCommon instance. This method sets up the PermissionsManager and marks the instance as initialized.
      */
     @Override
     public void initialize() {
@@ -86,11 +76,11 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
         PermissionsManager.INSTANCE.initialize(COMMON_REGISTRY);
         CommandsRegistryManager.INSTANCE.initialize(COMMON_REGISTRY);
         PlatformEvents.initialize();
-        NetworkingManager.INSTANCE.initialize(INSTANCE);
+        NetworkingRegistryManager.INSTANCE.initialize(INSTANCE);
         TextParserRegistryManager.INSTANCE.initialize(INSTANCE);
         CreativeModeTabSectionsManager.INSTANCE.initialize(INSTANCE);
         CreativeModeAugmentsManager.INSTANCE.initialize(INSTANCE);
-        EconomyManager.INSTANCE.initialize(INSTANCE);
+        EconomyRegistryManager.INSTANCE.initialize(INSTANCE);
         BuiltInCreativeModeSection.INSTANCE.initialize();
 
         PlatformEvents.PLAYER_JOIN.subscribe(SavedPlayerData::verifyPlayerData);
@@ -181,8 +171,8 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     @Override
-    public NetworkingManager getNetworkingManager() {
-        return NetworkingManager.INSTANCE;
+    public NetworkingRegistryManager getNetworkingManager() {
+        return NetworkingRegistryManager.INSTANCE;
     }
 
     @Override
@@ -191,25 +181,7 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     }
 
     @Override
-    public EconomyManager getEconomyManager() {
-        return EconomyManager.INSTANCE;
-    }
-
-    /**
-     * Registers an item to a miscellaneous creative mode tab section.
-     * @param registrationKey The unique identifier of the miscellaneous creative mode tab section to which the item should be registered.
-     * @param itemSupplier A {@link Supplier} that provides the item to be registered to the specified section.
-     */
-    public void registerItemToMiscTab(BuiltInCreativeModeSection.RegistrationKey registrationKey, Supplier<Item> itemSupplier) {
-        BuiltInCreativeModeSection.INSTANCE.registerItemToSection(registrationKey, itemSupplier);
-    }
-
-    /**
-     * Registers multiple items to a miscellaneous creative mode tab section.
-     * @param registrationKey The unique identifier of the miscellaneous creative mode tab section to which the items should be registered.
-     * @param itemSuppliers A list of {@link Supplier} instances that provide the items to be registered to the specified section.
-     */
-    public void registerItemsToMiscTab(BuiltInCreativeModeSection.RegistrationKey registrationKey, List<Supplier<Item>> itemSuppliers) {
-        BuiltInCreativeModeSection.INSTANCE.registerSectionWithItems(registrationKey, itemSuppliers);
+    public EconomyRegistryManager getEconomyManager() {
+        return EconomyRegistryManager.INSTANCE;
     }
 }

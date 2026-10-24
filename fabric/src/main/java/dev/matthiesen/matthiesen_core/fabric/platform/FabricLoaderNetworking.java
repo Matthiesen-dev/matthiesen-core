@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.fabric.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderNetworking;
-import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

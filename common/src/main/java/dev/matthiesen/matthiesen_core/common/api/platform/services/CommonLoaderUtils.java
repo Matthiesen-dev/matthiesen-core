@@ -6,12 +6,23 @@ import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import net.minecraft.server.MinecraftServer;
 
 import java.nio.file.Path;
+import java.util.ServiceLoader;
 
 /**
  * The CommonLoaderUtils interface provides a set of utility methods for interacting with the underlying mod loader and game environment.
  */
 @SuppressWarnings("unused")
 public interface CommonLoaderUtils {
+    /**
+     * Retrieves the singleton instance of the CommonLoaderUtils implementation.
+     * This instance is used to access utility methods for interacting with the mod loader and game environment.
+     * @return The singleton instance of the CommonLoaderUtils implementation.
+     */
+    static CommonLoaderUtils getInstance() {
+        return ServiceLoader.load(CommonLoaderUtils.class).findFirst()
+                .orElseThrow(() -> new IllegalStateException("No CommonLoaderUtils implementation found"));
+    }
+
     /**
      * Get the Minecraft server instance. This method provides access to the Minecraft server, which can be used to perform various server-side operations,
      * such as managing players, handling commands, or interacting with the world. The implementation of this method may vary depending on the mod loader,

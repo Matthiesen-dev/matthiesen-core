@@ -1,12 +1,13 @@
 package dev.matthiesen.matthiesen_core.common.api.platform.services;
 
-import dev.matthiesen.matthiesen_core.common.api.network.PacketContext;
+import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.ServiceLoader;
 import java.util.function.BiConsumer;
 
 /**
@@ -16,6 +17,18 @@ import java.util.function.BiConsumer;
  */
 @SuppressWarnings("unused")
 public interface CommonLoaderNetworking {
+    /**
+     * Returns the singleton instance of the CommonLoaderNetworking. This method uses the ServiceLoader mechanism to find and return the first available implementation of the CommonLoaderNetworking interface.
+     * If no implementation is found, it throws an IllegalStateException.
+     *
+     * @return The singleton instance of the CommonLoaderNetworking.
+     * @throws IllegalStateException if no implementation of CommonLoaderNetworking is found.
+     */
+    static CommonLoaderNetworking getInstance() {
+        return ServiceLoader.load(CommonLoaderNetworking.class)
+                .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderNetworking implementation found"));
+    }
+
     // Client-to-Server
 
     /**

@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 
+import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -22,6 +23,18 @@ import java.util.function.Supplier;
  * The CommonLoaderRegistry interface provides a unified way to register various game elements such as blocks, items, sounds, and more across different mod loaders.
  */
 public interface CommonLoaderRegistry {
+    /**
+     * Returns the singleton instance of the CommonLoaderRegistry. This method uses the ServiceLoader mechanism to find and return the first available implementation of the CommonLoaderRegistry interface.
+     * If no implementation is found, it throws an IllegalStateException.
+     *
+     * @return The singleton instance of the CommonLoaderRegistry.
+     * @throws IllegalStateException if no implementation of CommonLoaderRegistry is found.
+     */
+    static CommonLoaderRegistry getInstance() {
+        return ServiceLoader.load(CommonLoaderRegistry.class)
+                .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderRegistry implementation found"));
+    }
+
     /**
      * Register a block entity type for the mod. This method allows you to register a new block entity type that can be used in your mod's content, such as for
      * custom blocks that have associated block entities. By registering a block entity type, you can create unique block entities that enhance the player's

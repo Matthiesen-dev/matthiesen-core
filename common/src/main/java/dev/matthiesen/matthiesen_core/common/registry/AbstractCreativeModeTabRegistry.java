@@ -238,7 +238,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      * @param itemSupplier A {@link Supplier} that provides the item to be registered to the specified section.
      */
     public void registerItemToMiscTab(BuiltInCreativeModeSection.RegistrationKey registrationKey, Supplier<Item> itemSupplier) {
-        MatthiesenCoreCommon.INSTANCE.registerItemToMiscTab(registrationKey, itemSupplier);
+        BuiltInCreativeModeSection.INSTANCE.registerItemToSection(registrationKey, itemSupplier);
     }
 
     /**
@@ -247,7 +247,7 @@ public abstract class AbstractCreativeModeTabRegistry extends AbstractRegistry<C
      * @param itemSuppliers A list of {@link Supplier} instances that provide the items to be registered to the specified section.
      */
     public void registerItemsToMiscTab(BuiltInCreativeModeSection.RegistrationKey registrationKey, List<Supplier<Item>> itemSuppliers) {
-        MatthiesenCoreCommon.INSTANCE.registerItemsToMiscTab(registrationKey, itemSuppliers);
+        BuiltInCreativeModeSection.INSTANCE.registerSectionWithItems(registrationKey, itemSuppliers);
     }
 }
 
