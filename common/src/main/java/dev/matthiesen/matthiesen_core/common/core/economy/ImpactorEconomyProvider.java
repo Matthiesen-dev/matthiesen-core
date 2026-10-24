@@ -3,7 +3,7 @@ package dev.matthiesen.matthiesen_core.common.core.economy;
 import dev.matthiesen.matthiesen_core.common.api.economy.BuiltInEconomyProviders;
 import dev.matthiesen.matthiesen_core.common.api.economy.EconomyProvider;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.utility.player_data.ServerUser;
+import dev.matthiesen.matthiesen_core.common.core.data.ServerUser;
 import net.impactdev.impactor.api.economy.EconomyService;
 import net.impactdev.impactor.api.economy.accounts.Account;
 import net.impactdev.impactor.api.economy.currency.Currency;

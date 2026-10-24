@@ -3,7 +3,7 @@ package dev.matthiesen.matthiesen_core.common.core.economy;
 import dev.matthiesen.matthiesen_core.common.api.economy.BuiltInEconomyProviders;
 import dev.matthiesen.matthiesen_core.common.api.economy.EconomyProvider;
 import dev.matthiesen.matthiesen_core.common.utility.item.ItemDecoder;
-import dev.matthiesen.matthiesen_core.common.utility.player_data.ServerUser;
+import dev.matthiesen.matthiesen_core.common.core.data.ServerUser;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

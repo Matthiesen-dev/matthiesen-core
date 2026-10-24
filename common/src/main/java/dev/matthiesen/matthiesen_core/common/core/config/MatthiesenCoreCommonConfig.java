@@ -13,9 +13,19 @@ public final class MatthiesenCoreCommonConfig {
         SPEC = specPair.getRight();
     }
 
+    public ModConfigSpec.IntValue maxPlayerAliases;
     public ModConfigSpec.BooleanValue luckpermsPermissionValidatorEnabled;
 
     public MatthiesenCoreCommonConfig(ModConfigSpec.Builder builder) {
+        builder.push("data");
+        maxPlayerAliases = builder
+                .comment(
+                        "The maximum number of username aliases to store for each player. This setting determines how many previous usernames will be retained in the player's record.",
+                        "This feature is used for tracking player name changes and maintaining a history of usernames associated with a player's UUID."
+                )
+                .defineInRange("maxPlayerAliases", 5, 1, Integer.MAX_VALUE);
+        builder.pop();
+
         builder.push("permissions");
         luckpermsPermissionValidatorEnabled = builder
                 .comment(
