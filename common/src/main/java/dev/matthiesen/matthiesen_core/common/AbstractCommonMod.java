@@ -11,8 +11,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderR
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.registry.EconomyRegistryManager;
-import dev.matthiesen.matthiesen_core.common.core.faststats.MatthiesenCoreMetrics;
-import dev.matthiesen.matthiesen_core.common.core.registry.NetworkingRegistryManager;
+import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreMetrics;
 import dev.matthiesen.matthiesen_core.common.core.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

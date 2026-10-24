@@ -9,7 +9,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.ServiceLoader;
 import java.util.function.BiConsumer;
 
 /**
@@ -20,8 +19,7 @@ import java.util.function.BiConsumer;
  */
 @SuppressWarnings("unused")
 public final class NetworkingRegistryManager {
-    private static final CommonLoaderNetworking NETWORKING_SERVICE =
-            ServiceLoader.load(CommonLoaderNetworking.class).findFirst().orElseThrow();
+    private static final CommonLoaderNetworking NETWORKING_SERVICE = CommonLoaderNetworking.getInstance();
 
     /**
      * Retrieves the singleton instance of the NetworkingRegistryManager.

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
+import java.util.ServiceLoader;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -20,6 +21,17 @@ import java.util.function.Consumer;
  * Minecraft client environment by providing hooks for various client-side events and registrations.
  */
 public interface CommonLoaderClientEventsListeners {
+    /**
+     * Returns the singleton instance of the CommonLoaderClientEventsListeners. This method uses the ServiceLoader mechanism to find and return the first available implementation of the CommonLoaderClientEventsListeners interface.
+     * If no implementation is found, it throws an IllegalStateException.
+     *
+     * @return The singleton instance of the CommonLoaderClientEventsListeners.
+     * @throws IllegalStateException if no implementation of CommonLoaderClientEventsListeners is found.
+     */
+    static CommonLoaderClientEventsListeners getInstance() {
+        return ServiceLoader.load(CommonLoaderClientEventsListeners.class)
+                .findFirst().orElseThrow(() -> new IllegalStateException("No CommonLoaderClientEventsListeners implementation found"));
+    }
 
     /**
      * Registers screen registrations for the mod. This method allows the mod to define custom screens that will be displayed in the game.

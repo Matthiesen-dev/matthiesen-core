@@ -1,11 +1,10 @@
-package dev.matthiesen.matthiesen_core.common.core.faststats;
+package dev.matthiesen.matthiesen_core.common.core;
 
 import dev.faststats.ErrorTracker;
 import dev.faststats.SimpleContext;
 import dev.faststats.Token;
 import dev.faststats.data.Metric;
 import dev.matthiesen.matthiesen_core.common.api.faststats.CommonContextService;
-import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 
 import java.util.List;
