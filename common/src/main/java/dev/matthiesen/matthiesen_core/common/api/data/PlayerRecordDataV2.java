@@ -94,8 +94,7 @@ public record PlayerRecordDataV2(
                     long timestamp = Long.parseLong(keyValue[1]);
                     aliases.put(alias, timestamp);
                 } catch (NumberFormatException e) {
-                    // Handle the case where the timestamp is not a valid long
-                    // You might want to log this or handle it according to your needs
+                    // Ignore invalid timestamp entries and continue processing other aliases
                 }
             }
         }
