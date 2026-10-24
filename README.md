@@ -138,13 +138,12 @@ side = "BOTH"
 package com.example.mymod;
 
 import dev.matthiesen.matthiesen_core.common.AbstractCommonMod;
-import dev.matthiesen.libs.faststats.Token;
+import dev.faststats.Token;
+import org.jetbrains.annotations.Nullable;
 
 public final class ExampleModCommon extends AbstractCommonMod {
     public static final String MOD_ID = "examplemod";
     public static final String MOD_NAME = "Example Mod";
-    public static @Token final String METRICS_TOKEN = ""; // Provided by FastStats.dev (Optional, can be null to disable metrics for your mod)
-
     public static final ExampleModCommon INSTANCE = new ExampleModCommon();
 
     private ExampleModCommon() {
@@ -153,7 +152,7 @@ public final class ExampleModCommon extends AbstractCommonMod {
 
     @Override
     public @Nullable @Token String getMetricsToken() {
-        return METRICS_TOKEN;
+        return null;
     }
     
     @Override
