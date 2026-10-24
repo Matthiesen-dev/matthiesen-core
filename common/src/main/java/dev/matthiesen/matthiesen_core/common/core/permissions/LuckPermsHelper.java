@@ -70,7 +70,7 @@ public final class LuckPermsHelper {
      */
     public void onServerStarted(ServerEvent.Started event) {
         getLuckPerms();
-        boolean luckPermsValidatorEnabled = MatthiesenCoreCommonConfig.INSTANCE.luckpermsPermissionValidatorEnabled.getAsBoolean();
+        boolean luckPermsValidatorEnabled = MatthiesenCoreCommonConfig.INSTANCE.permissions_luckpermsPermissionValidatorEnabled.getAsBoolean();
         boolean isServer = MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment().isServer();
         if (luckPermsValidatorEnabled && isServer) {
             MatthiesenCoreCommon.INSTANCE.getPermissionsManager().setPermissionValidator(new LuckPermsPermissionValidator());

@@ -1,0 +1,16 @@
+{
+  "matthiesen_core.configuration.title": "Matthiesen Core Configuration",
+  "matthiesen_core.configuration.section.matthiesen.core.common.toml": "Matthiesen Core Common Configuration",
+  "matthiesen_core.configuration.section.matthiesen.core.common.toml.title": "Matthiesen Core Common Configuration",
+  "matthiesen_core.configuration.common.configVersion": "Configuration Version",
+  "matthiesen_core.configuration.common.data": "Data Configuration",
+  "matthiesen_core.configuration.common.data.tooltip": "Configuration settings for data management in Matthiesen Core.",
+  "matthiesen_core.configuration.common.data.button": "Edit",
+  "matthiesen_core.configuration.common.data.maxPlayerAliases": "Maximum Player Aliases",
+  "matthiesen_core.configuration.common.permissions": "Permissions Configuration",
+  "matthiesen_core.configuration.common.permissions.tooltip": "Configuration settings for permissions management in Matthiesen Core.",
+  "matthiesen_core.configuration.common.permissions.button": "Edit",
+  "matthiesen_core.configuration.common.permissions.luckpermsPermissionValidatorEnabled": "Enable LuckPerms Permission Validator",
+  "matthiesen_core.configuration.common.permissions.luckpermsPermissionValidatorEnabled.tooltip": "If enabled, Matthiesen Core will use the LuckPerms permission validator when LuckPerms is installed on the server. If disabled, Matthiesen Core will fallback to the loader's default permission validator or the VanillaPermissionValidator if no other validator is provided. This setting is only relevant when LuckPerms is installed on the server, and will be ignored if LuckPerms is not present.",
+  "matthiesen_core.creative_tab.section.misc": "Matthiesen Core Misc"
+}
