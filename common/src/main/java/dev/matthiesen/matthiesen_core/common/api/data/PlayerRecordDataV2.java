@@ -1,5 +1,6 @@
 package dev.matthiesen.matthiesen_core.common.api.data;
 
+import dev.matthiesen.matthiesen_core.common.core.config.MatthiesenCoreCommonConfig;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.HashMap;
@@ -57,8 +58,7 @@ public record PlayerRecordDataV2(
     private static String serializeAliases(Map<String, Long> aliases) {
         StringBuilder sb = new StringBuilder();
 
-        var maxAliases = 10; // Limit the number of aliases to 10
-
+        var maxAliases = MatthiesenCoreCommonConfig.INSTANCE.maxPlayerAliases.getAsInt();
         aliases = filterOldAliases(aliases, maxAliases);
 
         for (Map.Entry<String, Long> entry : aliases.entrySet()) {
