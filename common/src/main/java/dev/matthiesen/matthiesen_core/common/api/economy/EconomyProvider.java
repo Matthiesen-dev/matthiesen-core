@@ -1,7 +1,7 @@
 package dev.matthiesen.matthiesen_core.common.api.economy;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.common.utility.player_data.ServerUser;
+import dev.matthiesen.matthiesen_core.common.core.data.ServerUser;
 import net.minecraft.server.level.ServerPlayer;
 
 /**
