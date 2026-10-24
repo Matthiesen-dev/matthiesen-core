@@ -41,8 +41,7 @@ public final class SavedPlayerData extends SavedData {
             CompoundTag playerRecordsNBT = nbt.getCompound(PLAYER_RECORDS_NBT_KEY);
             for (String key : playerRecordsNBT.getAllKeys()) {
                 CompoundTag oldRecordNBT = playerRecordsNBT.getCompound(key);
-                PlayerRecordDataV1 oldRecord = PlayerRecordDataV1.fromNBT(oldRecordNBT);
-                PlayerRecordDataV2 newRecord = oldRecord.toPlayerRecordDataV2(System.currentTimeMillis());
+                PlayerRecordDataV2 newRecord = PlayerRecordDataV1.migrateNBTToV2(oldRecordNBT);
                 data.playerRecords.put(key, newRecord);
             }
         }
@@ -102,15 +101,13 @@ public final class SavedPlayerData extends SavedData {
             // Check if the last username is different from the current username
             if (!existingRecord.lastUsername().equals(playerName)) {
                 // Update the record with the new username and add the old username to aliases
-                Map<String, Long> updatedAliases = new HashMap<>(existingRecord.aliases());
-                updatedAliases.put(existingRecord.lastUsername(), System.currentTimeMillis());
-                PlayerRecordDataV2 updatedRecord = new PlayerRecordDataV2(playerName, updatedAliases);
+                PlayerRecordDataV2 updatedRecord = existingRecord.updateLastUsername(playerName, System.currentTimeMillis());
                 dataStore.playerRecords.put(playerUUID.toString(), updatedRecord);
                 dataStore.setDirty();
             }
         } else {
             // No record exists, create a new one
-            PlayerRecordDataV2 newRecord = new PlayerRecordDataV2(playerName, new HashMap<>());
+            PlayerRecordDataV2 newRecord = PlayerRecordDataV2.newRecord(playerName);
             dataStore.playerRecords.put(playerUUID.toString(), newRecord);
             dataStore.setDirty();
         }

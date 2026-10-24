@@ -50,4 +50,19 @@ public record PlayerRecordDataV1(String name, List<String> aliases) {
     public PlayerRecordDataV2 toPlayerRecordDataV2(long currentTimeMillis) {
         return new PlayerRecordDataV2(name(), aliases().stream().collect(Collectors.toMap(alias -> alias, alias -> currentTimeMillis)));
     }
+
+    /**
+     * Migrates a PlayerRecordDataV1 instance from a CompoundTag to a PlayerRecordDataV2 instance. This method reads the
+     * player's name and aliases from the provided NBT data, creates a new PlayerRecordDataV1 object, and then converts it
+     * to a PlayerRecordDataV2 object with the current system time as the timestamp for each alias.
+     * @param nbt The CompoundTag containing the player's data in the old format, including their name and aliases. The name is expected
+     *            to be stored under the key "name", and the aliases are expected to be stored as a list of strings under the key "aliases".
+     * @return A new PlayerRecordDataV2 instance populated with the data extracted from the provided NBT, with timestamps set to
+     * the current system time. This migration allows for seamless transition from the old player record format to the new format,
+     * enabling continued tracking of player data in a more structured manner.
+     */
+    public static PlayerRecordDataV2 migrateNBTToV2(CompoundTag nbt) {
+        PlayerRecordDataV1 oldRecord = fromNBT(nbt);
+        return oldRecord.toPlayerRecordDataV2(System.currentTimeMillis());
+    }
 }

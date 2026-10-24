@@ -41,6 +41,17 @@ public record PlayerRecordDataV2(
     }
 
     /**
+     * Creates a new PlayerRecordDataV2 instance with the specified last username and an empty aliases map. This method is used to
+     * initialize a new player record when no previous data exists for the player.
+     * @param lastUsername The last known username of the player, which will be set as the primary identifier for the new player record.
+     * @return A new PlayerRecordDataV2 instance containing the specified last username and an empty aliases map, ready for further
+     * processing or storage.
+     */
+    public static PlayerRecordDataV2 newRecord(String lastUsername) {
+        return new PlayerRecordDataV2(lastUsername, new HashMap<>());
+    }
+
+    /**
      * Converts the PlayerRecordDataV2 instance into a CompoundTag for storage. This method serializes the player's last username and
      * aliases into NBT format, allowing them to be saved persistently. The last username is stored under the key "lastUsername", and the
      * aliases are stored as a serialized string under the key "aliases".
@@ -53,6 +64,22 @@ public record PlayerRecordDataV2(
         tag.putString(RECORD_LAST_USERNAME_KEY, lastUsername);
         tag.putString(RECORD_ALIASES_KEY, serializeAliases(aliases));
         return tag;
+    }
+
+    /**
+     * Updates the last username of the player record and adds the previous last username to the aliases map with the provided timestamp.
+     * This method creates a new PlayerRecordDataV2 instance with the updated last username and modified aliases map, allowing for
+     * tracking of username changes over time.
+     * @param newUsername The new last username to be set for the player record. This value will replace the current last username.
+     * @param timestamp The timestamp associated with the previous last username, indicating when it was last used. This value will be
+     *                  stored in the aliases map alongside the previous last username.
+     * @return A new PlayerRecordDataV2 instance containing the updated last username and modified aliases map, reflecting the change
+     * in username and preserving historical alias information.
+     */
+    public PlayerRecordDataV2 updateLastUsername(String newUsername, long timestamp) {
+        Map<String, Long> updatedAliases = new HashMap<>(aliases);
+        updatedAliases.put(lastUsername, timestamp);
+        return new PlayerRecordDataV2(newUsername, updatedAliases);
     }
 
     private static String serializeAliases(Map<String, Long> aliases) {
