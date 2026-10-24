@@ -3,8 +3,10 @@ package dev.matthiesen.matthiesen_core.common.core;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookNotifierService;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.platform.CommonServerMod;
+import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
+import dev.matthiesen.matthiesen_core.common.core.config.MatthiesenCoreCommonConfig;
 import dev.matthiesen.matthiesen_core.common.core.data.SavedPlayerData;
 import dev.matthiesen.matthiesen_core.common.core.discord.DiscordNotifierService;
 import dev.matthiesen.matthiesen_core.common.core.permissions.LuckPermsHelper;
@@ -69,6 +71,8 @@ public final class MatthiesenCoreCommon implements CommonServerMod {
     @Override
     public void initialize() {
         if (initialized) return;
+
+        registerModConfig(MOD_ID, ModConfigType.COMMON, MatthiesenCoreCommonConfig.SPEC);
 
         MatthiesenCoreMetrics.initialize();
         WEBHOOK_NOTIFIER_SERVICE.initialize();

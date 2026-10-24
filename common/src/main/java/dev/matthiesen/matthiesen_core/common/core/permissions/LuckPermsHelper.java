@@ -1,7 +1,9 @@
 package dev.matthiesen.matthiesen_core.common.core.permissions;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
+import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
+import dev.matthiesen.matthiesen_core.common.core.config.MatthiesenCoreCommonConfig;
 import dev.matthiesen.matthiesen_core.common.utility.player_data.ServerUser;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -55,9 +57,24 @@ public final class LuckPermsHelper {
     public void initialize() {
         if (initialized) return;
         initialized = true;
-
-        PlatformEvents.SERVER_STARTED.subscribe(event -> getLuckPerms());
+        PlatformEvents.SERVER_STARTED.subscribe(this::onServerStarted);
         MatthiesenCoreCommon.INSTANCE.createInfoLog("LuckPermsHelper initialized. LuckPerms API will be loaded when the server starts.");
+    }
+
+    /**
+     * Event handler that is called when the server has started. This method attempts to load the LuckPerms API and, if successful,
+     * sets the permission validator to use the LuckPermsPermissionValidator. If the LuckPerms API is not available, an error log
+     * will be created to notify the user of the issue.
+     * @param event The ServerEvent.Started event that triggered this handler. This event contains information about the server's
+     *              startup state and can be used to perform additional initialization tasks if needed.
+     */
+    public void onServerStarted(ServerEvent.Started event) {
+        getLuckPerms();
+        boolean luckPermsValidatorEnabled = MatthiesenCoreCommonConfig.INSTANCE.luckpermsPermissionValidatorEnabled.getAsBoolean();
+        boolean isServer = MatthiesenCoreCommon.INSTANCE.getCommonUtils().getEnvironment().isServer();
+        if (luckPermsValidatorEnabled && isServer) {
+            MatthiesenCoreCommon.INSTANCE.getPermissionsManager().setPermissionValidator(new LuckPermsPermissionValidator());
+        }
     }
 
     /**
