@@ -41,7 +41,7 @@ public final class AdventureTextParser implements TextParser {
             var json = JSONComponentSerializer.json().serialize(adventureComponent);
             return Component.Serializer.fromJson(json, RegistryAccess.EMPTY);
         } catch (Exception e) {
-            MatthiesenCoreCommon.INSTANCE.createErrorLog("AdventureTextParser.parse() failed to parse text: " + text + ". Falling back to vanilla parser.", e);
+            MatthiesenCoreCommon.INSTANCE.createErrorLog("AdventureTextParser.parse() failed to parse text: " + text + ". Falling back to vanilla parser. " + e.getMessage());
             return TextParserRegistryManager.VANILLA_PARSER.parse(text);
         }
     }
