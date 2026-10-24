@@ -22,12 +22,8 @@ public final class TextParserRegistryManager {
      */
     public static final TextParserRegistryManager INSTANCE = new TextParserRegistryManager();
 
-    /**
-     * The default Vanilla text parser that is always registered and used as a fallback if no other parser is found.
-     */
-    public static final TextParser VANILLA_PARSER = new VanillaTextParser();
-
     private static final Map<String, TextParser> REGISTERED_PARSERS = new ConcurrentHashMap<>();
+    private static final TextParser VANILLA_PARSER = VanillaTextParser.INSTANCE;
 
     private TextParserRegistryManager() {}
 
@@ -44,12 +40,12 @@ public final class TextParserRegistryManager {
         initialized = true;
         modInstance = instance;
         modInstance.createInfoLog("Initializing Text Parser Registry Manager");
-        registerTextParser(VANILLA_PARSER);
 
+        // Register the built-in text parsers
+        VanillaTextParser.register();
         if (BuiltInTextParsers.EMBERS.isModLoaded()) {
             EmbersTextParser.register();
         }
-
         if (BuiltInTextParsers.ADVENTURE.isModLoaded()) {
             AdventureTextParser.register();
         }
