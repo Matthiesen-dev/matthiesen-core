@@ -15,5 +15,13 @@ public enum Environment {
      * Indicates that the current environment is a server environment. This can be used to differentiate between client
      * and server code, and to ensure that certain code is only executed on the server side.
      */
-    SERVER
+    SERVER;
+
+    public boolean isClient() {
+        return this == CLIENT;
+    }
+
+    public boolean isServer() {
+        return this == SERVER;
+    }
 }
