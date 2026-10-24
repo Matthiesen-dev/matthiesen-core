@@ -1,9 +1,8 @@
 package dev.matthiesen.matthiesen_core.common.core.text_parsers;
 
+import dev.matthiesen.matthiesen_core.common.api.text_parsers.ModdedTextParser;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.text_parsers.BuiltInTextParsers;
-import dev.matthiesen.matthiesen_core.common.api.text_parsers.TextParser;
-import dev.matthiesen.matthiesen_core.common.core.registry.TextParserRegistryManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -17,14 +16,18 @@ import java.util.List;
  * EmbersTextParser is a text parser implementation that uses the EmbersTextAPI to parse and format text.
  * It converts text with markup into Minecraft components, applying styles such as bold, italic, and color.
  */
-public final class EmbersTextParser implements TextParser {
+public final class EmbersTextParser implements ModdedTextParser {
+    /**
+     * The singleton instance of the EmbersTextParser. This instance is used to parse text using the EmbersTextAPI.
+     */
+    public static final EmbersTextParser INSTANCE = new EmbersTextParser();
 
     /**
      * Registers the EmbersTextParser with the MatthiesenCoreCommon text parser manager.
      * This method should be called during the mod initialization phase to ensure that the parser is available for use.
      */
     public static void register() {
-        MatthiesenCoreCommon.INSTANCE.getTextParserManager().registerTextParser(new EmbersTextParser());
+        MatthiesenCoreCommon.INSTANCE.getTextParserManager().registerTextParser(INSTANCE);
     }
 
     /**
@@ -53,6 +56,6 @@ public final class EmbersTextParser implements TextParser {
             return result;
         }
         MatthiesenCoreCommon.INSTANCE.createErrorLog("EmbersTextParserFabric.parse() called but EmbersTextAPI is not loaded. Falling back to vanilla parser.");
-        return TextParserRegistryManager.VANILLA_PARSER.parse(text);
+        return getFallbackParser(text);
     }
 }
