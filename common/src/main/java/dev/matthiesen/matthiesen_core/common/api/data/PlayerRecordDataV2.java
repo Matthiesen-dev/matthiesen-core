@@ -85,7 +85,7 @@ public record PlayerRecordDataV2(
     private static String serializeAliases(Map<String, Long> aliases) {
         StringBuilder sb = new StringBuilder();
 
-        var maxAliases = MatthiesenCoreCommonConfig.INSTANCE.maxPlayerAliases.getAsInt();
+        var maxAliases = MatthiesenCoreCommonConfig.INSTANCE.data_maxPlayerAliases.getAsInt();
         aliases = filterOldAliases(aliases, maxAliases);
 
         for (Map.Entry<String, Long> entry : aliases.entrySet()) {
