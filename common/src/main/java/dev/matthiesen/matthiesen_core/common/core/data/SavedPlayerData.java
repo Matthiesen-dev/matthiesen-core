@@ -42,7 +42,6 @@ public final class SavedPlayerData extends SavedData {
             for (String key : playerRecordsNBT.getAllKeys()) {
                 CompoundTag oldRecordNBT = playerRecordsNBT.getCompound(key);
                 PlayerRecordDataV1 oldRecord = PlayerRecordDataV1.fromNBT(oldRecordNBT);
-                // Create a new PlayerRecordDataV2 with the last username and an empty alias map
                 PlayerRecordDataV2 newRecord = oldRecord.toPlayerRecordDataV2(System.currentTimeMillis());
                 data.playerRecords.put(key, newRecord);
             }
