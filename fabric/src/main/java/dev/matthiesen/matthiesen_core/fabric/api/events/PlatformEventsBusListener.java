@@ -1,11 +1,11 @@
-package dev.matthiesen.matthiesen_core.fabric.events;
+package dev.matthiesen.matthiesen_core.fabric.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
 import dev.matthiesen.matthiesen_core.common.core.server_menu.MenuCallbackEngine;
-import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric;
+import dev.matthiesen.matthiesen_core.fabric.core.MatthiesenCoreFabric;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

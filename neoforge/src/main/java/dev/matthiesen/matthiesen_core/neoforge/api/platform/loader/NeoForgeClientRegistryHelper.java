@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
+package dev.matthiesen.matthiesen_core.neoforge.api.platform.loader;
 
 import dev.matthiesen.matthiesen_core.common.api.client.*;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;

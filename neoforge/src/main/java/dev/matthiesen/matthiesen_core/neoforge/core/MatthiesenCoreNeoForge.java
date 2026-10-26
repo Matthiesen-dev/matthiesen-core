@@ -1,10 +1,10 @@
-package dev.matthiesen.matthiesen_core.neoforge;
+package dev.matthiesen.matthiesen_core.neoforge.core;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;
 import dev.matthiesen.matthiesen_core.common.core.server_menu.MenuCallbackEngine;
-import dev.matthiesen.matthiesen_core.neoforge.platform.NeoForgeLoaderNetworking;
-import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
+import dev.matthiesen.matthiesen_core.neoforge.api.platform.NeoForgeLoaderNetworking;
+import dev.matthiesen.matthiesen_core.neoforge.api.platform.loader.NeoForgeRegistryHelper;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;

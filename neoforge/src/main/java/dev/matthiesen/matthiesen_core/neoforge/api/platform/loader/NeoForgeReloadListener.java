@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.platform.helpers;
+package dev.matthiesen.matthiesen_core.neoforge.api.platform.loader;
 
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;

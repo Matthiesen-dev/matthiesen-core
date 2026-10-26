@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.fabric.platform;
+package dev.matthiesen.matthiesen_core.fabric.api.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ConfigEvent;
@@ -7,7 +7,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
-import dev.matthiesen.matthiesen_core.fabric.events.PlatformEventsBusListener;
+import dev.matthiesen.matthiesen_core.fabric.api.events.PlatformEventsBusListener;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeModConfigEvents;
 import net.fabricmc.loader.api.FabricLoader;

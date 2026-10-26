@@ -1,13 +1,10 @@
-package dev.matthiesen.matthiesen_core.fabric.platform;
+package dev.matthiesen.matthiesen_core.neoforge.api.platform;
 
-import dev.matthiesen.matthiesen_core.common.api.client.*;
 import dev.matthiesen.matthiesen_core.common.api.client.keybinds.KeyMappingRegistrar;
+import dev.matthiesen.matthiesen_core.common.api.client.ScreenRegistrar;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderClientEventsListeners;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.gui.screens.MenuScreens;
+import dev.matthiesen.matthiesen_core.neoforge.api.platform.loader.NeoForgeClientRegistryHelper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -18,28 +15,30 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
- * The FabricLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides client-side event handling for the Fabric mod loader.
+ * The NeoForgeLoaderClientEventsListeners class implements the CommonLoaderClientEventsListeners interface and provides
+ * client-side event handling functionalities for the NeoForge mod loader. It allows for the registration of various client-side
+ * components such as screens, entity renderers, HUD elements, and key bindings, as well as handling client tick events and block highlight overrides.
  */
-public final class FabricLoaderClientEventsListeners implements CommonLoaderClientEventsListeners {
+public final class NeoForgeLoaderClientEventsListeners implements CommonLoaderClientEventsListeners {
     /**
-     * Constructs a new instance of FabricLoaderClientEventsListeners.
+     * Constructs a new instance of NeoForgeLoaderClientEventsListeners.
      * This class is not intended to be instantiated, as it provides static utility methods for client-side event handling.
      */
-    public FabricLoaderClientEventsListeners() {}
+    public NeoForgeLoaderClientEventsListeners() {}
 
     @Override
     public void applyScreenRegistrations(Consumer<ScreenRegistrar> screenRegistrarConsumer) {
-        screenRegistrarConsumer.accept(MenuScreens::register);
+        NeoForgeClientRegistryHelper.applyScreenRegistrations(screenRegistrarConsumer);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public void applyEntityRendererRegistrations(BiConsumer<BiConsumer<EntityType<? extends Entity>, EntityRendererProvider>, BiConsumer<BlockEntityType<? extends BlockEntity>, BlockEntityRendererProvider>> entityRendererConsumer) {
-        entityRendererConsumer.accept(EntityRendererRegistry::register, BlockEntityRenderers::register);
+        NeoForgeClientRegistryHelper.applyEntityRendererRegistrations(entityRendererConsumer);
     }
 
     @Override
     public void applyKeyBindingRegistrations(Consumer<KeyMappingRegistrar> registrar) {
-        registrar.accept(KeyBindingHelper::registerKeyBinding);
+        NeoForgeClientRegistryHelper.applyKeyBindingRegistrations(registrar);
     }
 }

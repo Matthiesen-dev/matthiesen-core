@@ -1,8 +1,8 @@
-package dev.matthiesen.matthiesen_core.neoforge;
+package dev.matthiesen.matthiesen_core.neoforge.core;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommonClient;
-import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeClientRegistryHelper;
+import dev.matthiesen.matthiesen_core.neoforge.api.platform.loader.NeoForgeClientRegistryHelper;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;

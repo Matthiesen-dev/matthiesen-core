@@ -29,10 +29,10 @@
   ],
   "entrypoints": {
     "main": [
-      "dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabric"
+      "dev.matthiesen.matthiesen_core.fabric.core.MatthiesenCoreFabric"
     ],
     "client": [
-      "dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabricClient"
+      "dev.matthiesen.matthiesen_core.fabric.core.MatthiesenCoreFabricClient"
     ]
   },
   "depends": {
