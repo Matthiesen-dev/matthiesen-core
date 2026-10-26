@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.fabric.platform;
+package dev.matthiesen.matthiesen_core.fabric.api.platform;
 
 import com.mojang.serialization.MapCodec;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;

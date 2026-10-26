@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.events;
+package dev.matthiesen.matthiesen_core.neoforge.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
 import dev.matthiesen.matthiesen_core.common.api.client.hud.HudOrdering;

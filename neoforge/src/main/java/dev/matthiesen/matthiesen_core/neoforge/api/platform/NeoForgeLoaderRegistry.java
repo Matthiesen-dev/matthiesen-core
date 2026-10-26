@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.platform;
+package dev.matthiesen.matthiesen_core.neoforge.api.platform;
 
 import com.mojang.serialization.MapCodec;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
@@ -6,7 +6,7 @@ import dev.matthiesen.matthiesen_core.common.api.command.CommandRegistry;
 import dev.matthiesen.matthiesen_core.common.api.command.CoreCommand;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderRegistry;
 import dev.matthiesen.matthiesen_core.neoforge.permissions.NeoForgePermissionValidator;
-import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeRegistryHelper;
+import dev.matthiesen.matthiesen_core.neoforge.api.platform.loader.NeoForgeRegistryHelper;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;

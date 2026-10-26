@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.platform;
+package dev.matthiesen.matthiesen_core.neoforge.api.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ConfigEvent;
@@ -7,7 +7,7 @@ import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModConfigType;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.ModContainer;
 import dev.matthiesen.matthiesen_core.common.api.platform.loader.LoaderPlatformMeta;
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderUtils;
-import dev.matthiesen.matthiesen_core.neoforge.events.PlatformEventsBusListener;
+import dev.matthiesen.matthiesen_core.neoforge.api.events.PlatformEventsBusListener;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.config.IConfigSpec;

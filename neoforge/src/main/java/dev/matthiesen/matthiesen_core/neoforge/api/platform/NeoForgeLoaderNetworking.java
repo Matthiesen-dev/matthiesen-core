@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.neoforge.platform;
+package dev.matthiesen.matthiesen_core.neoforge.api.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.services.CommonLoaderNetworking;
 import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;

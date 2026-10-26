@@ -1,9 +1,9 @@
-package dev.matthiesen.matthiesen_core.fabric.events;
+package dev.matthiesen.matthiesen_core.fabric.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.client.BlockOutlineContext;
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformClientEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.client.ClientEvent;
-import dev.matthiesen.matthiesen_core.fabric.MatthiesenCoreFabricClient;
+import dev.matthiesen.matthiesen_core.fabric.core.MatthiesenCoreFabricClient;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;

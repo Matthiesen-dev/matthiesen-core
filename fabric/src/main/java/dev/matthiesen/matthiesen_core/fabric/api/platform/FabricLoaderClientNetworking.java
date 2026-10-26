@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.fabric.platform;
+package dev.matthiesen.matthiesen_core.fabric.api.platform;
 
 import dev.matthiesen.matthiesen_core.common.api.platform.network.PacketContext;
 import net.fabricmc.api.EnvType;

@@ -1,7 +1,7 @@
-package dev.matthiesen.matthiesen_core.fabric;
+package dev.matthiesen.matthiesen_core.fabric.core;
 
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.fabric.events.PlatformEventsBusListener;
+import dev.matthiesen.matthiesen_core.fabric.api.events.PlatformEventsBusListener;
 import net.fabricmc.api.ModInitializer;
 
 /**

@@ -1,11 +1,11 @@
-package dev.matthiesen.matthiesen_core.neoforge.events;
+package dev.matthiesen.matthiesen_core.neoforge.api.events;
 
 import dev.matthiesen.matthiesen_core.common.api.events.PlatformEvents;
 import dev.matthiesen.matthiesen_core.common.api.events.server.PlayerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.ServerEvent;
 import dev.matthiesen.matthiesen_core.common.api.events.server.WorldEvent;
 import dev.matthiesen.matthiesen_core.common.core.MatthiesenCoreCommon;
-import dev.matthiesen.matthiesen_core.neoforge.platform.helpers.NeoForgeReloadListener;
+import dev.matthiesen.matthiesen_core.neoforge.api.platform.loader.NeoForgeReloadListener;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
