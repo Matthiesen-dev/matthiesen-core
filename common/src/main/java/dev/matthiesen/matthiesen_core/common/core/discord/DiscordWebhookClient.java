@@ -3,9 +3,9 @@ package dev.matthiesen.matthiesen_core.common.core.discord;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.matthiesen.matthiesen_core.common.api.discord.WebhookClient;
-import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookDeliveryException;
-import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookException;
-import dev.matthiesen.matthiesen_core.common.api.exceptions.DiscordWebhookSerializationException;
+import dev.matthiesen.matthiesen_core.common.api.discord.exceptions.DiscordWebhookDeliveryException;
+import dev.matthiesen.matthiesen_core.common.api.discord.exceptions.DiscordWebhookException;
+import dev.matthiesen.matthiesen_core.common.api.discord.exceptions.DiscordWebhookSerializationException;
 import dev.matthiesen.matthiesen_core.common.core.discord.model.Message;
 
 import java.io.*;

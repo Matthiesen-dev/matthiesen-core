@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.exceptions;
+package dev.matthiesen.matthiesen_core.common.api.discord.exceptions;
 
 /**
  * Exception thrown when there is an error during the serialization of a Discord webhook message.
