@@ -62,4 +62,12 @@ public enum BuiltInTextParsers {
     public boolean isModLoaded() {
         return aliases.stream().anyMatch(alias -> MatthiesenCoreCommon.INSTANCE.getCommonUtils().isModLoaded(alias));
     }
+
+    /**
+     * Retrieves the TextParser instance associated with this built-in text parser.
+     * @return The TextParser instance corresponding to this built-in text parser.
+     */
+    public TextParser get() {
+        return MatthiesenCoreCommon.INSTANCE.getTextParserManager().getTextParser(this);
+    }
 }

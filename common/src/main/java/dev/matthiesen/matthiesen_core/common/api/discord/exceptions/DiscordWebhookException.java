@@ -1,4 +1,4 @@
-package dev.matthiesen.matthiesen_core.common.api.exceptions;
+package dev.matthiesen.matthiesen_core.common.api.discord.exceptions;
 
 /**
  * Exception thrown when an error occurs while sending a message to a Discord webhook.
