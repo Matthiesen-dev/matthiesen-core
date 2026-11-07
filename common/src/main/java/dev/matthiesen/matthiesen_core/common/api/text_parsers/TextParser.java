@@ -30,8 +30,8 @@ public interface TextParser {
      */
     @SuppressWarnings("unused")
     default Component parse(String text, Map<String, String> placeholders) {
-        text = parsePlaceholders(text, placeholders);
-        return parse(text);
+        String processedText = parsePlaceholders(text, placeholders);
+        return parse(processedText);
     }
 
     /**
