@@ -30,10 +30,21 @@ public interface TextParser {
      */
     @SuppressWarnings("unused")
     default Component parse(String text, Map<String, String> placeholders) {
+        text = parsePlaceholders(text, placeholders);
+        return parse(text);
+    }
+
+    /**
+     * Replaces placeholders in the given text with their corresponding values from the provided map.
+     * @param text The text containing placeholders to be replaced.
+     * @param placeholders A map of placeholders and their corresponding replacement values.
+     * @return The text with placeholders replaced by their corresponding values.
+     */
+    default String parsePlaceholders(String text, Map<String, String> placeholders) {
         for (Map.Entry<String, String> entry : placeholders.entrySet()) {
             text = text.replace(entry.getKey(), entry.getValue());
         }
-        return parse(text);
+        return text;
     }
 
     /**
