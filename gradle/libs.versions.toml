@@ -9,6 +9,7 @@ fabric-api = "0.116.6+1.21.1"
 fabric-permissions-api = "0.3.1"
 neoforge = "21.1.234"
 junit = "5.1.0"
+junit-platform = "1.1.0"
 publish = "0.35.0"
 sponge-mixin = "0.8.5"
 emberstextapi = "3.0.0"
@@ -49,6 +50,7 @@ fabric-permissions-api = { group = "me.lucko", name = "fabric-permissions-api", 
 neoforge = { group = "net.neoforged", name = "neoforge", version.ref = "neoforge" }
 junit-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
 junit-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform" }
 sponge-mixin = { group = "org.spongepowered", name = "mixin", version.ref = "sponge-mixin" }
 emberstextapiFabric = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-fabric-1.21.1", version.ref = "emberstextapi" }
 emberstextapiNeoForge = { group = "net.tysontheember.emberstextapi", name = "emberstextapi-neoforge-1.21.1", version.ref = "emberstextapi" }
