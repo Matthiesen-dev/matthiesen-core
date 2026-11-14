@@ -55,13 +55,8 @@ public final class EnergyUtilities {
      * @return A formatted string representation of the energy value without unnecessary decimal points.
      */
     public static String formatEnergyValue(String parsedValue) {
-        String substring = parsedValue.substring(0, parsedValue.length() - 3);
-        if (parsedValue.endsWith(".0k")) {
-            return substring + "k";
-        } else if (parsedValue.endsWith(".0M")) {
-            return substring + "M";
-        } else if (parsedValue.endsWith(".0B")) {
-            return substring + "B";
+        if (parsedValue.endsWith(".0k") || parsedValue.endsWith(".0M") || parsedValue.endsWith(".0B")) {
+            return parsedValue.substring(0, parsedValue.length() - 3) + parsedValue.charAt(parsedValue.length() - 1);
         }
         return parsedValue;
     }
